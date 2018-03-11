@@ -62,16 +62,21 @@ def fileupload(request):
 
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
+            exif_tsp = parse_exif_data.get_exif_timestamp(exif_data)
             lat, lon = parse_exif_data.get_exif_location(exif_data)
+            if lat is not None and lon is not None:
+                lat = '{:3.10}'.format(lat)
+                lon = '{:3.10}'.format(lon)
 
             photo = Photo(
                 name=imgfile.name.split('.')[0],
                 filename=imgfile.name,
                 imagefile=imgfile,
+                timestamp=exif_tsp,
                 uploaded_by=request.user,
                 exif=exif_json,
-                latitude='{:3.10}'.format(lat),
-                longitude='{:3.10}'.format(lon),
+                latitude=lat,
+                longitude=lon,
                 address=dict(),
             )
             photo.save()

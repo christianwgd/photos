@@ -3,19 +3,22 @@
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
-from django.contrib.admin import AdminSite
 
-from .models import Photo
-
-
-class MyAdminSite(AdminSite):
-    site_title = _('Photos')
-    site_header = _('Photos')
-    index_title = _('Management')
+from .models import Photo, Event, Tag
 
 
 class PhotoAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'imagefile']
+    search_fields = ['name', 'address',]
+
+
+class EventAdmin(admin.ModelAdmin):
+    search_fields = ['name',]
+
+
+class TagAdmin(admin.ModelAdmin):
+    search_fields = ['name',]
 
 
 admin.site.register(Photo, PhotoAdmin)
+admin.site.register(Event, EventAdmin)
+admin.site.register(Tag, TagAdmin)

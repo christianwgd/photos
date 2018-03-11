@@ -1,4 +1,5 @@
-from datetime import timezone, datetime
+import datetime
+from django.utils import timezone
 
 import exifread
 
@@ -60,7 +61,7 @@ def get_exif_timestamp(exif_data):
     """
     timestamp = datetime.datetime(2000, 1, 1, 0, 0, 0, 0)
 
-    ts_str = gps_latitude = _get_if_exist(exif_data, 'EXIF DateTimeOriginal')
+    ts_str = str(_get_if_exist(exif_data, 'EXIF DateTimeOriginal'))
     timestamp = timezone.make_aware(datetime.datetime.strptime(ts_str, '%Y:%m:%d %H:%M:%S'))
     return timestamp
 
@@ -86,4 +87,4 @@ def get_exif_location(exif_data):
         if gps_longitude_ref.values[0] != 'E':
             lon = 0 - lon
 
-    return str(lat), str(lon)
+    return lat, lon

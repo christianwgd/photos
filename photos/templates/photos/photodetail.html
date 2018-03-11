@@ -12,11 +12,21 @@
                 <li class="list-group-item"><b>{% trans 'name' %} </b>{{ photo.name }}</li>
                 <li class="list-group-item"><b>{% trans 'filename' %} </b>{{ photo.filename }}</li>
                 <li class="list-group-item"><b>{% trans 'timestamp' %} </b> {{ photo.timestamp }}</li>
-                <li class="list-group-item"><b>{% trans 'location' %} </b> {{ photo.address.formatted }}</li>
+                <li class="list-group-item">
+                    <b>{% trans 'location' %} </b>
+                    {% if photo.latitude and photo.longitude %}
+                        {{ photo.address.formatted }}
+                    {% else %}
+                        {% trans 'not available' %}
+                    {% endif %}
+                </li>
                 <li class="list-group-item">
                     <b>{% trans 'GPS Position' %}</b>
-                    {{ photo.latitude|default_if_none:0 }} ,
-                    {{ photo.longitude|default_if_none:0 }}
+                    {% if photo.latitude and photo.longitude %}
+                        {{ photo.latitude }} , {{ photo.longitude }}
+                    {% else %}
+                        {% trans 'not available' %}
+                    {% endif %}
                 </li>
                 <li class="list-group-item"><b>{% trans 'uploaded' %} </b> {{ photo.uploaded }}<b>
                     {% trans 'by' %} </b>

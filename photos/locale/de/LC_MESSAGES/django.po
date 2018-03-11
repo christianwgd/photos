@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-11 11:12+0100\n"
+"POT-Creation-Date: 2018-03-11 14:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,57 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:12 admin.py:13 templates/base.html:4 templates/base.html:37
-msgid "Photos"
-msgstr "Fotos"
-
-#: admin.py:14
-msgid "Management"
-msgstr "Verwaltung"
-
 #: models.py:15
-msgid "photo"
-msgstr "Foto"
+msgid "event"
+msgstr "Ereignis"
 
 #: models.py:16
-#, fuzzy
-#| msgid "fotos"
-msgid "photos"
-msgstr "Fotos"
+msgid "events"
+msgstr "Ereignisse"
 
-#: models.py:22 templates/photos/photodetail.html:12
+#: models.py:22 models.py:35 models.py:48 templates/photos/photodetail.html:12
 msgid "name"
 msgstr "Name"
 
-#: models.py:23 templates/photos/photodetail.html:13
+#: models.py:28
+msgid "tag"
+msgstr "Tag"
+
+#: models.py:29
+msgid "tags"
+msgstr "Tags"
+
+#: models.py:41
+msgid "photo"
+msgstr "Foto"
+
+#: models.py:42
+msgid "photos"
+msgstr "Fotos"
+
+#: models.py:49 templates/photos/photodetail.html:13
 msgid "filename"
 msgstr "Dateiname"
 
-#: models.py:25
+#: models.py:51
 msgid "file"
 msgstr "Datei"
 
-#: models.py:26 templates/photos/photodetail.html:14
+#: models.py:52 templates/photos/photodetail.html:14
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: models.py:27
+#: models.py:53
 msgid "thumbnail"
 msgstr "Miniaturansicht"
 
-#: models.py:30
+#: models.py:56
 msgid "uploaded by"
 msgstr "hochgeladen von"
 
-#: models.py:31 templates/photos/photodetail.html:21
+#: models.py:57 templates/photos/photodetail.html:31
 msgid "uploaded"
 msgstr "hochgeladen"
 
-#: models.py:32
+#: models.py:58
 msgid "latitude"
 msgstr "Breitengrad"
 
-#: models.py:33
+#: models.py:59
 msgid "longitude"
 msgstr "Längengrad"
 
@@ -106,6 +112,10 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
+#: templates/base.html:4 templates/base.html:37
+msgid "Photos"
+msgstr "Fotos"
+
 #: templates/base.html:47
 msgid "recent photos"
 msgstr "Letzte Fotos"
@@ -130,12 +140,6 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: templates/base.html:95
-#, fuzzy
-#| msgid "Log out"
-msgid "Log in"
-msgstr "Abmelden"
-
 #: templates/photos/photodelete.html:17
 msgid "delete"
 msgstr "löschen"
@@ -148,21 +152,29 @@ msgstr "Diese Foto wirklich löschen?"
 msgid "The physical file will not be deleted!"
 msgstr "Die Fotodatei im Dateisystem wird nicht mit gelöscht."
 
-#: templates/photos/photodetail.html:15
+#: templates/photos/photodetail.html:16
 msgid "location"
 msgstr "Ort"
 
-#: templates/photos/photodetail.html:17
+#: templates/photos/photodetail.html:20 templates/photos/photodetail.html:28
+msgid "not available"
+msgstr "nicht verfügbar"
+
+#: templates/photos/photodetail.html:24
 msgid "GPS Position"
 msgstr ""
 
-#: templates/photos/photodetail.html:22
+#: templates/photos/photodetail.html:32
 msgid "by"
 msgstr "von"
 
-#: templates/photos/photodetail.html:34
+#: templates/photos/photodetail.html:44
 msgid "EXIF data"
 msgstr "EXIF Daten"
+
+#: templates/photos/photonew.html:33
+msgid "Drop files here to upload"
+msgstr "Dateien hier ablegen"
 
 #: views.py:41
 msgid "Photo does not exist."

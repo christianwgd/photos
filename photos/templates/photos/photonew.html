@@ -18,14 +18,22 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
+
+<!-- https://github.com/enyo/dropzone/wiki/Combine-normal-form-with-Dropzone -->
+
 <form action="/file-upload" method="post" class="dropzone" id="id_dz" enctype="multipart/form-data">
 {% csrf_token %}
     <div class="container-fluid">
         <div class="row">
-
-            <input name="file" type="file" multiple />
-            
+            <div class="col">
+                <input name="file" type="file" multiple />
+                <button type="submit">
+                    <i class="far fa-check"></i>
+                </button>
+                <div class="dz-message">{% trans 'Drop files here to upload' %}</div>
+            </div>
         </div>
     </div>
+
 </form>
 {% endblock %}

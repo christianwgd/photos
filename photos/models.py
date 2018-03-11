@@ -9,6 +9,32 @@ from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 
 
+class Event(models.Model):
+
+    class Meta:
+        verbose_name = _('event')
+        verbose_name_plural = _('events')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(_('name'), max_length=255)
+
+
+class Tag(models.Model):
+
+    class Meta:
+        verbose_name = _('tag')
+        verbose_name_plural = _('tags')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(_('name'), max_length=255)
+
+
 class Photo(models.Model):
 
     class Meta:
@@ -31,8 +57,10 @@ class Photo(models.Model):
     uploaded = models.DateTimeField(_('uploaded'), auto_now_add=True)
     latitude = models.CharField(_('latitude'), max_length=20, null=True, blank=True)
     longitude = models.CharField(_('longitude'), max_length=20, null=True, blank=True)
-    address = JSONField(default=dict())
+    address = JSONField(null=True, blank=True, default=dict())
     exif = JSONField()
+    event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
+    tags = models.ManyToManyField(Tag)
 
     def create_thumbnail(self):
         # original code for this method came from
