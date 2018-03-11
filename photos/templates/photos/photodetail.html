@@ -11,6 +11,13 @@
             <ul class="list-group">
                 <li class="list-group-item"><b>{% trans 'name' %} </b>{{ photo.name }}</li>
                 <li class="list-group-item"><b>{% trans 'filename' %} </b>{{ photo.filename }}</li>
+                <li class="list-group-item"><b>{% trans 'event' %} </b>{{ photo.event }}</li>
+                <li class="list-group-item"><b>
+                    {% trans 'tags' %} </b>
+                    {% for tag in photo.tags.all %}
+                        <span class="badge badge-secondary">{{ tag }}</span>
+                    {% endfor %}
+                </li>
                 <li class="list-group-item"><b>{% trans 'timestamp' %} </b> {{ photo.timestamp }}</li>
                 <li class="list-group-item">
                     <b>{% trans 'location' %} </b>
