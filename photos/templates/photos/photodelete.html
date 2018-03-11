@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+{% block content %}
+
+<form action="" method="post" class="form-inline">
+{% csrf_token %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 text-center align-self-center">
+                <img class="img-responsive img-detail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-4 offset-md-4 text-center">
+                <h4>{% trans 'delete' %} {{ photo.name }}?</h4>
+                <p>
+                    {% trans 'Do you really want to delete this photo?' %}
+                </p>
+                <p>
+                    <i class="far fa-exclamation-triangle"></i>
+                    {% trans 'The physical file will not be deleted!' %}
+                </p>
+            </div>
+        </div>
+
+        {% buttons %}
+        <button type="submit" class="btn btn-primary" name="delete">
+            <i class="far fa-check"></i>
+        </button>
+        <button type="submit" class="btn btn-default" name="cancel">
+            <i class="far fa-times"></i>
+        </button>
+        {% endbuttons %}
+    </div>
+
+</form>
+{% endblock %}

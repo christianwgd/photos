@@ -1,0 +1,42 @@
+.dropdown-menu { right: 0; left: auto; }
+
+.image-container {
+    padding-bottom: 5px;
+}
+
+
+.thumb {
+    min-width: 150px;
+    max-width: 200px;
+}
+
+.img-detail {
+    max-height: 400px;
+}
+
+pre {
+    width: 100%;
+    white-space: pre-wrap;
+}
+
+.tool {
+    padding: 2px 10px;
+}
+.tool:hover {
+    text-decoration: none;
+}
+
+.tool-container {
+    background-color: #eee;
+    visibility: hidden;
+}
+
+.image-container:hover .tool-container {
+    visibility: visible;
+}
+
+.btn {
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}
+

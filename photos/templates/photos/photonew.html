@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+<script src="{% static 'js/dropzone.js' %}"></script>
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+<script type="text/javascript">
+$(document).ready(function() {
+    Dropzone.options.id_dz = {
+        dictDefaultMessage: "test"
+    }
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<form action="/file-upload" method="post" class="dropzone" id="id_dz" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="container-fluid">
+        <div class="row">
+
+            <input name="file" type="file" multiple />
+            
+        </div>
+    </div>
+</form>
+{% endblock %}

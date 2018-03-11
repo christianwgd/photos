@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center align-self-center">
+            <img class="img-responsive img-detail" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item"><b>{% trans 'name' %} </b>{{ photo.name }}</li>
+                <li class="list-group-item"><b>{% trans 'filename' %} </b>{{ photo.filename }}</li>
+                <li class="list-group-item"><b>{% trans 'timestamp' %} </b> {{ photo.timestamp }}</li>
+                <li class="list-group-item"><b>{% trans 'location' %} </b> {{ photo.address.formatted }}</li>
+                <li class="list-group-item">
+                    <b>{% trans 'GPS Position' %}</b>
+                    {{ photo.latitude|default_if_none:0 }} ,
+                    {{ photo.longitude|default_if_none:0 }}
+                </li>
+                <li class="list-group-item"><b>{% trans 'uploaded' %} </b> {{ photo.uploaded }}<b>
+                    {% trans 'by' %} </b>
+                    {% if photo.uploaded_by.get_full_name %}
+                        {{ photo.uploaded_by.get_full_name }}
+                    {% else %}
+                        {{ photo.uploaded_by.user }}
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col">
+            <h4>{% trans 'EXIF data' %}</h4>
+            <table class="table table-striped table-sm">
+                <tbody>
+                {% for mainkey,value in photo.exif.items %}
+                    {% for key,value in value.items %}
+                    <tr>
+                        <td>{% ifchanged mainkey %}{{ mainkey }}{% endifchanged %}</td>
+                        <td>{% trans key %}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
