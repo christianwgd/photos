@@ -9,31 +9,85 @@
 
 {% block bootstrap4_extra_script %}
 <script type="text/javascript">
-$(document).ready(function() {
-    Dropzone.options.id_dz = {
-        dictDefaultMessage: "test"
-    }
-});
+
+    Dropzone.options.myDropzone = {
+        url: "/file-upload",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        acceptedFiles: "image/*",
+
+        init: function () {
+
+            var submitButton = document.querySelector("#submit-all");
+            var wrapperThis = this;
+
+            submitButton.addEventListener("click", function () {
+                wrapperThis.processQueue();
+            });
+
+            this.on("addedfile", function (file) {
+
+                // Create the remove button
+                var removeButton = Dropzone.createElement("<button class='btn btn-primary'>Remove File</button>");
+
+                // Listen to the click event
+                removeButton.addEventListener("click", function (e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Remove the file preview.
+                    wrapperThis.removeFile(file);
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                });
+
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+            });
+
+            this.on('sendingmultiple', function (data, xhr, formData) {
+                formData.append("event", $("#id_event").val());
+                formData.append("tags", $("#id_tags").val());
+                formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            });
+        }
+    };
 </script>
 {% endblock %}
 
 {% block content %}
 
-<!-- https://github.com/enyo/dropzone/wiki/Combine-normal-form-with-Dropzone -->
-
-<form action="/file-upload" method="post" class="dropzone" id="id_dz" enctype="multipart/form-data">
-{% csrf_token %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <input name="file" type="file" multiple />
-                <button type="submit">
-                    <i class="far fa-check"></i>
-                </button>
-                <div class="dz-message">{% trans 'Drop files here to upload' %}</div>
+ <form action="/" enctype="multipart/form-data" method="POST">
+ <div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="id_event">{% trans 'event' %}</label>
+                <input type="text" name="event" autofocus maxlength="254" class="form-control" placeholder="{% trans 'event' %}" id="id_event" />
+            </div>
+            <div class="form-group">
+                <label for="id_tags">{% trans 'tags' %}</label>
+                <input type="text" name="tags" class="form-control" placeholder="tags" id="id_tags" />
             </div>
         </div>
     </div>
 
+    <div class="dropzone" id="my-dropzone" name="mainFileUploader">
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+        </div>
+    </div>
+
+ </div>
 </form>
+<div class="container-fluid">
+    <div class="row" style="margin-top: 10px;">
+        <div class="col">
+            <button class="btn btn-default" type="submit" id="submit-all">{% trans 'uplaod' %}</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

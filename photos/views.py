@@ -8,6 +8,7 @@ import exifread
 import datetime
 
 from photos import parse_exif_data
+from photos.forms import UploadForm
 from photos.models import Photo
 
 
@@ -58,6 +59,10 @@ def delete(request, photo_id):
 def fileupload(request):
 
     if request.method == 'POST':
+
+        print(request.POST.get('event'))
+        print(request.POST.get('tags'))
+
         for imgfile in request.FILES.getlist('file'):
 
             exif_data = exifread.process_file(imgfile, details=False)
@@ -81,8 +86,11 @@ def fileupload(request):
             )
             photo.save()
 
-    return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/')
+    else:
+        form = UploadForm()
 
+    return render(request, 'photos/photonew.html.html', {'form': form})
 
 @login_required(login_url='/accounts/login/')
 def settings(request):
