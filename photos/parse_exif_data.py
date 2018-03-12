@@ -61,8 +61,12 @@ def get_exif_timestamp(exif_data):
     """
     timestamp = datetime.datetime(2000, 1, 1, 0, 0, 0, 0)
 
-    ts_str = str(_get_if_exist(exif_data, 'EXIF DateTimeOriginal'))
-    timestamp = timezone.make_aware(datetime.datetime.strptime(ts_str, '%Y:%m:%d %H:%M:%S'))
+    try:
+        ts_str = str(_get_if_exist(exif_data, 'EXIF DateTimeOriginal'))
+        timestamp = timezone.make_aware(
+            datetime.datetime.strptime(ts_str, '%Y:%m:%d %H:%M:%S'))
+    except:
+        return timestamp
     return timestamp
 
 
