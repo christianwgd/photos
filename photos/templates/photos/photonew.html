@@ -12,6 +12,7 @@
 
     Dropzone.options.myDropzone = {
         url: "/file-upload",
+        paramName: "file",
         autoProcessQueue: false,
         uploadMultiple: true,
         parallelUploads: 100,
@@ -60,7 +61,7 @@
 
 {% block content %}
 
- <form action="/" enctype="multipart/form-data" method="POST">
+ <form action="" enctype="multipart/form-data" method="post">
  <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -75,9 +76,9 @@
         </div>
     </div>
 
-    <div class="dropzone" id="my-dropzone" name="mainFileUploader">
+    <div class="dropzone" id="myDropzone" name="mainFileUploader">
         <div class="fallback">
-            <input name="file" type="file" multiple />
+            <input name="image_file" type="image_file" multiple />
         </div>
     </div>
 

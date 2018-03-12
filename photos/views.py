@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
@@ -8,7 +9,6 @@ import exifread
 import datetime
 
 from photos import parse_exif_data
-from photos.forms import UploadForm
 from photos.models import Photo
 
 
@@ -62,8 +62,11 @@ def fileupload(request):
 
         print(request.POST.get('event'))
         print(request.POST.get('tags'))
+        files = request.FILES
 
-        for imgfile in request.FILES.getlist('file'):
+        for f in request.FILES:
+
+            imgfile = files[f]
 
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
@@ -86,11 +89,8 @@ def fileupload(request):
             )
             photo.save()
 
-        return HttpResponseRedirect('/')
-    else:
-        form = UploadForm()
+        return HttpResponse('ok')
 
-    return render(request, 'photos/photonew.html.html', {'form': form})
 
 @login_required(login_url='/accounts/login/')
 def settings(request):
