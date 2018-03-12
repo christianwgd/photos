@@ -9,7 +9,7 @@ import exifread
 import datetime
 
 from photos import parse_exif_data
-from photos.models import Photo
+from photos.models import Photo, Event, Tag
 
 
 @login_required(login_url='/accounts/login/')
@@ -60,11 +60,18 @@ def fileupload(request):
 
     if request.method == 'POST':
 
-        print(request.POST.get('event'))
-        print(request.POST.get('tags'))
-        files = request.FILES
+        eventstr = request.POST.get('event')
+        if eventstr != '':
+            event, created = Event.objects.get_or_create(name=eventstr)
+        tagstr = request.POST.get('tags')
+        if tagstr != '':
+            tags = tagstr.split(' ')
+        else:
+            tags = []
 
-        for f in request.FILES:
+
+        files = request.FILES
+        for f in files:
 
             imgfile = files[f]
 
@@ -87,7 +94,13 @@ def fileupload(request):
                 longitude=lon,
                 address=dict(),
             )
+            if event:
+                photo.event = event
+
             photo.save()
+            for tagstr in tags:
+                tag = Tag.objects.get(name=tagstr)
+                photo.tags.add(tag)
 
         return HttpResponse('ok')
 
