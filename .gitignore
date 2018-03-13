@@ -6,5 +6,6 @@ media/
 __pycache__/
 localsettings.py
 .vscode
+*.pyc
 
 
