@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_select2',
     'bootstrap4',
     'photos',
     'usersettings',
@@ -85,6 +86,8 @@ LOGIN_REDIRECT_URL = '/'
 
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyAKBwezqT1AND5rEeERjceO8DoiYT3tiF8'
 
+SELECT2_JS = '/static/select2/select2.full.min.js'
+SELECT2_CSS = '/static/select2/select2.min.css'
 
 #################1#
 # LOCAL SETTINGS #

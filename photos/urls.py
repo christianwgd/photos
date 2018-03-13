@@ -27,6 +27,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('select2/', include('django_select2.urls')),
     path('settings/', include('usersettings.urls')),
 
     path('accounts/login/', auth_views.login,

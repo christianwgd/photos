@@ -3,6 +3,8 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
+{{ form.media.css }}
+{{ form.media.js }}
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
 <script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 {% endblock %}
