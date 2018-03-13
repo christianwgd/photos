@@ -38,11 +38,12 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="#">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="">
                     <i class="far fa-images"></i>
                     {% trans 'photos' %}
                     <span class="caret"></span>
@@ -67,7 +68,7 @@
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="#">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="">
                     <i class="far fa-user"></i>
                     {% if user.get_full_name %}
                     <span>{{ user.get_full_name }}</span>
@@ -78,11 +79,11 @@
                 </a>
                 <div class="dropdown-menu right">
                     <a class="dropdown-item" href="{% url 'logout' %}">
-                        <span class="far fa-sign-out"></span>
+                        <i class="far fa-sign-out"></i>
                         {% trans 'Log out' %}
                     </a>
                     <a class="dropdown-item" href="{% url 'settings' %}">
-                        <span class="far fa-cog"></span>
+                        <i class="far fa-cog"></i>
                         {% trans 'settings' %}
                     </a>
                     <a class="dropdown-item" href="{% url 'password_change' %}">
