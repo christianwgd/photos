@@ -1,4 +1,4 @@
-.dropdown-menu { right: 0; left: auto; }
+.dropdown-menu.right { right: 0; left: auto; }
 
 .panel {
     border: 1px solid #ccc;
@@ -9,6 +9,10 @@
 
 .list {
      margin: 0;
+}
+
+hr {
+    width: 30%;
 }
 
 .image-container {

@@ -16,8 +16,15 @@ from photos.filters import PhotoFilter
 @login_required(login_url='/accounts/login/')
 def photolist(request):
 
-    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all()[:20])
     return render(request, 'photos/photolist.html', {'photos': photos})
+
+
+@login_required(login_url='/accounts/login/')
+def byevent(request):
+
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+    return render(request, 'photos/byevent.html', {'photos': photos})
 
 
 @login_required(login_url='/accounts/login/')

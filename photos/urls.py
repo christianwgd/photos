@@ -39,6 +39,7 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
 
     path('', views.photolist, name='photolist'),
+    path('byevent/', views.byevent, name='byEvent'),
     path('detail/<int:photo_id>/', views.detail, name='photodetail'),
     path('new/', views.new, name='new'),
     path('file-upload', views.fileupload, name='fileupload'),

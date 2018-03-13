@@ -41,11 +41,20 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'photolist' %}">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="#">
                     <i class="far fa-images"></i>
-                    {% trans 'recent photos' %}
+                    {% trans 'photos' %}
+                    <span class="caret"></span>
                 </a>
+                <div class="dropdown-menu">
+                    <a class="nav-link" href="{% url 'photolist' %}">
+                        {% trans 'recent photos' %}
+                    </a>
+                    <a class="nav-link" href="{% url 'byEvent' %}">
+                        {% trans 'by event' %}
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'new' %}">
@@ -67,7 +76,7 @@
                     {% endif %}
                     <span class="caret"></span>
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu right">
                     <a class="dropdown-item" href="{% url 'logout' %}">
                         <span class="far fa-sign-out"></span>
                         {% trans 'Log out' %}
