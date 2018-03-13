@@ -4,8 +4,11 @@
 {% block bootstrap4_extra_head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
-<script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 <link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'datetimepicker/bootstrap-datetimepicker.min.css' %}">
+<script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
 <script src="{% static 'select2/select2.full.min.js' %}"></script>
 {% endblock %}
 
@@ -31,6 +34,21 @@ $(document).ready(function() {
     });
     $('#id_event').select2();
     $('#id_tags').select2();
+    var options = {
+        locale: 'de',
+        format: 'L',
+        icons: {
+            time: "far fa-clock",
+            date: "far fa-calendar",
+            up: "far fa-arrow-up",
+            down: "far fa-arrow-down"
+        }
+    };
+    $('#id_timestamp_0').datetimepicker(options);
+    $('#id_timestamp_1').datetimepicker(options);
+    $('#id_uploaded_0').datetimepicker(options);
+    $('#id_uploaded_1').datetimepicker(options);
+
 });
 </script>
 {% endblock %}
@@ -40,7 +58,10 @@ $(document).ready(function() {
     <div class="col">
         <h5>Filter</h5>
         <form action="" method="get">
-            {% bootstrap_form photos.form %}
+            {% bootstrap_field photos.form.event %}
+            {% bootstrap_field photos.form.tags %}
+            {% bootstrap_field photos.form.timestamp %}
+            {% bootstrap_field photos.form.uploaded %}
             {% bootstrap_button "<i class='far fa-filter'></i>" button_type="submit" button_class="btn-primary" %}
         </form>
     </div>

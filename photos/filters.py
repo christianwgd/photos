@@ -12,8 +12,8 @@ class PhotoFilter(django_filters.FilterSet):
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
     )
-    timestamp = django_filters.DateRangeFilter()
-    uploaded = django_filters.DateRangeFilter()
+    timestamp = django_filters.DateFromToRangeFilter()
+    uploaded = django_filters.DateFromToRangeFilter()
     uploaded_by = django_filters.ModelChoiceFilter(
         queryset=User.objects.all()
     )
