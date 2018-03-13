@@ -55,6 +55,10 @@
                 formData.append("tags", $("#id_tags").val());
                 formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
             });
+
+            this.on("success", function() {
+                window.location = "{% url 'photolist' %}";
+            });
         }
     };
 </script>
