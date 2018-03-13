@@ -19,12 +19,12 @@ def photolist(request):
 
     try:
         settings = UserSettings.objects.get(user=request.user)
-        recent = settings.recent
+        recent = ':{slice}'.format(slice=settings.recent)
     except UserSettings.DoesNotExist:
-        recent = 10
+        recent = ':{slice}'.format(slice=10)
 
-    photos = PhotoFilter(request.GET, queryset=Photo.objects.all()[:recent])
-    return render(request, 'photos/photolist.html', {'photos': photos})
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent})
 
 
 @login_required(login_url='/accounts/login/')

@@ -45,32 +45,36 @@ $(document).ready(function() {
 
 {% block photocontent %}
 <div class="row justify-content-center list popup-gallery">
-    {% for photo in photos.qs %}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center">
-            <div class="image text-center">
-                <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
-                    {% if photo.thumb %}
-                    <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
-                    {% else %}
-                    <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
-                    {% endif %}
-                </a>
+    {% if photos.qs %}
+        {% for photo in photos.qs|slice:recent %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center">
+                <div class="image text-center">
+                    <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
+                        {% if photo.thumb %}
+                        <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                        {% else %}
+                        <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="tool-container text-center">
+                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                        <i class="far fa-info-circle"></i>
+                    </a>
+                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <a href="{% url 'photodelete' photo.id %}" class="tool">
+                        <i class="far fa-trash"></i>
+                    </a>
+                    <a href="{{ photo.imagefile.url }}" download class="tool">
+                        <i class="far fa-download"></i>
+                    </a>
+                </div>
             </div>
-            <div class="tool-container text-center">
-                <a href="{% url 'photodetail' photo.id %}" class="tool">
-                    <i class="far fa-info-circle"></i>
-                </a>
-                <a href="{% url 'photodetail' photo.id %}" class="tool">
-                    <i class="far fa-edit"></i>
-                </a>
-                <a href="{% url 'photodelete' photo.id %}" class="tool">
-                    <i class="far fa-trash"></i>
-                </a>
-                <a href="{{ photo.imagefile.url }}" download class="tool">
-                    <i class="far fa-download"></i>
-                </a>
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>{% trans 'no photos found.' %}</p>
+    {% endif %}
 </div>
 {% endblock %}
