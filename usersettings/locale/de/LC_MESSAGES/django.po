@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-13 16:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\apps.py:8
+msgid "User settings"
+msgstr "Benutzereinstellungen"
+
+#: .\models.py:15 .\models.py:16
+msgid "user settings"
+msgstr "Benutzereinstellungen"
+
+#: .\models.py:19
+msgid "number of recent photos"
+msgstr "Anzahl letzte Fotos"
+
+#: .\templates\usersettings\user_settings.html:16
+msgid "settings"
+msgstr "Einstellungen"
+
+#: .\views.py:16
+msgid "edit cancelled"
+msgstr "Bearbeiten abgebrochen"
+
+#: .\views.py:34
+msgid "settings saved for user {}"
+msgstr "Einstellungen für Benutzer {} gesichert"
+
+#: .\views.py:38
+msgid "error saving settings: {}"
+msgstr "Fehler beim Speichern der Benutzereinstellungen"

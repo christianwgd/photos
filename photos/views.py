@@ -11,12 +11,19 @@ import datetime
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag
 from photos.filters import PhotoFilter
+from usersettings.models import UserSettings
 
 
 @login_required(login_url='/accounts/login/')
 def photolist(request):
 
-    photos = PhotoFilter(request.GET, queryset=Photo.objects.all()[:20])
+    try:
+        settings = UserSettings.objects.get(user=request.user)
+        recent = settings.recent
+    except UserSettings.DoesNotExist:
+        recent = 10
+
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all()[:recent])
     return render(request, 'photos/photolist.html', {'photos': photos})
 
 
