@@ -39,7 +39,7 @@ $(document).ready(function() {
     <div class="container-fluid">
         <div class="row popup-gallery">
             {% for photo in photos %}
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container text-center">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container text-center align-self-center">
                     <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
                         {% if photo.thumb %}
                         <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
@@ -47,7 +47,7 @@ $(document).ready(function() {
                         <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
                         {% endif %}
                     </a>
-                    <div class="col text-center align-self-center tool-container">
+                    <div class="col text-center tool-container">
                         <a href="{% url 'photodetail' photo.id %}" class="tool">
                             <i class="far fa-info-circle"></i>
                         </a>
