@@ -10,12 +10,13 @@ import datetime
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag
+from photos.filters import PhotoFilter
 
 
 @login_required(login_url='/accounts/login/')
 def photolist(request):
 
-    photos = Photo.objects.all()
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
     return render(request, 'photos/photolist.html', {'photos': photos})
 
 
