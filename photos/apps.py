@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 from django.apps import AppConfig
 
 
-class PhotosConfig(AppConfig):
+class PhotosAppConfig(AppConfig):
     name = 'photos'
     verbose_name = _('photos')
     label = _('photos')
