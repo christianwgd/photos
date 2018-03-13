@@ -69,7 +69,7 @@ def fileupload(request):
         else:
             tags = []
 
-
+        count = 0
         files = request.FILES
         for f in files:
 
@@ -98,9 +98,17 @@ def fileupload(request):
                 photo.event = event
 
             photo.save()
+            count += 1
+
             for tagstr in tags:
-                tag = Tag.objects.get(name=tagstr)
-                photo.tags.add(tag)
+                try:
+                    tag = Tag.objects.get(name=tagstr)
+                    photo.tags.add(tag)
+                except Tag.DoesNotExist:
+                    pass
+
+        messages.success(request, _(
+            'successfully added {count} photos.'.format(count=count)))
 
         return HttpResponse('ok')
 
