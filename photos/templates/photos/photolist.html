@@ -3,10 +3,10 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-{{ form.media.css }}
-{{ form.media.js }}
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
 <script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
@@ -29,6 +29,8 @@ $(document).ready(function() {
             }
         }
     });
+    $('#id_event').select2();
+    $('#id_tags').select2();
 });
 </script>
 {% endblock %}

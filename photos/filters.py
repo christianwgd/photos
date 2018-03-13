@@ -1,6 +1,6 @@
 import django_filters
 from django.contrib.auth.models import User
-from django_select2 import forms
+from django.db import models
 
 from .models import Photo, Event, Tag
 
@@ -8,11 +8,9 @@ from .models import Photo, Event, Tag
 class PhotoFilter(django_filters.FilterSet):
     event = django_filters.ModelChoiceFilter(
         queryset=Event.objects.all(),
-        widget=forms.Select2Widget
     )
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
-        widget=forms.Select2MultipleWidget,
     )
     timestamp = django_filters.DateRangeFilter()
     uploaded = django_filters.DateRangeFilter()
