@@ -1,16 +1,25 @@
 .dropdown-menu { right: 0; left: auto; }
 
+.panel {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.list {
+     margin: 0;
+}
+
 .image-container {
-    padding-bottom: 5px;
+    background-color: #ECF0F1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
 }
-
-
-.thumb {
-
-}
-
-.img-detail {
-    max-height: 400px;
+.image-container:hover {
+    border: 1px solid #6699FF;
 }
 
 pre {
@@ -19,7 +28,7 @@ pre {
 }
 
 .tool {
-    padding: 0.2rem 0.3rem;
+    padding: 0.3rem 0.3rem;
 }
 .tool:hover {
     text-decoration: none;

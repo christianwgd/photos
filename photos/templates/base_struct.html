@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-2 col-md-3 col-xs-12 panel" id="filter">
+        {% block filter %}{% endblock %}
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <div class="col panel" id="toolbar">
+                <i class="far fa-info-circle"></i>
+                <i class="far fa-edit"></i>
+                <i class="far fa-trash"></i>
+                <i class="far fa-download"></i>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col panel" id="photocontent">
+                {% block photocontent %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
