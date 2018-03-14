@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
 <link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
 <link rel="stylesheet" href="{% static 'datetimepicker/bootstrap-datetimepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/photolist.css' %}">
 <script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 <script src="{% static 'js/moment.min.js' %}"></script>
 <script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
@@ -49,6 +50,45 @@ $(document).ready(function() {
     $('#id_uploaded_0').datetimepicker(options);
     $('#id_uploaded_1').datetimepicker(options);
 
+    $('.select').on('click', function() {
+        $(this).hide();
+        $(this).parent().parent().addClass('selected');
+        $(this).parent().find('.unselect').show();
+    });
+    $('.unselect').on('click', function() {
+        $(this).hide();
+        $(this).parent().parent().removeClass('selected');
+        $(this).parent().find('.select').show();
+    });
+
+    $('#all').on('click', function() {
+        $('.image-container').addClass('selected');
+        $('.unselect').show();
+        $('.select').hide();
+    });  
+    $('#none').on('click', function() {
+        $('.image-container').removeClass('selected');
+        $('.select').show();
+        $('.unselect').hide();
+    });  
+
+    $('#delete').on('click', function() {
+        var ids = $.map($("div .selected"), function (item) {
+            return $(item).attr("id");
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/processdelete/',
+            data: {
+                'ids[]': ids,
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function(){
+                $(".selected").remove();
+            }
+        });
+    });
+
 });
 </script>
 {% endblock %}
@@ -68,11 +108,66 @@ $(document).ready(function() {
 </div>
 {% endblock %}
 
+{% block toolbar %}
+<button class="btn btn-default" id="all" title="{% trans 'select all' %}">
+    <i class="fas fa-th"></i>
+</button>
+<button class="btn btn-default" id="none" title="{% trans 'select none' %}">
+    <i class="fal fa-th"></i>
+</button>
+<button class="btn btn-default" id="edit">
+    <i class="far fa-edit"></i>
+</button>
+<button class="btn btn-default" data-toggle="modal" data-target="#deleteModal">
+    <i class="far fa-trash-alt"></i>
+</button>
+<button class="btn btn-default" id="download">
+    <i class="far fa-download"></i>
+</button>
+{% endblock %}
+
 {% block photocontent %}
+<!-- The Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">{% trans 'Delete photos' %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <p>
+                {% trans 'Do you really want to delete the selected photos?' %}
+            </p>
+            <p>
+                <i class="far fa-exclamation-triangle"></i>
+                {% trans 'The physical file will not be deleted!' %}
+            </p>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete">
+                <i class="far fa-trash"></i>
+                {% trans 'delete' %}
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="row justify-content-center list popup-gallery">
     {% if photos.qs %}
         {% for photo in photos.qs|slice:recent %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
                 <div class="image text-center">
                     <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
                         {% if photo.thumb %}
@@ -83,14 +178,17 @@ $(document).ready(function() {
                     </a>
                 </div>
                 <div class="tool-container text-center">
+                    <button class="btn btn-default tool select" type="button" title="{% trans 'select' %}">
+                        <i class="far fa-square"></i>
+                    </button>
+                    <button class="btn btn-default tool unselect" type="button" title="{% trans 'deselect' %}">
+                        <i class="far fa-check-square"></i>
+                    </button>
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-info-circle"></i>
                     </a>
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-edit"></i>
-                    </a>
-                    <a href="{% url 'photodelete' photo.id %}" class="tool">
-                        <i class="far fa-trash"></i>
                     </a>
                     <a href="{{ photo.imagefile.url }}" download class="tool">
                         <i class="far fa-download"></i>

@@ -15,40 +15,10 @@ hr {
     width: 30%;
 }
 
-.image-container {
-    background-color: #ECF0F1;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-}
-.image-container:hover {
-    border: 1px solid #6699FF;
-}
-
-.img-detail {
-    width: 80%;
-}
 
 pre {
     width: 100%;
     white-space: pre-wrap;
-}
-
-.tool {
-    padding: 0.3rem 0.3rem;
-}
-.tool:hover {
-    text-decoration: none;
-}
-
-.tool-container {
-    background-color: #eee;
-    visibility: hidden;
-}
-
-.image-container:hover .tool-container {
-    visibility: visible;
 }
 
 .btn {
@@ -56,3 +26,6 @@ pre {
     margin-right: 0.3rem;
 }
 
+.img-detail {
+    width: 90%;
+}

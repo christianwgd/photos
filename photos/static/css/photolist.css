@@ -1,0 +1,35 @@
+.image-container {
+    background-color: #ECF0F1;
+    border: 1px solid #18BC9C;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+.image-container:hover {
+    border: 1px solid #6699FF;
+}
+
+.tool {
+    padding: 0.3rem 0.3rem;
+}
+.tool:hover {
+    text-decoration: none;
+}
+
+.tool-container {
+    background-color: #eee;
+    visibility: hidden;
+}
+
+.image-container:hover .tool-container {
+    visibility: visible;
+}
+
+.image-container.selected {
+    border: 3px solid #6699FF;
+    background-color: #88cccc;
+}
+
+.tool.unselect {
+    display: none;
+}

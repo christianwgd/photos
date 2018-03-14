@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.utils import timezone
 from django.contrib import messages
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
 import exifread
 import datetime
 
@@ -129,6 +131,9 @@ def fileupload(request):
 
 
 @login_required(login_url='/accounts/login/')
-def settings(request):
-
-    return render(request, 'photos/settings.html', {})
+def processdelete(request):
+    ids = request.POST.getlist('ids[]')
+    delete = Photo.objects.filter(pk__in=ids)
+    deleted = delete.count()
+    delete.delete()
+    return HttpResponse('success')
