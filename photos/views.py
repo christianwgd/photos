@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
+import requests
+from datetime import datetime
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
-from django.utils import timezone
 from django.contrib import messages
-from django.views.generic.edit import DeleteView
-from django.urls import reverse_lazy
 import exifread
-import datetime
 
 from photos import parse_exif_data
-from photos.models import Photo, Event, Tag
+from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from usersettings.models import UserSettings
 
@@ -34,6 +33,13 @@ def byevent(request):
 
     photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
     return render(request, 'photos/byevent.html', {'photos': photos})
+
+
+@login_required(login_url='/accounts/login/')
+def byimport(request):
+
+    photos = PhotoFilter(request.GET, queryset=Photo.objects.all().order_by('-upload__timestamp'))
+    return render(request, 'photos/byimport.html', {'photos': photos})
 
 
 @login_required(login_url='/accounts/login/')
@@ -78,13 +84,14 @@ def fileupload(request):
     if request.method == 'POST':
 
         eventstr = request.POST.get('event')
-        if eventstr != '':
-            event, created = Event.objects.get_or_create(name=eventstr)
         tagstr = request.POST.get('tags')
         if tagstr != '':
             tags = tagstr.split(' ')
         else:
             tags = []
+
+        upload, imp_created = Import.objects.get_or_create(
+            name=datetime.now().strftime('%Y:%m:%d %H:%M:%S'))
 
         count = 0
         files = request.FILES
@@ -100,6 +107,27 @@ def fileupload(request):
                 lat = '{:3.10}'.format(lat)
                 lon = '{:3.10}'.format(lon)
 
+            # Bei Verwendung auf anderem Server als wgdnet apiKey Einschränkungen ändern!
+            address = dict()
+            google_maps_api_url = \
+                'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={key}&language=de'.format(
+                    lat=lat,
+                    lng=lon,
+                    key=settings.GEOPOSITION_GOOGLE_MAPS_API_KEY
+                )
+            r = requests.get(google_maps_api_url)
+            if r.status_code == 200:
+                geo_info = r.json()
+                results = geo_info['results']
+                address = results[0]['address_components']
+                formatted = results[0]['formatted_address']
+                address = {'formatted': formatted, 'address': address}
+
+            if eventstr != '':
+                event, ev_created = Event.objects.get_or_create(name=eventstr)
+            else:
+                event = None
+
             photo = Photo(
                 name=imgfile.name.split('.')[0],
                 filename=imgfile.name,
@@ -109,7 +137,8 @@ def fileupload(request):
                 exif=exif_json,
                 latitude=lat,
                 longitude=lon,
-                address=dict(),
+                address=address,
+                upload=upload,
             )
             if event:
                 photo.event = event

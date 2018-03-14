@@ -178,12 +178,12 @@ $(document).ready(function() {
                     </a>
                 </div>
                 <div class="tool-container text-center">
-                    <button class="btn btn-default tool select" type="button" title="{% trans 'select' %}">
+                    <span class="tool select" title="{% trans 'select' %}">
                         <i class="far fa-square"></i>
-                    </button>
-                    <button class="btn btn-default tool unselect" type="button" title="{% trans 'deselect' %}">
+                    </span>
+                    <span class="tool unselect" title="{% trans 'deselect' %}">
                         <i class="far fa-check-square"></i>
-                    </button>
+                    </span>
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-info-circle"></i>
                     </a>

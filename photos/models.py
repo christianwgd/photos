@@ -5,7 +5,20 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
-from django.conf import settings
+
+
+class Import(models.Model):
+
+    class Meta:
+        verbose_name = _('import')
+        verbose_name_plural = _('imports')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(_('name'), max_length=255)
+    timestamp = models.DateTimeField(_('uploaded'), auto_now_add=True)
 
 
 class Event(models.Model):
@@ -34,6 +47,9 @@ class Tag(models.Model):
     name = models.CharField(_('name'), max_length=255)
 
 
+def directory_path(instance, filename):
+    return 'photos/{0}/{1}'.format(instance.upload, filename)
+
 class Photo(models.Model):
 
     class Meta:
@@ -47,7 +63,7 @@ class Photo(models.Model):
     name = models.CharField(_('name'), max_length=255)
     filename = models.CharField(_('filename'), max_length=255)
     imagefile = models.ImageField(
-        _('file'), upload_to='photos/', max_length=255)
+        _('file'), upload_to=directory_path, max_length=255)
     timestamp = models.DateTimeField(_('timestamp'), null=True)
     thumb = models.ImageField(_('thumbnail'), upload_to='photos/thumbnails',
                               max_length=255, null=True, blank=True)
@@ -59,6 +75,7 @@ class Photo(models.Model):
     address = JSONField(null=True, blank=True, default=dict())
     exif = JSONField()
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
+    upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(Tag)
 
     def create_thumbnail(self):
@@ -121,22 +138,6 @@ class Photo(models.Model):
 
         if not self.thumb:
             self.create_thumbnail()
-
-        # Bei Verwendung auf anderem Server als wgdnet apiKey Einschränkungen ändern!
-        if not self.address:
-            google_maps_api_url = \
-                'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={key}&language=de'.format(
-                    lat=self.latitude,
-                    lng=self.longitude,
-                    key=settings.GEOPOSITION_GOOGLE_MAPS_API_KEY
-                )
-            r = requests.get(google_maps_api_url)
-            if r.status_code == 200:
-                geo_info = r.json()
-                results = geo_info['results']
-                address = results[0]['address_components']
-                formatted = results[0]['formatted_address']
-                self.address = {'formatted': formatted, 'address': address}
 
         force_update = False
 

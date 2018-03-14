@@ -4,9 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin import AdminSite
 from django.contrib import admin
 
-from .models import Photo, Event, Tag
-
-
+from .models import Photo, Event, Tag, Import
 
 AdminSite.site_title = _('Photos')
 AdminSite.site_header = _('Photos')
@@ -21,11 +19,15 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ['name',]
 
 
+class ImportAdmin(admin.ModelAdmin):
+    search_fields = ['name',]
+
+
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name',]
 
 
-
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Event, EventAdmin)
+admin.site.register(Import, ImportAdmin)
 admin.site.register(Tag, TagAdmin)

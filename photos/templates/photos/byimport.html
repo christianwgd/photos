@@ -62,11 +62,11 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block photocontent %}
-{% regroup photos.qs by event as event_list %}
-{% for event in event_list %}
+{% regroup photos.qs by upload as import_list %}
+{% for import in import_list %}
 <div class="row justify-content-center list popup-gallery">
-    <div class="col-12 text-center">{{ event.grouper }}</div>
-    {% for photo in event.list %}
+    <div class="col-12 text-center">{{ import.grouper }}</div>
+    {% for photo in import.list %}
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center">
         <div class="image text-center">
             <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
