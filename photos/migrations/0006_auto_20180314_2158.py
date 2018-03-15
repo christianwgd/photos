@@ -14,11 +14,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='import',
             name='timestamp',
-            field=models.DateTimeField(auto_now_add=True, null=True, verbose_name='uploaded'),
+            field=models.DateTimeField(
+                auto_now_add=True, null=True, verbose_name='uploaded'),
         ),
         migrations.AlterField(
             model_name='photo',
             name='imagefile',
-            field=models.ImageField(max_length=255, upload_to=photos.models.directory_path, verbose_name='file'),
+            field=models.ImageField(
+                max_length=255, upload_to=photos.models.photo_path, verbose_name='file'),
         ),
     ]

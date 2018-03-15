@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import requests
+import pytz
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -12,13 +13,22 @@ class Import(models.Model):
     class Meta:
         verbose_name = _('import')
         verbose_name_plural = _('imports')
-        ordering = ['name']
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.name
 
     name = models.CharField(_('name'), max_length=255)
     timestamp = models.DateTimeField(_('uploaded'), auto_now_add=True)
+    slug = models.CharField(_('slug'), max_length=255)
+
+    def save(self, *args, **kwargs):
+        tz = pytz.timezone('Europe/Berlin')
+        self.timestamp = datetime.now(tz)
+        self.name = self.timestamp.strftime('%d.%m.%Y %H:%M:%S')
+        self.slug = self.timestamp.strftime('%Y-%m-%d_%H-%M-%S')
+        print(self.timestamp, self.name, self.slug)
+        super(Import, self).save(*args, **kwargs)
 
 
 class Event(models.Model):
@@ -47,8 +57,16 @@ class Tag(models.Model):
     name = models.CharField(_('name'), max_length=255)
 
 
-def directory_path(instance, filename):
-    return 'photos/{0}/{1}'.format(instance.upload, filename)
+def photo_path(instance, filename):
+    pathname = 'photos/{0}/{1}'.format(instance.upload.slug, filename)
+    return pathname
+
+
+def thumb_path(instance, filename):
+    pathname = 'photos/{0}/thumbnails/{1}'.format(
+        instance.upload.slug, filename)
+    return pathname
+
 
 class Photo(models.Model):
 
@@ -63,15 +81,17 @@ class Photo(models.Model):
     name = models.CharField(_('name'), max_length=255)
     filename = models.CharField(_('filename'), max_length=255)
     imagefile = models.ImageField(
-        _('file'), upload_to=directory_path, max_length=255)
+        _('file'), upload_to=photo_path, max_length=255)
     timestamp = models.DateTimeField(_('timestamp'), null=True)
-    thumb = models.ImageField(_('thumbnail'), upload_to='photos/thumbnails',
+    thumb = models.ImageField(_('thumbnail'), upload_to=thumb_path,
                               max_length=255, null=True, blank=True)
     uploaded_by = models.ForeignKey(User, verbose_name=_(
         'uploaded by'), on_delete=models.PROTECT)
     uploaded = models.DateTimeField(_('uploaded'), auto_now_add=True)
-    latitude = models.CharField(_('latitude'), max_length=20, null=True, blank=True)
-    longitude = models.CharField(_('longitude'), max_length=20, null=True, blank=True)
+    latitude = models.CharField(
+        _('latitude'), max_length=20, null=True, blank=True)
+    longitude = models.CharField(
+        _('longitude'), max_length=20, null=True, blank=True)
     address = JSONField(null=True, blank=True, default=dict())
     exif = JSONField()
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
@@ -91,6 +111,8 @@ class Photo(models.Model):
         from django.core.files.uploadedfile import SimpleUploadedFile
         import os
         import io
+
+        Image.LOAD_TRUNCATED_IMAGES = True
 
         # Set our max thumbnail size in a tuple (max width, max height)
         THUMBNAIL_SIZE = (200, 200)
@@ -132,7 +154,6 @@ class Photo(models.Model):
             suf,
             save=False
         )
-
 
     def save(self, *args, **kwargs):
 

@@ -65,7 +65,7 @@ $(document).ready(function() {
 {% regroup photos.qs by upload as import_list %}
 {% for import in import_list %}
 <div class="row justify-content-center list popup-gallery">
-    <div class="col-12 text-center">{{ import.grouper }}</div>
+    <div class="col-12 text-center">{{ import.grouper.name }}</div>
     {% for photo in import.list %}
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center">
         <div class="image text-center">

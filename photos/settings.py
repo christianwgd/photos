@@ -83,8 +83,6 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 
-GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyAKBwezqT1AND5rEeERjceO8DoiYT3tiF8'
-
 #################1#
 # LOCAL SETTINGS #
 ##################
