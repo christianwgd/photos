@@ -4,10 +4,10 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col text-center align-self-center">
+        <div class="col-lg-6 col-md-12 text-center align-self-center">
             <img class="img-responsive img-detail" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
         </div>
-        <div class="col">
+        <div class="col-lg-6 col-md-12">
             <ul class="list-group">
                 <li class="list-group-item"><b>{% trans 'name' %} </b>{{ photo.name }}</li>
                 <li class="list-group-item"><b>{% trans 'filename' %} </b>{{ photo.filename }}</li>

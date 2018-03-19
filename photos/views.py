@@ -6,11 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
+from django.urls import reverse
 import exifread
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
+from photos.forms import PhotoForm
 from usersettings.models import UserSettings
 
 
@@ -53,6 +55,33 @@ def detail(request, photo_id):
 def new(request):
 
     return render(request, 'photos/photonew.html', {})
+
+
+@login_required(login_url='/accounts/login/')
+def edit(request, photo_id):
+
+    try:
+        photo = Photo.objects.get(pk=photo_id)
+    except Photo.DoesNotExist:
+        messages.error(request, _(
+            'Photo does not exist.'))
+        return HttpResponseRedirect(reverse('photolist'))
+
+    if request.method == 'POST':
+
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse('photolist'))
+
+        form = PhotoForm(request.POST, instance=photo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('incident changed.'))
+            return HttpResponseRedirect(reverse('photolist'))
+
+    else:
+        form = PhotoForm(instance=photo)
+
+    return render(request, 'photos/photoedit.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')

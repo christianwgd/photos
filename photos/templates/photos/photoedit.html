@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+{% block content %}
+<form method="post" class="from-horizontal" role="form" action="">
+{% csrf_token %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 text-center align-self-center">
+            <img class="img-responsive img-detail" src="{{ form.instance.imagefile.url }}" alt="{{ form.instance.name }}">
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {% bootstrap_form form %}
+
+            {% buttons %}
+                <button class="btn btn-primary" name="submit" type="submit" formnovalidate>
+                    <i class="far fa-check"></i>
+                </button>
+                <button class="btn btn-default" type="submit" name="cancel" formnovalidate>
+                    <i class="far fa-times"></i>
+                </button>
+            {% endbuttons %}
+        </div>
+    </div>
+    
+    </div>
+</div>
+</form>
+{% endblock %}

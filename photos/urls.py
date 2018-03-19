@@ -43,6 +43,7 @@ urlpatterns = [
     path('byimport/', views.byimport, name='byImport'),
     path('detail/<int:photo_id>/', views.detail, name='photodetail'),
     path('new/', views.new, name='new'),
+    path('edit/<int:photo_id>/', views.edit, name='photoedit'),
     path('file-upload', views.fileupload, name='fileupload'),
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
 

@@ -187,7 +187,7 @@ $(document).ready(function() {
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-info-circle"></i>
                     </a>
-                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                    <a href="{% url 'photoedit' photo.id %}" class="tool">
                         <i class="far fa-edit"></i>
                     </a>
                     <a href="{{ photo.imagefile.url }}" download class="tool">
