@@ -16,4 +16,4 @@ class UserSettings(models.Model):
         verbose_name_plural = _('user settings')
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    recent = models.PositiveIntegerField(_('number of recent photos'))
+    recent = models.PositiveIntegerField(_('number of recent photos'), help_text=_('0 means no limit'))

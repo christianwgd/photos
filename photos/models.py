@@ -27,7 +27,6 @@ class Import(models.Model):
         self.timestamp = datetime.now(tz)
         self.name = self.timestamp.strftime('%d.%m.%Y %H:%M:%S')
         self.slug = self.timestamp.strftime('%Y-%m-%d_%H-%M-%S')
-        print(self.timestamp, self.name, self.slug)
         super(Import, self).save(*args, **kwargs)
 
 

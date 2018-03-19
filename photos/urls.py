@@ -48,6 +48,8 @@ urlpatterns = [
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
+
+    path('photos_as_json/', views.photos_as_json)
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

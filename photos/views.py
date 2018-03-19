@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
@@ -21,9 +21,9 @@ def photolist(request):
 
     try:
         settings = UserSettings.objects.get(user=request.user)
-        recent = ':{slice}'.format(slice=settings.recent)
+        recent = settings.recent
     except UserSettings.DoesNotExist:
-        recent = ':{slice}'.format(slice=10)
+        recent = 10
 
     photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
     return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent})
@@ -142,12 +142,13 @@ def fileupload(request):
 
             # geocoding needs a GEOPOSITION_GOOGLE_MAPS_API_KEY
             address = dict()
-            if settings.GEOPOSITION_GOOGLE_MAPS_API_KEY:
+            GoogleApiKey = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
+            if GoogleApiKey:
                 google_maps_api_url = \
                     'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={key}&language=de'.format(
                         lat=lat,
                         lng=lon,
-                        key=settings.GEOPOSITION_GOOGLE_MAPS_API_KEY
+                        key=GoogleApiKey
                     )
                 r = requests.get(google_maps_api_url)
                 if r.status_code == 200:
@@ -195,3 +196,8 @@ def processdelete(request):
     deleted = delete.count()
     delete.delete()
     return HttpResponse('success')
+
+
+def photos_as_json(request):
+    photos = Photo.objects.all().values('id', 'name')
+    return JsonResponse({'results': list(photos)})

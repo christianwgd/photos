@@ -49,13 +49,13 @@
                     <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="nav-link" href="{% url 'photolist' %}">
+                    <a class="dropdown-item" href="{% url 'photolist' %}">
                         {% trans 'recent photos' %}
                     </a>
-                    <a class="nav-link" href="{% url 'byEvent' %}">
+                    <a class="dropdown-item" href="{% url 'byEvent' %}">
                         {% trans 'by event' %}
                     </a>
-                    <a class="nav-link" href="{% url 'byImport' %}">
+                    <a class="dropdown-item" href="{% url 'byImport' %}">
                         {% trans 'by import' %}
                     </a>
                 </div>
@@ -71,7 +71,7 @@
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="">
+                <a class="nav-link dropdown-toggle" id="userDropdown" data-toggle="dropdown" href="">
                     <i class="far fa-user"></i>
                     {% if user.get_full_name %}
                     <span>{{ user.get_full_name }}</span>

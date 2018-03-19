@@ -1,5 +1,5 @@
 {% extends 'base_struct.html' %}
-{% load i18n static bootstrap4 %}
+{% load i18n static bootstrap4 photo_tags %}
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
@@ -166,7 +166,8 @@ $(document).ready(function() {
 
 <div class="row justify-content-center list popup-gallery">
     {% if photos.qs %}
-        {% for photo in photos.qs|slice:recent %}
+        {% cut_photos photos.qs recent as photolist %}
+        {% for photo in photolist %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
                 <div class="image text-center">
                     <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
