@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<script>
+function initMap() {
+    var location = {lat: {{ photo.latitude }}, lng: {{ photo.longitude }}};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: location
+    });
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+}
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap">
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">
@@ -46,6 +67,13 @@
             </ul>
         </div>
     </div>
+    {% if photo.latitude and photo.longitude %}
+    <div class="row" style="margin-top: 20px;">
+        <div class="col">
+            <div id="map"></div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row" style="margin-top: 20px;">
         <div class="col">
             <h4>{% trans 'EXIF data' %}</h4>

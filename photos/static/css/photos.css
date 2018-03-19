@@ -30,3 +30,7 @@ pre {
     width: 90%;
     padding: 20px;
 }
+
+#map {
+    min-height: 24rem;
+}
