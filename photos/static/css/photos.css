@@ -32,5 +32,9 @@ pre {
 }
 
 #map {
-    min-height: 24rem;
+    min-height: 30rem;
+}
+#exif {
+     max-height: 40rem;
+     overflow: auto;
 }

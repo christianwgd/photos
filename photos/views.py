@@ -76,7 +76,7 @@ def edit(request, photo_id):
         form = PhotoForm(request.POST, instance=photo)
         if form.is_valid():
             form.save()
-            messages.success(request, _('incident changed.'))
+            messages.success(request, _('photo metadata changed.'))
             return HttpResponseRedirect(reverse('photolist'))
 
     else:
@@ -142,7 +142,8 @@ def fileupload(request):
 
             # geocoding needs a GEOPOSITION_GOOGLE_MAPS_API_KEY
             address = dict()
-            GoogleApiKey = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
+            GoogleApiKey = getattr(
+                settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
             if GoogleApiKey:
                 google_maps_api_url = \
                     'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={key}&language=de'.format(
