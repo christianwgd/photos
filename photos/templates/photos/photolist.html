@@ -60,6 +60,12 @@ $(document).ready(function() {
                 $(entry).addClass('selected');
             })
     });
+    $('#all').on('click', function() {
+        $('.image-container').addClass('selected');
+    });
+    $('#none').on('click', function() {
+        $('.image-container').removeClass('selected');
+    });
 
     $('#delete').on('click', function() {
         var ids = $.map($("div .selected"), function (item) {
@@ -170,7 +176,7 @@ $(document).ready(function() {
                 <div class="tool-container text-center">
                     <a href="{{ photo.imagefile.url }}" class="tool img-large" title="{% trans 'view' %}">
                         <i class="far fa-eye"></i>
-                    </span>
+                    </a>
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-info-circle"></i>
                     </a>
