@@ -50,26 +50,19 @@ $(document).ready(function() {
     $('#id_uploaded_0').datetimepicker(options);
     $('#id_uploaded_1').datetimepicker(options);
 
-    $('.select').on('click', function() {
-        $(this).hide();
-        $(this).parent().parent().addClass('selected');
-        $(this).parent().find('.unselect').show();
+    $('.toggleselect').on('click', function() {
+        var item = $(this).parent().parent();
+        if (item.hasClass('selected')) {
+            item.removeClass('selected');
+        } else {
+            item.addClass('selected');
+        }
     });
-    $('.unselect').on('click', function() {
-        $(this).hide();
-        $(this).parent().parent().removeClass('selected');
-        $(this).parent().find('.select').show();
-    });
-
     $('#all').on('click', function() {
         $('.image-container').addClass('selected');
-        $('.unselect').show();
-        $('.select').hide();
     });  
     $('#none').on('click', function() {
         $('.image-container').removeClass('selected');
-        $('.select').show();
-        $('.unselect').hide();
     });  
 
     $('#delete').on('click', function() {
@@ -170,20 +163,17 @@ $(document).ready(function() {
         {% for photo in photolist %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
                 <div class="image text-center">
-                    <a href="{{ photo.imagefile.url }}" class="img-large" title="{{ photo.name }}">
+                    <span class="toggleselect">
                         {% if photo.thumb %}
                         <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
                         {% else %}
                         <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
                         {% endif %}
-                    </a>
+                    </span>
                 </div>
                 <div class="tool-container text-center">
-                    <span class="tool select" title="{% trans 'select' %}">
-                        <i class="far fa-square"></i>
-                    </span>
-                    <span class="tool unselect" title="{% trans 'deselect' %}">
-                        <i class="far fa-check-square"></i>
+                    <a href="{{ photo.imagefile.url }}" class="tool img-large" title="{% trans 'view' %}">
+                        <i class="far fa-eye"></i>
                     </span>
                     <a href="{% url 'photodetail' photo.id %}" class="tool">
                         <i class="far fa-info-circle"></i>
