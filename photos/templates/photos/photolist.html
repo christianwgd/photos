@@ -11,6 +11,7 @@
 <script src="{% static 'js/moment.min.js' %}"></script>
 <script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
 <script src="{% static 'select2/select2.full.min.js' %}"></script>
+<script src="{% static 'js/ds.min.js' %}"></script>
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
@@ -23,7 +24,7 @@ $(document).ready(function() {
         mainClass: 'mfp-img-mobile',
         gallery: {
             enabled: true,
-            navigateByImgClick: true,
+            navigateByImgClick: false,
             preload: [0,1] // Will preload 0 - before current, and 1 after the current image
         },
         image: {
@@ -33,6 +34,7 @@ $(document).ready(function() {
             }
         }
     });
+
     $('#id_event').select2();
     $('#id_tags').select2();
     var options = {
@@ -50,20 +52,14 @@ $(document).ready(function() {
     $('#id_uploaded_0').datetimepicker(options);
     $('#id_uploaded_1').datetimepicker(options);
 
-    $('.toggleselect').on('click', function() {
-        var item = $(this).parent().parent();
-        if (item.hasClass('selected')) {
-            item.removeClass('selected');
-        } else {
-            item.addClass('selected');
-        }
+
+    new DragSelect({
+        selectables: $('.image-container'),
+            callback: (function(entry) {
+                $('.image-container').removeClass('selected');
+                $(entry).addClass('selected');
+            })
     });
-    $('#all').on('click', function() {
-        $('.image-container').addClass('selected');
-    });  
-    $('#none').on('click', function() {
-        $('.image-container').removeClass('selected');
-    });  
 
     $('#delete').on('click', function() {
         var ids = $.map($("div .selected"), function (item) {
