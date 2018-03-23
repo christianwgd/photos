@@ -1,22 +1,39 @@
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+{% extends "base.html" %}
+{% load i18n bootstrap4 static %}
 
-{% csrf_token %}
-Username: <input type='text' name='username' id='username' />
-<br>
-Password: <input type='password' name='password' id='password' />
-<br>
-<input type='submit' value='Login' id='login_form' />
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<link href="{% static 'css/auth.css' %}" rel="stylesheet">
+{% endblock %}
 
-<script>
-  $("#login_form").on("click", function(e) {
-    var username = $("#username").val();
-    var password = $("#password").val();
+{% block content %}
 
-    $.post("/accounts/get_auth_token/", {"username": username, "password": password})
-      .success(function(data) {
-        var token = data["token"];
-        document.cookie = 'token='+token+";path=/";
-        window.location.href = "/polls/";
-      });
-  });
-</script>
+<div id="content-main">
+
+<div class="container" style="margin-bottom: 20px; width: 100%;">
+</div>
+
+{% if user.is_authenticated %}
+<p class="errornote">
+{% blocktrans trimmed %}
+    You are authenticated as {{ username }}, but are not authorized to
+    access this page. Would you like to login to a different account?
+{% endblocktrans %}
+</p>
+{% endif %}
+
+<div class="col-md-4 offset-md-4">
+    <form role="form" action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            <i class="far fa-check"></i>
+        </button>
+        <button type="reset" class="btn btn-default">
+            <i class="far fa-trash"></i>
+        </button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock %}
