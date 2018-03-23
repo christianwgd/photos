@@ -19,24 +19,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
+from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
 
 from . import views
+
+
+router = routers.DefaultRouter()
+router.register(r'events', views.EventViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'imports', views.ImportViewSet)
+router.register(r'photos', views.PhotoViewSet)
+router.register(r'users', views.UserViewSet)
+router.register(r'photo_exif', views.PhotoExifViewSet)
+
+schema_view = get_swagger_view(title='Pastebin API')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('settings/', include('usersettings.urls')),
-
-    path('accounts/login/', auth_views.login,
-         {'template_name': 'auth/login.html'}, name='login'),
-    path('accounts/logout/', auth_views.logout,
-         {'template_name': 'auth/logged_out.html'}, name='logout'),
-    path('accounts/password_change/', auth_views.password_change,
-         {'template_name': 'auth/password_change_form.html'}, name='password_change'),
-    path('accounts/password_change/done/', auth_views.password_change_done,
-         {'template_name': 'auth/password_change_done.html'}, name='password_change_done'),
 
     path('', views.photolist, name='photolist'),
     path('byevent/', views.byevent, name='byEvent'),
@@ -49,7 +52,11 @@ urlpatterns = [
 
     path('processdelete/', views.processdelete, name='processdelete'),
 
-    path('photos_as_json/', views.photos_as_json)
+    path('photos_as_json/', views.photos_as_json),
+
+    path('rest/', include(router.urls)),
+    path('accounts/', include('accounts.urls')),
+    path('schema/', schema_view)
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

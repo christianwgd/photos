@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.models import User
 import exifread
 
 from photos import parse_exif_data
@@ -14,6 +15,10 @@ from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from photos.forms import PhotoForm
 from usersettings.models import UserSettings
+
+from rest_framework import viewsets
+from .serializers import (PhotoSerializer, EventSerializer, TagSerializer,
+                          ImportSerializer, UserSerializer, PhotoEXIFSerializer)
 
 
 @login_required(login_url='/accounts/login/')
@@ -202,3 +207,46 @@ def processdelete(request):
 def photos_as_json(request):
     photos = Photo.objects.all().values('id', 'name')
     return JsonResponse({'results': list(photos)})
+
+
+# REST Views
+class PhotoViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for Photos.
+    """
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for Events.
+    """
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for Events.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class ImportViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for Events.
+    """
+    queryset = Import.objects.all()
+    serializer_class = ImportSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class PhotoExifViewSet(viewsets.ModelViewSet):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoEXIFSerializer
