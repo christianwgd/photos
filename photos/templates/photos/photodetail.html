@@ -136,7 +136,7 @@ function initMap() {
             <button class="btn btn-default" data-toggle="modal" data-target="#exifModal" title="{% trans 'show EXIF data' %}">
                 <i class="far fa-camera"></i>
             </button>
-            <a href="{% url 'photoedit' photo.id %}" class="tool" title="{% trans 'edit metadata' %}">
+            <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool" title="{% trans 'edit metadata' %}">
                 <button class="btn btn-default">
                     <i class="far fa-edit"></i>
                 </button>

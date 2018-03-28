@@ -85,6 +85,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+FILE_UPLOAD_PERMISSIONS = 0o644
+
 LOGIN_REDIRECT_URL = '/'
 
 REST_FRAMEWORK = {
@@ -95,6 +97,19 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    'JSON_EDITOR': True,
+    'SHOW_REQUEST_HEADERS': True,
+}
+
 
 #################1#
 # LOCAL SETTINGS #

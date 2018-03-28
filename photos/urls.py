@@ -33,7 +33,7 @@ router.register(r'photos', views.PhotoViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'photo_exif', views.PhotoExifViewSet)
 
-schema_view = get_swagger_view(title='Pastebin API')
+schema_view = get_swagger_view(title='Photos API')
 
 
 urlpatterns = [

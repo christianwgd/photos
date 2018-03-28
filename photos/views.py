@@ -66,6 +66,8 @@ def new(request):
 @login_required(login_url='/accounts/login/')
 def edit(request, photo_id):
 
+    print(request)
+
     try:
         photo = Photo.objects.get(pk=photo_id)
     except Photo.DoesNotExist:
