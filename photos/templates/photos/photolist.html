@@ -168,7 +168,6 @@ $(document).ready(function() {
         {% for photo in photolist %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
                 <div class="image text-center">
-                    <span>{{ photo.id }}</span>
                     <span class="toggleselect">
                         {% if photo.thumb %}
                         <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">

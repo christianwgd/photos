@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-12 22:13+0100\n"
+"POT-Creation-Date: 2018-03-30 12:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,137 +18,134 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps.py:6 apps.py:7 models.py:42
-msgid "photos"
-msgstr "Fotos"
-
-#: forms.py:21 models.py:15 templates/photos/photodetail.html:14
-#: templates/photos/photonew.html:70 templates/photos/photonew.html:71
-msgid "event"
-msgstr "Ereignis"
-
-#: forms.py:22 models.py:29 templates/photos/photodetail.html:16
-#: templates/photos/photonew.html:74
-msgid "tags"
-msgstr "Tags"
-
-#: models.py:16
-msgid "events"
-msgstr "Ereignisse"
-
-#: models.py:22 models.py:35 models.py:48 templates/photos/photodetail.html:12
-msgid "name"
-msgstr "Name"
-
-#: models.py:28
-msgid "tag"
-msgstr "Tag"
-
-#: models.py:41
-msgid "photo"
-msgstr "Foto"
-
-#: models.py:49 templates/photos/photodetail.html:13
-msgid "filename"
-msgstr "Dateiname"
-
-#: models.py:51
-msgid "file"
-msgstr "Datei"
-
-#: models.py:52 templates/photos/photodetail.html:21
-msgid "timestamp"
-msgstr "Zeitstempel"
-
-#: models.py:53
-msgid "thumbnail"
-msgstr "Miniaturansicht"
-
-#: models.py:56
-msgid "uploaded by"
-msgstr "hochgeladen von"
-
-#: models.py:57 templates/photos/photodetail.html:38
-msgid "uploaded"
-msgstr "hochgeladen"
-
-#: models.py:58
-msgid "latitude"
-msgstr "Breitengrad"
-
-#: models.py:59
-msgid "longitude"
-msgstr "Längengrad"
-
-#: templates/auth/logged_out.html:6
-msgid "You are now logged out, thanks for using this app."
-msgstr ""
-
-#: templates/auth/login.html:18
-#, python-format
-msgid ""
-"You are authenticated as %(username)s, but are not authorized to access this "
-"page. Would you like to login to a different account?"
-msgstr ""
-
-#: templates/auth/password_change_done.html:9
-msgid "Your password was changed."
-msgstr ""
-
-#: templates/auth/password_change_form.html:14
-msgid "Please correct the error below."
-msgstr ""
-
-#: templates/auth/password_change_form.html:14
-msgid "Please correct the errors below."
-msgstr ""
-
-#: templates/auth/password_change_form.html:19
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-
-#: templates/auth/password_change_form.html:25
-#: templates/auth/password_change_form.html:27
-msgid "Change my password"
-msgstr ""
-
-#: templates/base.html:4 templates/base.html:37
+#: admin.py:9 admin.py:10 templates/base.html:4 templates/base.html:37
 msgid "Photos"
 msgstr "Fotos"
 
-#: templates/base.html:47
+#: admin.py:11
+msgid "Photos ADMINISTRATION"
+msgstr ""
+
+#: apps.py:8 models.py:74 templates/base.html:48
+msgid "photos"
+msgstr "Fotos"
+
+#: forms.py:19 models.py:36 templates/photos/photodetail.html:93
+#: templates/photos/photonew.html:74 templates/photos/photonew.html:75
+msgid "event"
+msgstr "Ereignis"
+
+#: forms.py:20 models.py:50 templates/photos/photodetail.html:95
+#: templates/photos/photonew.html:78
+msgid "tags"
+msgstr "Tags"
+
+#: models.py:14
+msgid "import"
+msgstr ""
+
+#: models.py:15
+msgid "imports"
+msgstr ""
+
+#: models.py:21 models.py:43 models.py:56 models.py:80
+#: templates/photos/photodetail.html:91
+msgid "name"
+msgstr "Name"
+
+#: models.py:22 models.py:89 templates/photos/photodetail.html:117
+msgid "uploaded"
+msgstr "hochgeladen"
+
+#: models.py:23
+msgid "slug"
+msgstr ""
+
+#: models.py:37
+msgid "events"
+msgstr "Ereignisse"
+
+#: models.py:49
+msgid "tag"
+msgstr "Tag"
+
+#: models.py:73
+msgid "photo"
+msgstr "Foto"
+
+#: models.py:81 templates/photos/photodetail.html:92
+msgid "filename"
+msgstr "Dateiname"
+
+#: models.py:83
+msgid "file"
+msgstr "Datei"
+
+#: models.py:84 templates/photos/photodetail.html:100
+msgid "timestamp"
+msgstr "Zeitstempel"
+
+#: models.py:85
+msgid "thumbnail"
+msgstr "Miniaturansicht"
+
+#: models.py:88
+msgid "uploaded by"
+msgstr "hochgeladen von"
+
+#: models.py:91
+msgid "latitude"
+msgstr "Breitengrad"
+
+#: models.py:93
+msgid "longitude"
+msgstr "Längengrad"
+
+#: templates/base.html:53
 msgid "recent photos"
 msgstr "Letzte Fotos"
 
-#: templates/base.html:53
+#: templates/base.html:56
+msgid "by event"
+msgstr "Nach Ereignis"
+
+#: templates/base.html:59
+msgid "by import"
+msgstr "Nach Import"
+
+#: templates/base.html:66
 msgid "new"
 msgstr "Neu"
 
-#: templates/base.html:73
+#: templates/base.html:86
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/base.html:77
+#: templates/base.html:90
 msgid "settings"
 msgstr "Einstellungen"
 
-#: templates/base.html:81
+#: templates/base.html:94
 msgid "Password change"
 msgstr ""
 
-#: templates/base.html:86
+#: templates/base.html:99
 msgid "Admin"
 msgstr ""
 
-#: templates/base.html:95
-#, fuzzy
-#| msgid "Log out"
-msgid "Log in"
-msgstr "Abmelden"
 
-#: templates/photos/photodelete.html:17
+#: templates/photos/byevent.html:47 templates/photos/byimport.html:47
+#: templates/photos/photolist.html:110
+msgid "select all"
+msgstr "Alle auswählen"
+
+#: templates/photos/byevent.html:50 templates/photos/byimport.html:50
+#: templates/photos/photolist.html:113
+msgid "select none"
+msgstr "Keine auswählen"
+
+#: templates/photos/photodelete.html:17 templates/photos/photolist.html:119
+#: templates/photos/photolist.html:154
 msgid "delete"
 msgstr "löschen"
 
@@ -156,29 +153,65 @@ msgstr "löschen"
 msgid "Do you really want to delete this photo?"
 msgstr "Diese Foto wirklich löschen?"
 
-#: templates/photos/photodelete.html:23
+#: templates/photos/photodelete.html:23 templates/photos/photolist.html:146
 msgid "The physical file will not be deleted!"
 msgstr "Die Fotodatei im Dateisystem wird nicht mit gelöscht."
 
-#: templates/photos/photodetail.html:23
+#: templates/photos/photodetail.html:33
+msgid "EXIF data"
+msgstr "EXIF Daten"
+
+#: templates/photos/photodetail.html:66
+msgid "Map"
+msgstr "Karte"
+
+#: templates/photos/photodetail.html:102
 msgid "location"
 msgstr "Ort"
 
-#: templates/photos/photodetail.html:27 templates/photos/photodetail.html:35
+#: templates/photos/photodetail.html:106 templates/photos/photodetail.html:114
 msgid "not available"
 msgstr "nicht verfügbar"
 
-#: templates/photos/photodetail.html:31
+#: templates/photos/photodetail.html:110
 msgid "GPS Position"
 msgstr ""
 
-#: templates/photos/photodetail.html:39
+#: templates/photos/photodetail.html:118
 msgid "by"
 msgstr "von"
 
-#: templates/photos/photodetail.html:51
-msgid "EXIF data"
-msgstr "EXIF Daten"
+#: templates/photos/photodetail.html:132
+msgid "show on map"
+msgstr "Auf Karte anzeigen"
+
+#: templates/photos/photodetail.html:136
+msgid "show EXIF data"
+msgstr "EXIF Daten anzeigen"
+
+#: templates/photos/photodetail.html:139 templates/photos/photolist.html:116
+msgid "edit metadata"
+msgstr "Metadaten bearbeiten"
+
+#: templates/photos/photolist.html:122
+msgid "download"
+msgstr "Herunterladen"
+
+#: templates/photos/photolist.html:135
+msgid "Delete photos"
+msgstr "Fotos löschen"
+
+#: templates/photos/photolist.html:142
+msgid "Do you really want to delete the selected photos?"
+msgstr "Diese Fotos wirklich löschen?"
+
+#: templates/photos/photolist.html:180
+msgid "view"
+msgstr "Anzeigen"
+
+#: templates/photos/photolist.html:196
+msgid "no photos found."
+msgstr "Keine Fotos vorhanden."
 
 #: templates/photos/photonew.html:21
 msgid "Drop files here to upload"
@@ -186,17 +219,26 @@ msgstr "Dateien hier ablegen"
 
 #: templates/photos/photonew.html:35
 msgid "Remove File"
-msgstr ""
+msgstr "Datei löschen"
 
-#: templates/photos/photonew.html:91
+#: templates/photos/photonew.html:95
 msgid "uplaod"
 msgstr "hochladen"
 
-#: views.py:42
+#: views.py:75 views.py:102
 msgid "Photo does not exist."
 msgstr "Das Foto existiert nicht."
 
-#: views.py:52
+#: views.py:86
+msgid "photo metadata changed."
+msgstr "Foto Metadaten geändert."
+
+#: views.py:112
 #, python-brace-format
 msgid "Photo {photo} deleted."
 msgstr "Foto {photo} gelöscht."
+
+#: views.py:195
+#, python-brace-format
+msgid "successfully added {count} photos."
+msgstr "{count} Fotos hinzugefügt."
