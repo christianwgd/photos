@@ -201,7 +201,6 @@ def fileupload(request):
 def processdelete(request):
     ids = request.POST.getlist('ids[]')
     delete = Photo.objects.filter(pk__in=ids)
-    deleted = delete.count()
     delete.delete()
     return HttpResponse('success')
 

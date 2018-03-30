@@ -53,12 +53,12 @@ $(document).ready(function() {
     $('#id_uploaded_1').datetimepicker(options);
 
 
-    new DragSelect({
-        selectables: $('.image-container'),
-            callback: (function(entry) {
-                $('.image-container').removeClass('selected');
-                $(entry).addClass('selected');
-            })
+    $('.image-container').on('click', function() {
+       if ($(this).hasClass('selected')) {
+           $(this).removeClass('selected');
+        } else {
+            $(this).addClass('selected');
+       }
     });
     $('#all').on('click', function() {
         $('.image-container').addClass('selected');
@@ -68,7 +68,7 @@ $(document).ready(function() {
     });
 
     $('#delete').on('click', function() {
-        var ids = $.map($("div .selected"), function (item) {
+        var ids = $.map($(".image-container.selected"), function (item) {
             return $(item).attr("id");
         });
         $.ajax({
@@ -168,6 +168,7 @@ $(document).ready(function() {
         {% for photo in photolist %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
                 <div class="image text-center">
+                    <span>{{ photo.id }}</span>
                     <span class="toggleselect">
                         {% if photo.thumb %}
                         <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
