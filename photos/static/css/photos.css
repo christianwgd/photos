@@ -38,3 +38,7 @@ pre {
      max-height: 40rem;
      overflow: auto;
 }
+
+.btn.remove {
+    margin: 3px auto;
+}

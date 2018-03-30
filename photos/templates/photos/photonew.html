@@ -32,7 +32,7 @@
             this.on("addedfile", function (file) {
 
                 // Create the remove button
-                var removeButton = Dropzone.createElement("<button class='btn btn-primary'>{% trans 'Remove File' %}</button>");
+                var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-secondary remove'>{% trans 'Remove File' %}</button>");
 
                 // Listen to the click event
                 removeButton.addEventListener("click", function (e) {

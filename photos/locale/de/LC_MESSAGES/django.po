@@ -219,7 +219,7 @@ msgstr "Dateien hier ablegen"
 
 #: templates/photos/photonew.html:35
 msgid "Remove File"
-msgstr "Datei löschen"
+msgstr "Datei entfernen"
 
 #: templates/photos/photonew.html:95
 msgid "uplaod"
