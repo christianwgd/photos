@@ -191,8 +191,7 @@ def fileupload(request):
                 except Tag.DoesNotExist:
                     pass
 
-        messages.success(request, _(
-            'successfully added {count} photos.'.format(count=count)))
+        messages.success(request, _('successfully added {count} photos.').format(count=count))
 
         return HttpResponse('ok')
 
