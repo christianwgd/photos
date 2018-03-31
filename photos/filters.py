@@ -1,6 +1,6 @@
 import django_filters
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from django.db import models
 
 from .models import Photo, Event, Tag
 
@@ -8,6 +8,7 @@ from .models import Photo, Event, Tag
 class PhotoFilter(django_filters.FilterSet):
     event = django_filters.ModelChoiceFilter(
         queryset=Event.objects.all(),
+        label = _('event')
     )
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
