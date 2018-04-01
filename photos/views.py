@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 from django.conf import settings
+from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -201,6 +202,28 @@ def processdelete(request):
     ids = request.POST.getlist('ids[]')
     delete = Photo.objects.filter(pk__in=ids)
     delete.delete()
+    return HttpResponse('success')
+
+
+@login_required(login_url='/accounts/login/')
+def processassign(request):
+    ids = request.POST.getlist('ids[]')
+    evt = request.POST.get('event')
+    tgs = request.POST.getlist('tags[]')
+
+    if evt:
+        event = Event.objects.get(pk=evt)
+    else:
+        event = None
+    tags = Tag.objects.filter(pk__in=tgs)
+    photos = Photo.objects.filter(pk__in=ids)
+
+    with transaction.atomic():
+        for photo in photos:
+            photo.event = event
+            photo.tags.add(*tags)
+            photo.save()
+
     return HttpResponse('success')
 
 

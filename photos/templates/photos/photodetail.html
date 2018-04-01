@@ -82,6 +82,7 @@ function initMap() {
 {% endif %}
 
 <div class="container-fluid">
+    {% trans 'not set' as notset %}
     <div class="row">
         <div class="col-lg-6 col-md-12 text-center align-self-center">
             <img class="img-responsive img-detail" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
@@ -90,7 +91,7 @@ function initMap() {
             <ul class="list-group">
                 <li class="list-group-item"><b>{% trans 'name' %} </b>{{ photo.name }}</li>
                 <li class="list-group-item"><b>{% trans 'filename' %} </b>{{ photo.filename }}</li>
-                <li class="list-group-item"><b>{% trans 'event' %} </b>{{ photo.event }}</li>
+                <li class="list-group-item"><b>{% trans 'event' %} </b>{{ photo.event|default_if_none:notset }}</li>
                 <li class="list-group-item"><b>
                     {% trans 'tags' %} </b>
                     {% for tag in photo.tags.all %}

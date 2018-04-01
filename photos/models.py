@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
+
 import requests
 import pytz
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
+
+from photos import settings
 
 
 class Import(models.Model):
@@ -168,3 +173,25 @@ class Photo(models.Model):
 
         # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
         super(Photo, self, *args, **kwargs).save(force_update=force_update)
+
+
+@receiver(models.signals.post_delete, sender=Photo)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """
+    Deletes file from filesystem
+    when corresponding `Photo` object is deleted.
+    """
+    if instance.imagefile:
+        if os.path.isfile(instance.imagefile.path):
+            new_file_path = os.path.join(settings.MEDIA_ROOT, 'trash/', instance.imagefile.name)
+            new_thumb_path = os.path.join(settings.MEDIA_ROOT, 'trash/', instance.thumb.name)
+
+            if not os.path.exists(os.path.dirname(new_file_path)):
+                os.makedirs(os.path.dirname(new_file_path))
+
+            if not os.path.exists(os.path.dirname(new_thumb_path)):
+                os.makedirs(os.path.dirname(new_thumb_path))
+
+            #os.remove(instance.file.path)
+            os.rename(instance.imagefile.path, new_file_path)
+            os.rename(instance.thumb.path, new_thumb_path)

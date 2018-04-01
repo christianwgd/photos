@@ -51,6 +51,7 @@ urlpatterns = [
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
+    path('processassign/', views.processassign, name='processassign'),
 
     path('photos_as_json/', views.photos_as_json),
 
