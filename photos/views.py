@@ -220,7 +220,8 @@ def processassign(request):
 
     with transaction.atomic():
         for photo in photos:
-            photo.event = event
+            if event is not None:
+                photo.event = event
             photo.tags.add(*tags)
             photo.save()
 
