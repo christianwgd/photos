@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 
-import requests
 import pytz
 from datetime import datetime
 from django.db import models
