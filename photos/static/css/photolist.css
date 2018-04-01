@@ -36,6 +36,10 @@
     color: #fff;
 }
 
+.tool-separator {
+    padding: 0 10px;
+}
+
 
 .image-container:hover .tool-overlay {
     visibility: visible;
