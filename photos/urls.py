@@ -36,6 +36,7 @@ router.register(r'photo_exif', views.PhotoExifViewSet)
 schema_view = get_swagger_view(title='Photos API')
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
