@@ -7,9 +7,10 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
 import exifread
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag, Import
@@ -23,7 +24,7 @@ from .serializers import (PhotoSerializer, EventSerializer, TagSerializer,
 
 
 @login_required(login_url='/accounts/login/')
-def photolist(request):
+def photolist(request, view=None):
 
     try:
         settings = UserSettings.objects.get(user=request.user)
@@ -32,22 +33,7 @@ def photolist(request):
         recent = 10
 
     photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
-    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent})
-
-
-@login_required(login_url='/accounts/login/')
-def byevent(request):
-
-    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
-    return render(request, 'photos/byevent.html', {'photos': photos})
-
-
-@login_required(login_url='/accounts/login/')
-def byimport(request):
-
-    photos = PhotoFilter(
-        request.GET, queryset=Photo.objects.all().order_by('-upload__timestamp'))
-    return render(request, 'photos/byimport.html', {'photos': photos})
+    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': view})
 
 
 @login_required(login_url='/accounts/login/')
@@ -99,17 +85,17 @@ def delete(request, photo_id):
     except Photo.DoesNotExist:
         messages.error(request, _(
             'Photo does not exist.'))
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('photolist'))
 
     if request.method == 'POST':
 
         if 'cancel' in request.POST:
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('photolist'))
 
         photo.delete()
         messages.success(request, _(
             'Photo {photo} deleted.').format(photo=photo.name))
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('photolist'))
 
     return render(request, 'photos/photodelete.html', {'photo': photo})
 
@@ -224,6 +210,119 @@ def processassign(request):
             photo.save()
 
     return HttpResponse('success')
+
+
+class EventListView(ListView):
+
+    model = Event
+    #paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['eventlist'] = Event.objects.all()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        if 'edit' in request.GET:
+            event_id = request.GET.get('edit')
+            return HttpResponseRedirect(reverse('eventupdate', kwargs={'pk': event_id}))
+        elif 'delete' in request.GET:
+            event_id = request.GET.get('delete')
+            return HttpResponseRedirect(reverse('eventdelete', kwargs={'pk': event_id}))
+        elif 'back' in request.GET:
+            return HttpResponseRedirect(reverse('photolist'))
+        elif 'add' in request.GET:
+            return HttpResponseRedirect(reverse('eventcreate'))
+        return super(EventListView, self).get(request, *args, **kwargs)
+
+
+class EventUpdateView(UpdateView):
+
+    model = Event
+    fields = ['name',]
+    template_name = 'photos/event_form.html'
+    success_url = reverse_lazy('eventlist')
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse('photolist'))
+        return super(EventUpdateView, self).get(request, *args, **kwargs)
+
+
+class EventCreateView(CreateView):
+
+    model = Event
+    fields = ['name',]
+    template_name = 'photos/event_form.html'
+    success_url = reverse_lazy('eventlist')
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse('photolist'))
+        return super(EventCreateView, self).get(request, *args, **kwargs)
+
+
+
+
+class EventDeleteView(DeleteView):
+
+    model = Event
+    success_url = reverse_lazy('eventlist')
+
+
+class TagListView(ListView):
+
+    model = Tag
+    #paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['taglist'] = Tag.objects.all()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        if 'edit' in request.GET:
+            event_id = request.GET.get('edit')
+            return HttpResponseRedirect(reverse('tagupdate', kwargs={'pk': event_id}))
+        elif 'delete' in request.GET:
+            event_id = request.GET.get('delete')
+            return HttpResponseRedirect(reverse('tagdelete', kwargs={'pk': event_id}))
+        elif 'back' in request.GET:
+            return HttpResponseRedirect(reverse('photolist'))
+        elif 'add' in request.GET:
+            return HttpResponseRedirect(reverse('tagcreate'))
+        return super(TagListView, self).get(request, *args, **kwargs)
+
+
+class TagUpdateView(UpdateView):
+
+    model = Tag
+    fields = ['name',]
+    template_name = 'photos/tag_form.html'
+    success_url = reverse_lazy('taglist')
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse('photolist'))
+        return super(TagUpdateView, self).get(request, *args, **kwargs)
+
+class TagCreateView(CreateView):
+
+    model = Tag
+    fields = ['name',]
+    template_name = 'photos/tag_form.html'
+    success_url = reverse_lazy('taglist')
+
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse('photolist'))
+        return super(TagCreateView, self).get(request, *args, **kwargs)
+
+
+class TagDeleteView(DeleteView):
+
+    model = Tag
+    success_url = reverse_lazy('taglist')
 
 
 def photos_as_json(request):

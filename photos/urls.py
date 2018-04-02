@@ -16,7 +16,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
@@ -42,8 +42,7 @@ urlpatterns = [
     path('settings/', include('usersettings.urls')),
 
     path('', views.photolist, name='photolist'),
-    path('byevent/', views.byevent, name='byEvent'),
-    path('byimport/', views.byimport, name='byImport'),
+    re_path(r'^photolist/(?P<view>[r,e,i]{1})/$', views.photolist, name='photolist'),
     path('detail/<int:photo_id>/', views.detail, name='photodetail'),
     path('new/', views.new, name='new'),
     path('edit/<int:photo_id>/', views.edit, name='photoedit'),
@@ -52,6 +51,16 @@ urlpatterns = [
 
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processassign/', views.processassign, name='processassign'),
+
+    path('eventlist/', views.EventListView.as_view(), name='eventlist'),
+    path('eventcreate/', views.EventCreateView.as_view(), name='eventcreate'),
+    path('eventupdate/<int:pk>/', views.EventUpdateView.as_view(), name='eventupdate'),
+    path('eventdelete/<int:pk>/', views.EventDeleteView.as_view(), name='eventdelete'),
+
+    path('taglist/', views.TagListView.as_view(), name='taglist'),
+    path('tagcreate/', views.TagCreateView.as_view(), name='tagcreate'),
+    path('tagupdate/<int:pk>/', views.TagUpdateView.as_view(), name='tagupdate'),
+    path('tagdelete/<int:pk>/', views.TagDeleteView.as_view(), name='tagdelete'),
 
     path('photos_as_json/', views.photos_as_json),
 

@@ -22,4 +22,4 @@ class PhotoFilter(django_filters.FilterSet):
     class Meta:
         model = Photo
         fields = ['event', 'tags', 'timestamp',
-                  'uploaded', 'uploaded_by']
+                  'uploaded', 'uploaded_by', 'upload']

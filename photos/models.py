@@ -23,14 +23,16 @@ class Import(models.Model):
         return self.name
 
     name = models.CharField(_('name'), max_length=255)
-    timestamp = models.DateTimeField(_('uploaded'), auto_now_add=True)
+    timestamp = models.DateTimeField(_('uploaded'))
     slug = models.CharField(_('slug'), max_length=255)
 
     def save(self, *args, **kwargs):
-        tz = pytz.timezone('Europe/Berlin')
-        self.timestamp = datetime.now(tz)
-        self.name = self.timestamp.strftime('%d.%m.%Y %H:%M:%S')
-        self.slug = self.timestamp.strftime('%Y-%m-%d_%H-%M-%S')
+        if not self.timestamp:
+            tz = pytz.timezone('Europe/Berlin')
+            self.timestamp = datetime.now(tz)
+        if self.timestamp:
+            self.name = self.timestamp.strftime('%d.%m.%Y %H:%M:%S')
+            self.slug = self.timestamp.strftime('%Y-%m-%d_%H-%M-%S')
         super(Import, self).save(*args, **kwargs)
 
 

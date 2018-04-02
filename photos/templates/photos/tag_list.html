@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+{% block content %}
+<form method="get" class="from-horizontal" role="form" action="">
+{% csrf_token %}
+<div class="container-fluid">
+    <div class="row">
+        <h4>{% trans 'tags' %}</h4>
+        <div class="col-12">
+            <table id="tags" class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans 'name' %}</th>
+                        <th># {% trans 'photos' %}</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in taglist %}
+                    <tr>
+                        <td>{{ tag.name }}</td>
+                        <td>{{ tag.photo_set.all.count }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" name="edit" value="{{ tag.id }}" title="{% trans 'edit' %}">
+                                <i class="far fa-edit"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" name="delete" value="{{ tag.id }}" title="{% trans 'delete' %}">
+                                <i class="far fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-primary" name="back" title="{% trans 'back' %}">
+                <i class="far fa-check"></i>
+            </button>
+            <button class="btn btn-success" name="add" title="{% trans 'new' %}">
+                <i class="far fa-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
