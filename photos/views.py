@@ -243,11 +243,6 @@ class EventUpdateView(UpdateView):
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
 
-    def post(self, request, *args, **kwargs):
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
-        return super(EventUpdateView, self).get(request, *args, **kwargs)
-
 
 class EventCreateView(CreateView):
 
@@ -255,13 +250,6 @@ class EventCreateView(CreateView):
     fields = ['name',]
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
-
-    def post(self, request, *args, **kwargs):
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
-        return super(EventCreateView, self).get(request, *args, **kwargs)
-
-
 
 
 class EventDeleteView(DeleteView):
@@ -301,10 +289,6 @@ class TagUpdateView(UpdateView):
     template_name = 'photos/tag_form.html'
     success_url = reverse_lazy('taglist')
 
-    def post(self, request, *args, **kwargs):
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
-        return super(TagUpdateView, self).get(request, *args, **kwargs)
 
 class TagCreateView(CreateView):
 
@@ -312,11 +296,6 @@ class TagCreateView(CreateView):
     fields = ['name',]
     template_name = 'photos/tag_form.html'
     success_url = reverse_lazy('taglist')
-
-    def post(self, request, *args, **kwargs):
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
-        return super(TagCreateView, self).get(request, *args, **kwargs)
 
 
 class TagDeleteView(DeleteView):

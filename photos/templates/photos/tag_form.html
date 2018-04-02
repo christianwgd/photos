@@ -15,7 +15,7 @@
                 <button class="btn btn-primary" name="submit" type="submit" formnovalidate>
                     <i class="far fa-check"></i>
                 </button>
-                <button class="btn btn-default" type="submit" name="cancel" formnovalidate>
+                <button type="reset" onclick="location.href={% url 'taglist' %}" class="btn btn-default" role="button">
                     <i class="far fa-times"></i>
                 </button>
             {% endbuttons %}
