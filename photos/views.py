@@ -3,7 +3,7 @@ import requests
 from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
