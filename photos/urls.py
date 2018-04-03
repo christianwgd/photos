@@ -36,17 +36,18 @@ router.register(r'photo_exif', views.PhotoExifViewSet)
 schema_view = get_swagger_view(title='Photos API')
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('settings/', include('usersettings.urls')),
 
     path('', views.photolist, name='photolist'),
-    re_path(r'^photolist/(?P<view>[r,e,i]{1})/$', views.photolist, name='photolist'),
+    re_path(r'^photolist/(?P<view>[r,e,i]{1})/$',
+            views.photolist, name='photolist'),
     path('detail/<int:photo_id>/', views.detail, name='photodetail'),
     path('new/', views.new, name='new'),
     path('edit/<int:photo_id>/', views.edit, name='photoedit'),
+    path('imgedit/<int:photo_id>/', views.imgedit, name='imgedit'),
     path('file-upload', views.fileupload, name='fileupload'),
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
 
@@ -55,8 +56,10 @@ urlpatterns = [
 
     path('eventlist/', views.EventListView.as_view(), name='eventlist'),
     path('eventcreate/', views.EventCreateView.as_view(), name='eventcreate'),
-    path('eventupdate/<int:pk>/', views.EventUpdateView.as_view(), name='eventupdate'),
-    path('eventdelete/<int:pk>/', views.EventDeleteView.as_view(), name='eventdelete'),
+    path('eventupdate/<int:pk>/',
+         views.EventUpdateView.as_view(), name='eventupdate'),
+    path('eventdelete/<int:pk>/',
+         views.EventDeleteView.as_view(), name='eventdelete'),
 
     path('taglist/', views.TagListView.as_view(), name='taglist'),
     path('tagcreate/', views.TagCreateView.as_view(), name='tagcreate'),
@@ -65,7 +68,7 @@ urlpatterns = [
 
     path('photos_as_json/', views.photos_as_json),
 
-    path('rest/', include(router.urls)),
+    path('photos/', include(router.urls)),
     path('accounts/', include('accounts.urls')),
     path('schema/', schema_view)
 ]

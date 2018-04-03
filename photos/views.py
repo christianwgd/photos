@@ -78,6 +78,13 @@ def edit(request, photo_id):
 
 
 @login_required(login_url='/accounts/login/')
+def imgedit(request, photo_id):
+
+    photo = Photo.objects.get(pk=photo_id)
+    return render(request, 'photos/imgedit.html', {'photo': photo})
+
+
+@login_required(login_url='/accounts/login/')
 def delete(request, photo_id):
 
     try:
@@ -176,7 +183,8 @@ def fileupload(request):
                 except Tag.DoesNotExist:
                     pass
 
-        messages.success(request, _('successfully added {count} photos.').format(count=count))
+        messages.success(request, _(
+            'successfully added {count} photos.').format(count=count))
 
         return HttpResponse('ok')
 
@@ -215,7 +223,7 @@ def processassign(request):
 class EventListView(ListView):
 
     model = Event
-    #paginate_by = 100  # if pagination is desired
+    # paginate_by = 100  # if pagination is desired
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -239,7 +247,7 @@ class EventListView(ListView):
 class EventUpdateView(UpdateView):
 
     model = Event
-    fields = ['name',]
+    fields = ['name', ]
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
 
@@ -247,7 +255,7 @@ class EventUpdateView(UpdateView):
 class EventCreateView(CreateView):
 
     model = Event
-    fields = ['name',]
+    fields = ['name', ]
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
 
@@ -261,7 +269,7 @@ class EventDeleteView(DeleteView):
 class TagListView(ListView):
 
     model = Tag
-    #paginate_by = 100  # if pagination is desired
+    # paginate_by = 100  # if pagination is desired
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -285,7 +293,7 @@ class TagListView(ListView):
 class TagUpdateView(UpdateView):
 
     model = Tag
-    fields = ['name',]
+    fields = ['name', ]
     template_name = 'photos/tag_form.html'
     success_url = reverse_lazy('taglist')
 
@@ -293,7 +301,7 @@ class TagUpdateView(UpdateView):
 class TagCreateView(CreateView):
 
     model = Tag
-    fields = ['name',]
+    fields = ['name', ]
     template_name = 'photos/tag_form.html'
     success_url = reverse_lazy('taglist')
 

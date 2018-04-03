@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 %}
+
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'camanjs/caman.full.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/caman.js' %}"></script>
+<script>
+Caman("#example", function () {
+  this.brightness(5).render();
+});
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <img id="example" class="img-responsive img-detail" src="{{ photo.imagefile.url }}" data-caman-hidpi="{{ photo.imagefile.url }}" width="100%">
+        </div>
+    
+    <form>
+    <div class="col-6" id="Filters">
+        <div class="row">
+            <div class="col">
+                <div class="form-group FilterSetting">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text FilterName">brightness</span>
+                    </div>
+                    <input id="brightness" class="form-control" type="number" min="-100" max="100" step="1" value="0" data-filter="brightness">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group FilterSetting">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text FilterName">contrast</span>
+                    </div>
+                    <input id="contrast" class="form-control" type="number" min="-100" max="100" step="1" value="0" data-filter="contrast">
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+  
+     
+    <div class="Filter">
+      <div class="FilterName">
+        <p>saturation</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="-100"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="saturation"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>vibrance</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="-100"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="vibrance"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>exposure</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="-100"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="exposure"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>hue</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="hue"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>sepia</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="sepia"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>gamma</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="10"
+          step="0.1"
+          value="0"
+          data-filter="gamma"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>noise</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="noise"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>clip</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="clip"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>sharpen</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          data-filter="sharpen"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+  
+    <div class="Filter">
+      <div class="FilterName">
+        <p>stackBlur</p>
+      </div>
+
+      <div class="FilterSetting">
+        <input
+          type="range" 
+          min="0"
+          max="20"
+          step="1"
+          value="0"
+          data-filter="stackBlur"
+        >
+        <span class="FilterValue">0</span>
+      </div>
+    </div>
+
+    </div>
+</div>
+{% endblock %}
