@@ -177,11 +177,8 @@ def fileupload(request):
             count += 1
 
             for tagstr in tags:
-                try:
-                    tag = Tag.objects.get(name=tagstr)
-                    photo.tags.add(tag)
-                except Tag.DoesNotExist:
-                    pass
+                tag, created = Tag.objects.get_or_create(name=tagstr)
+                photo.tags.add(tag)
 
         messages.success(request, _(
             'successfully added {count} photos.').format(count=count))
