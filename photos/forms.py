@@ -10,10 +10,6 @@ class PhotoForm(forms.ModelForm):
         model = Photo
         fields = ('name', 'event', 'tags')
 
-    def __init__(self, *args, **kwargs):
-        super(PhotoForm, self).__init__(*args, **kwargs)
-        self.fields['tags'].required = False
-
 
 PhotoFormSet = forms.modelformset_factory(Photo, form=PhotoForm, extra=0)
 
