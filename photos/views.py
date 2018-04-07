@@ -333,7 +333,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 class TagViewSet(viewsets.ModelViewSet):
     """
-    API endpoint for Events.
+    API endpoint for Tags.
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -341,17 +341,23 @@ class TagViewSet(viewsets.ModelViewSet):
 
 class ImportViewSet(viewsets.ModelViewSet):
     """
-    API endpoint for Events.
+    API endpoint for Imports.
     """
     queryset = Import.objects.all()
     serializer_class = ImportSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for Users.
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class PhotoExifViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for EXIF-Data.
+    """
     queryset = Photo.objects.all()
     serializer_class = PhotoEXIFSerializer
