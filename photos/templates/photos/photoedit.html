@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
+{% block bootstrap4_extra_script %}
+<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#id_event').select2({ width: '100%' });
+    $('#id_tags').select2({ width: '100%' });
+});
+</script>
+{% endblock %}
+
 {% block content %}
 <form method="post" class="from-horizontal" role="form" action="">
 {% csrf_token %}

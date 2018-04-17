@@ -101,7 +101,7 @@ class Photo(models.Model):
     exif = JSONField()
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
     upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def create_thumbnail(self):
         # original code for this method came from
