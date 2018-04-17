@@ -4,229 +4,304 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-<script type="text/javascript" src="{% static 'camanjs/caman.full.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/caman.js' %}"></script>
+ <link  href="{% static 'cropper/cropper.min.css' %}" rel="stylesheet"> 
+<script type="text/javascript" src="{% static 'cropper/cropper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/imgedit.js' %}"></script>
 <script>
-Caman("#example", function () {
-  this.brightness(5).render();
+$(document).ready(function() {
 });
-
-
 </script>
+<style>
+  .img-container {
+    margin-bottom: 20px;
+  }
+  .row {
+    margin-bottom: 5px;
+  }
+  .btn {
+    margin:0;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
 
 <div class="container-fluid">
+
     <div class="row">
-        <div class="col-6">
-            <img id="example" class="img-responsive img-detail" src="{{ photo.imagefile.url }}" data-caman-hidpi="{{ photo.imagefile.url }}" width="100%">
+      <div class="col-12">
+        <h4>{{ photo.name }}</h4>
+        <span id="filename" style="display: none;">{{ photo.name }}</span>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9 col-xs-12">
+            <div class="img-container">
+              <img id="image" class="img-responsive img-detail" src="{{ photo.imagefile.url }}">
+            </div>
         </div>
-    
-    <form>
-    <div class="col-6" id="Filters">
-        <div class="row">
-            <div class="col">
-                <div class="form-group FilterSetting">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text FilterName">brightness</span>
-                    </div>
-                    <input id="brightness" class="form-control" type="number" min="-100" max="100" step="1" value="0" data-filter="brightness">
+
+        <div id="actions" class="col-md-3">
+          <div class="docs-toggles">
+            <div class="row ">
+              <div class="col-12">
+                <!-- <h3>Toggles:</h3> -->
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary active">
+                    <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.7777777777777777">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
+                      16:9
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1.3333333333333333">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
+                      4:3
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="1">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
+                      1:1
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="0.6666666666666666">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
+                      2:3
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" value="NaN">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
+                      Free
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-12">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary active">
+                    <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" checked>
+                    <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
+                      VM0
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="viewMode1" name="viewMode" value="1">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 1">
+                      VM1
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="viewMode2" name="viewMode" value="2">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 2">
+                      VM2
+                    </span>
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" class="sr-only" id="viewMode3" name="viewMode" value="3">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 3">
+                      VM3
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="docs-buttons">
+            <div class="row ">
+              <div class="col-12">
+                  <!-- <h3>Toolbar:</h3> -->
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Move">
+                        <i class="far fa-arrows"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
+                        <i class="far fa-crop"></i>
+                    </button>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
+                        <i class="far fa-search-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                        <i class="far fa-search-minus"></i>
+                    </button>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
+                        <i class="far fa-arrow-left"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0" title="Move Right">
+                        <i class="far fa-arrow-right"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
+                        <i class="far fa-arrow-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10" title="Move Down">
+                        <i class="far fa-arrow-down"></i>
+                    </button>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left">
+                        <span class="far fa-undo"></span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right">
+                        <span class="far fa-redo"></span>
+                    </button>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1" title="Flip Horizontal">
+                        <span class="far fa-arrows-h"></span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1" title="Flip Vertical">
+                        <span class="far fa-arrows-v"></span>
+                    </button>
+                  </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="form-group FilterSetting">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text FilterName">contrast</span>
-                    </div>
-                    <input id="contrast" class="form-control" type="number" min="-100" max="100" step="1" value="0" data-filter="contrast">
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-method="crop" title="Crop">
+                        <span class="far fa-check"></span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-method="clear" title="Clear">
+                        <span class="far fa-times"></span>
+                    </button>
+                  </div>
                 </div>
             </div>
+
+            <div class="row ">
+              <div class="col-12">
+                  <div class="btn-group btn-group-crop">
+                    <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+                        Canvas
+                    </button>
+                    <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
+                        160&times;90
+                    </button>
+                    <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
+                        320&times;180
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div><!-- end #actions -->
+    </div><!-- end outer row -->
+</div> <!-- end container-fluid -->
+
+      <div class="col-md-12 docs-buttons">
+        <!-- <h3>Data:</h3> -->
+        <div class="docs-data">
+          <div class="input-group input-group-sm">
+            <span class="input-group-prepend">
+              <label class="input-group-text" for="dataX">X</label>
+            </span>
+            <input type="text" class="form-control" id="dataX" placeholder="x">
+            <span class="input-group-append">
+              <span class="input-group-text">px</span>
+            </span>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-prepend">
+              <label class="input-group-text" for="dataY">Y</label>
+            </span>
+            <input type="text" class="form-control" id="dataY" placeholder="y">
+            <span class="input-group-append">
+              <span class="input-group-text">px</span>
+            </span>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-prepend">
+              <label class="input-group-text" for="dataWidth">Width</label>
+            </span>
+            <input type="text" class="form-control" id="dataWidth" placeholder="width">
+            <span class="input-group-append">
+              <span class="input-group-text">px</span>
+            </span>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-prepend">
+              <label class="input-group-text" for="dataHeight">Height</label>
+            </span>
+            <input type="text" class="form-control" id="dataHeight" placeholder="height">
+            <span class="input-group-append">
+              <span class="input-group-text">px</span>
+            </span>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-prepend">
+              <label class="input-group-text" for="dataRotate">Rotate</label>
+            </span>
+            <input type="text" class="form-control" id="dataRotate" placeholder="rotate">
+            <span class="input-group-append">
+              <span class="input-group-text">deg</span>
+            </span>
+          </div>
+          
         </div>
+      </div>
     </div>
-    </form>
-  
-     
-    <div class="Filter">
-      <div class="FilterName">
-        <p>saturation</p>
       </div>
 
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="-100"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="saturation"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>vibrance</p>
-      </div>
+        <!-- Show the cropped image in modal -->
+        <div class="modal fade docs-cropped" id="getCroppedCanvasModal" role="dialog" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.modal -->
 
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="-100"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="vibrance"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>exposure</p>
-      </div>
+        
+        <button type="button" class="btn btn-secondary" data-method="moveTo" data-option="0">
+            Move to [0,0]
+        </button>
+        <button type="button" class="btn btn-secondary" data-method="zoomTo" data-option="1">
+            Zoom to 100%
+        </button>
 
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="-100"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="exposure"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>hue</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="hue"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>sepia</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="sepia"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>gamma</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="10"
-          step="0.1"
-          value="0"
-          data-filter="gamma"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>noise</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="noise"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>clip</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="clip"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>sharpen</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="100"
-          step="1"
-          value="0"
-          data-filter="sharpen"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
-  
-    <div class="Filter">
-      <div class="FilterName">
-        <p>stackBlur</p>
-      </div>
-
-      <div class="FilterSetting">
-        <input
-          type="range" 
-          min="0"
-          max="20"
-          step="1"
-          value="0"
-          data-filter="stackBlur"
-        >
-        <span class="FilterValue">0</span>
-      </div>
-    </div>
+      </div><!-- /.docs-buttons -->
 
     </div>
 </div>
