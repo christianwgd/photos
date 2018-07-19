@@ -78,7 +78,7 @@ class Photo(models.Model):
     class Meta:
         verbose_name = _('photo')
         verbose_name_plural = _('photos')
-        ordering = ['-uploaded']
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.name
