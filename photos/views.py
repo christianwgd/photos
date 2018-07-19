@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
+import zipfile
+import io
 import requests
 from django.conf import settings
 from django.db import transaction
@@ -154,9 +157,10 @@ def fileupload(request):
                 if r.status_code == 200:
                     geo_info = r.json()
                     results = geo_info['results']
-                    address = results[0]['address_components']
-                    formatted = results[0]['formatted_address']
-                    address = {'formatted': formatted, 'address': address}
+                    if len(results) > 0:
+                        address = results[0]['address_components']
+                        formatted = results[0]['formatted_address']
+                        address = {'formatted': formatted, 'address': address}
 
             photo = Photo(
                 name=imgfile.name.split('.')[0],
@@ -215,6 +219,43 @@ def processassign(request):
             photo.save()
 
     return HttpResponse('success')
+
+
+@login_required(login_url='/accounts/login/')
+def processdownload(request):
+    ids = request.POST.getlist('ids[]')
+    filenames = [photo.imagefile.path for photo in Photo.objects.filter(pk__in=ids)]
+
+    # Folder name in ZIP archive which contains the above files
+    # E.g [thearchive.zip]/somefiles/file2.txt
+    # FIXME: Set this to something better
+    zip_subdir = "fotos"
+    zip_filename = "%s.zip" % zip_subdir
+
+    # Open StringIO to grab in-memory ZIP contents
+    s = io.BytesIO()
+
+    # The zip compressor
+    zf = zipfile.ZipFile(s, "w")
+
+    for fpath in filenames:
+        # Calculate path for file in zip
+        fdir, fname = os.path.split(fpath)
+        zip_path = os.path.join(zip_subdir, fname)
+
+        # Add file, at correct path
+        zf.write(fpath, zip_path)
+
+    # Must close zip for all contents to be written
+    zf.close()
+
+    # Grab ZIP file from in-memory, make response with correct MIME-type
+    resp = HttpResponse(content_type="application/force-download")
+    # ..and correct content-disposition
+    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    resp.write(s.getvalue())
+
+    return resp
 
 
 class EventListView(ListView):

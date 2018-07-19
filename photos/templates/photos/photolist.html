@@ -121,6 +121,26 @@ $(document).ready(function() {
         });
     });
 
+    $('#download').on('click', function() {
+        var ids = $.map($(".image-container.selected"), function (item) {
+            return $(item).attr("id");
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/processdownload/',
+            data: {
+                'ids[]': ids,
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+                alert('error!');
+            }
+        });
+    });
+
 });
 </script>
 {% endblock %}
@@ -130,6 +150,7 @@ $(document).ready(function() {
     <div class="col">
         <h5>Filter</h5>
         <form action="" method="get">
+            {% csrf_token %}
             {% bootstrap_field photos.form.event %}
             {% bootstrap_field photos.form.tags %}
             {% bootstrap_field photos.form.timestamp %}
@@ -246,8 +267,8 @@ $(document).ready(function() {
 
 
     {% if photos.qs %}
-        {% cut_photos photos.qs recent as photolist %}
         {% if not view or view == 'r' %}
+            {% cut_photos photos.qs recent as photolist %}
             <div class="row justify-content-center list popup-gallery">
             {% for photo in photolist %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">

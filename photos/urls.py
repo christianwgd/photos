@@ -53,6 +53,7 @@ urlpatterns = [
 
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processassign/', views.processassign, name='processassign'),
+    path('processdownload/', views.processdownload, name='processdownload'),
 
     path('eventlist/', views.EventListView.as_view(), name='eventlist'),
     path('eventcreate/', views.EventCreateView.as_view(), name='eventcreate'),
