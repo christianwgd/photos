@@ -199,6 +199,19 @@ def processdelete(request):
 
 
 @login_required(login_url='/accounts/login/')
+def delete_empty(request):
+
+    usedUploads = Photo.objects.all().order_by('upload_id').values('upload_id').distinct('upload_id')
+    Import.objects.exclude(pk__in=usedUploads).delete()
+
+    usedEvents = Photo.objects.all().order_by('event_id').values('event_id').distinct('event_id')
+    Event.objects.exclude(pk__in=usedEvents).delete()
+
+    return HttpResponseRedirect(reverse('photolist'))
+
+
+
+@login_required(login_url='/accounts/login/')
 def processassign(request):
     ids = request.POST.getlist('ids[]')
     evt = request.POST.get('event')
