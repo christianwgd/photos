@@ -50,6 +50,7 @@ urlpatterns = [
     path('imgedit/<int:photo_id>/', views.imgedit, name='imgedit'),
     path('file-upload', views.fileupload, name='fileupload'),
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
+    path('geocode/', views.geocode, name='geocode'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processassign/', views.processassign, name='processassign'),

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 import zipfile
 import io
@@ -14,8 +15,10 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
 import exifread
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
+from geopy import Nominatim
 
 from photos import parse_exif_data
+from photos.geocoder import MapsGeocoder
 from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from photos.forms import PhotoForm
@@ -142,25 +145,13 @@ def fileupload(request):
                 lat = '{:3.10}'.format(lat)
                 lon = '{:3.10}'.format(lon)
 
-            # geocoding needs a GEOPOSITION_GOOGLE_MAPS_API_KEY
             address = dict()
-            GoogleApiKey = getattr(
-                settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
-            if GoogleApiKey:
-                google_maps_api_url = \
-                    'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={key}&language=de'.format(
-                        lat=lat,
-                        lng=lon,
-                        key=GoogleApiKey
-                    )
-                r = requests.get(google_maps_api_url)
-                if r.status_code == 200:
-                    geo_info = r.json()
-                    results = geo_info['results']
-                    if len(results) > 0:
-                        address = results[0]['address_components']
-                        formatted = results[0]['formatted_address']
-                        address = {'formatted': formatted, 'address': address}
+            geoCoder = MapsGeocoder(geocoder=Nominatim())
+            location = geoCoder.getAddressFromGeocode(lat, lon)
+            if location is not None:
+                if len(location) > 0:
+                    loc_str = location.raw['display_name']
+                    address = {'formatted': loc_str, 'address': location.raw}
 
             photo = Photo(
                 name=imgfile.name.split('.')[0],
@@ -188,6 +179,26 @@ def fileupload(request):
             'successfully added {count} photos.').format(count=count))
 
         return HttpResponse('ok')
+
+@login_required(login_url='/accounts/login/')
+def geocode(request):
+    photos = Photo.objects.all()
+    count = 0
+    for photo in photos:
+        if photo.latitude and photo.longitude:
+            address = dict()
+            geoCoder = MapsGeocoder(geocoder=Nominatim())
+            location = geoCoder.getAddressFromGeocode(photo.latitude, photo.longitude)
+            if location is not None:
+                if len(location) > 0:
+                    loc_str = location.raw['display_name']
+                    address = {'formatted': loc_str, 'address': location.raw}
+                    photo.address = address
+                    photo.save()
+                    count += 1
+    messages.success(request, _(
+        'successfully geocoded {count} photos.').format(count=count))
+    return HttpResponseRedirect(reverse('photolist'))
 
 
 @login_required(login_url='/accounts/login/')
