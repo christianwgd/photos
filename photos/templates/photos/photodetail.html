@@ -87,8 +87,8 @@ $(document).ready(function(){
             </div>
 
             <div class="modal-footer">
-                <p>{{ photo.address.formatted }}</p>
-                <p>Breitengrad: {{ photo.latitude }}, Längengrad: {{ photo.longitude }}</p>
+                <div class="col-8">{{ photo.address.formatted }}</div>
+                <div class="col-4">Breitengrad: {{ photo.latitude }}<br/>Längengrad: {{ photo.longitude }}</div>
             </div>
 
         </div>
