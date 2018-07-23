@@ -144,6 +144,11 @@ $(document).ready(function(){
 
     <div class="row">
         <div class="col">
+            <a href="{% url 'photolist' %}" title="{% trans 'back' %}">
+                <button class="btn btn-primary" type="link">
+                    <i class="far fa-check"></i>
+                </button>
+            </a>
             {% if photo.latitude and photo.longitude %}
             <button class="btn btn-default" data-toggle="modal" data-target="#mapModal" title="{% trans 'show on map' %}">
                 <i class="far fa-map"></i>

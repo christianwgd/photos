@@ -4,6 +4,9 @@ import os
 import zipfile
 import io
 import requests
+import exifread
+from shutil import rmtree
+
 from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
@@ -13,12 +16,9 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
-import exifread
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
-from geopy import Nominatim
 
 from photos import parse_exif_data
-from photos.geocoder import MapsGeocoder
 from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from photos.forms import PhotoForm
@@ -73,6 +73,8 @@ def edit(request, photo_id):
 
         form = PhotoForm(request.POST, instance=photo)
         if form.is_valid():
+            if 'latitude' in form.changed_data or 'longitude' in form.changed_data:
+                form.instance.geocode()
             form.save()
             messages.success(request, _('photo metadata changed.'))
             return HttpResponseRedirect(reverse('photolist'))
@@ -145,14 +147,6 @@ def fileupload(request):
                 lat = '{:3.10}'.format(lat)
                 lon = '{:3.10}'.format(lon)
 
-            address = dict()
-            geoCoder = MapsGeocoder(geocoder=Nominatim())
-            location = geoCoder.getAddressFromGeocode(lat, lon)
-            if location is not None:
-                if len(location) > 0:
-                    loc_str = location.raw['display_name']
-                    address = {'formatted': loc_str, 'address': location.raw}
-
             photo = Photo(
                 name=imgfile.name.split('.')[0],
                 filename=imgfile.name,
@@ -162,12 +156,12 @@ def fileupload(request):
                 exif=exif_json,
                 latitude=lat,
                 longitude=lon,
-                address=address,
                 upload=upload,
             )
             if event:
                 photo.event = event
 
+            photo.geocode()
             photo.save()
             count += 1
 
@@ -186,16 +180,17 @@ def geocode(request):
     count = 0
     for photo in photos:
         if photo.latitude and photo.longitude:
-            address = dict()
-            geoCoder = MapsGeocoder(geocoder=Nominatim())
-            location = geoCoder.getAddressFromGeocode(photo.latitude, photo.longitude)
-            if location is not None:
-                if len(location) > 0:
-                    loc_str = location.raw['display_name']
-                    address = {'formatted': loc_str, 'address': location.raw}
-                    photo.address = address
-                    photo.save()
-                    count += 1
+            # address = dict()
+            # geoCoder = MapsGeocoder(geocoder=Nominatim())
+            # location = geoCoder.getAddressFromGeocode(photo.latitude, photo.longitude)
+            # if location is not None:
+            #     if len(location) > 0:
+            #         loc_str = location.raw['display_name']
+            #         address = {'formatted': loc_str, 'address': location.raw}
+            #         photo.address = address
+            photo.geocode()
+            photo.save()
+            count += 1
     messages.success(request, _(
         'successfully geocoded {count} photos.').format(count=count))
     return HttpResponseRedirect(reverse('photolist'))
@@ -213,7 +208,16 @@ def processdelete(request):
 def delete_empty(request):
 
     usedUploads = Photo.objects.all().order_by('upload_id').values('upload_id').distinct('upload_id')
-    Import.objects.exclude(pk__in=usedUploads).delete()
+    uploadsToDelete = Import.objects.exclude(pk__in=usedUploads)
+    for upload in uploadsToDelete:
+        dirname = os.path.abspath('{}/photos/{}'.format(settings.MEDIA_ROOT, upload.slug))
+        try:
+            rmtree(dirname)
+        except:
+            import traceback
+            traceback.print_exc()
+            messages.error(request, _('could not remove directory'))
+    uploadsToDelete.delete()
 
     usedEvents = Photo.objects.all().order_by('event_id').values('event_id').distinct('event_id')
     Event.objects.exclude(pk__in=usedEvents).delete()

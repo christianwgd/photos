@@ -8,7 +8,7 @@ class PhotoForm(forms.ModelForm):
 
     class Meta:
         model = Photo
-        fields = ('name', 'event', 'tags')
+        fields = ('name', 'event', 'tags', 'latitude', 'longitude')
 
 
 PhotoFormSet = forms.modelformset_factory(Photo, form=PhotoForm, extra=0)

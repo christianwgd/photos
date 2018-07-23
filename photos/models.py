@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 import os
-
+import io
 import pytz
+from geopy import Nominatim
 from datetime import datetime
+from PIL import Image
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from photos import settings
+from photos.geocoder import MapsGeocoder
 
 
 class Import(models.Model):
@@ -112,11 +117,6 @@ class Photo(models.Model):
         if not self.imagefile:
             return
 
-        from PIL import Image
-        from django.core.files.uploadedfile import SimpleUploadedFile
-        import os
-        import io
-
         Image.LOAD_TRUNCATED_IMAGES = True
 
         # Set our max thumbnail size in a tuple (max width, max height)
@@ -160,6 +160,31 @@ class Photo(models.Model):
             save=False
         )
 
+    def rotate_to_normal(self, orientation):
+        image=Image.open(self.imagefile.path)
+        thumb=Image.open(self.thumb.path)
+        if orientation == 'Rotated 90 CW':
+            image=image.rotate(270, expand=True)
+            thumb=thumb.rotate(270, expand=True)
+        # elif orientation == '':
+        #     image=image.rotate(270, expand=True)
+        # elif orientation == '':
+        #     image=image.rotate(90, expand=True)
+        image.save(self.imagefile.path)
+        thumb.save(self.thumb.path)
+        image.close()
+        thumb.close()
+    
+    def geocode(self):
+        if self.latitude and self.longitude:
+            address = dict()
+            geoCoder = MapsGeocoder(geocoder=Nominatim())
+            location = geoCoder.getAddressFromGeocode(self.latitude, self.longitude)
+            if location is not None:
+                loc_str = location.raw['display_name']
+                address = {'formatted': loc_str, 'address': location.raw}
+                self.address = address
+
     def save(self, *args, **kwargs):
 
         if not self.thumb:
@@ -174,6 +199,14 @@ class Photo(models.Model):
 
         # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
         super(Photo, self, *args, **kwargs).save(force_update=force_update)
+
+
+@receiver(models.signals.post_save, sender=Photo)
+def rotate_to_normal(sender, instance, **kwargs):
+    if 'Image' in instance.exif:
+        if 'Orientation' in instance.exif['Image']:
+            orientation = instance.exif['Image']['Orientation']
+            instance.rotate_to_normal(orientation)
 
 
 @receiver(models.signals.post_delete, sender=Photo)
