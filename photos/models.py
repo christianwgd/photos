@@ -102,7 +102,7 @@ class Photo(models.Model):
         _('latitude'), max_length=20, null=True, blank=True)
     longitude = models.CharField(
         _('longitude'), max_length=20, null=True, blank=True)
-    address = JSONField(null=True, blank=True, default=dict())
+    address = JSONField(null=True, blank=True, default=dict)
     exif = JSONField()
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
     upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
@@ -166,6 +166,8 @@ class Photo(models.Model):
         if orientation == 'Rotated 90 CW':
             image=image.rotate(270, expand=True)
             thumb=thumb.rotate(270, expand=True)
+            self.exif['Image']['Orientation'] = 'Normal'
+            self.save()
         # elif orientation == '':
         #     image=image.rotate(270, expand=True)
         # elif orientation == '':

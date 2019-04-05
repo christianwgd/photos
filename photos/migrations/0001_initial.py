@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('uploaded', models.DateTimeField(auto_now_add=True, verbose_name='uploaded')),
                 ('latitude', models.CharField(blank=True, max_length=20, null=True, verbose_name='latitude')),
                 ('longitude', models.CharField(blank=True, max_length=20, null=True, verbose_name='longitude')),
-                ('address', django.contrib.postgres.fields.jsonb.JSONField(default={})),
+                ('address', django.contrib.postgres.fields.jsonb.JSONField(default=dict)),
                 ('exif', django.contrib.postgres.fields.jsonb.JSONField()),
                 ('event', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='photos.Event')),
             ],

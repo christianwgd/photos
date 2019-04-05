@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='photo',
             name='address',
-            field=django.contrib.postgres.fields.jsonb.JSONField(default={}, null=True),
+            field=django.contrib.postgres.fields.jsonb.JSONField(default=dict, null=True),
         ),
     ]
