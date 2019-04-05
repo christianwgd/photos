@@ -57,10 +57,10 @@
                         {% trans 'recent photos' %}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'photolist' 'e' %}">
+                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=e">
                         {% trans 'by event' %}
                     </a>
-                    <a class="dropdown-item" href="{% url 'photolist' 'i' %}">
+                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=i">
                         {% trans 'by import' %}
                     </a>
                 </div>

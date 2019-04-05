@@ -159,6 +159,11 @@ $(document).ready(function(){
             </button>
             <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool" title="{% trans 'edit metadata' %}">
                 <button class="btn btn-default">
+                    <i class="far fa-pen"></i>
+                </button>
+            </a>
+            <a href="{% url 'imgedit' photo.id %}?next={{ request.path }}" class="tool" title="{% trans 'edit image' %}">
+                <button class="btn btn-default">
                     <i class="far fa-edit"></i>
                 </button>
             </a>

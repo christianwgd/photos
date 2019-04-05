@@ -112,6 +112,14 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': "list"
 }
 
+##################
+# BOOTSTRAP 4    #
+##################
+BOOTSTRAP4 = {
+    # wird sonst 2-mal geladen...
+    'javascript_in_head': True,
+}
+
 
 #################1#
 # LOCAL SETTINGS #

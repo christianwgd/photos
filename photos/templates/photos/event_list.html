@@ -2,8 +2,6 @@
 {% load i18n static bootstrap4 %}
 
 {% block content %}
-<form method="get" class="from-horizontal" role="form" action="">
-{% csrf_token %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -23,13 +21,22 @@
                         <td>{{ event.name }}</td>
                         <td>{{ event.photo_set.all.count }}</td>
                         <td>
+                            <a href="{% url 'photolist' %}?viewtype=e&event={{event.id}}">
+                                <button class="btn btn-sm btn-secondary" title="{% trans 'view' %}">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </a>
+                        </td>
+                        <form method="get" class="from-horizontal" role="form" action="">
+                        {% csrf_token %}
+                        <td>
                             <button class="btn btn-sm btn-secondary" name="edit" value="{{ event.id }}" title="{% trans 'edit' %}">
                                 <i class="far fa-edit"></i>
                             </button>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-danger" name="delete" value="{{ event.id }}" title="{% trans 'delete' %}">
-                                <i class="far fa-times"></i>
+                                <i class="far fa-trash"></i>
                             </button>
                         </td>
                     </tr>

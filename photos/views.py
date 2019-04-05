@@ -8,6 +8,7 @@ import exifread
 from shutil import rmtree
 
 from django.conf import settings
+from django.apps import apps
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext as _
@@ -30,16 +31,19 @@ from .serializers import (PhotoSerializer, EventSerializer, TagSerializer,
 
 
 @login_required(login_url='/accounts/login/')
-def photolist(request, view=None):
-
+def photolist(request):
+    
+    viewtype = request.GET.get('viewtype', None)
+    
     try:
         settings = UserSettings.objects.get(user=request.user)
         recent = settings.recent
     except UserSettings.DoesNotExist:
         recent = 10
-
+    
     photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
-    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': view})
+    
+    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': viewtype})
 
 
 @login_required(login_url='/accounts/login/')

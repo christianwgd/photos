@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
@@ -41,9 +42,8 @@ urlpatterns = [
 
     path('settings/', include('usersettings.urls')),
 
-    path('', views.photolist, name='photolist'),
-    re_path(r'^photolist/(?P<view>[r,e,i]{1})/$',
-            views.photolist, name='photolist'),
+    path('', RedirectView.as_view(url='/photolist/')),
+    path('photolist/', views.photolist, name='photolist'),
     path('detail/<int:photo_id>/', views.detail, name='photodetail'),
     path('new/', views.new, name='new'),
     path('edit/<int:photo_id>/', views.edit, name='photoedit'),
