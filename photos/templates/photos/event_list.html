@@ -12,7 +12,6 @@
                         <th>{% trans 'name' %}</th>
                         <th># {% trans 'photos' %}</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,36 +20,43 @@
                         <td>{{ event.name }}</td>
                         <td>{{ event.photo_set.all.count }}</td>
                         <td>
-                            <a href="{% url 'photolist' %}?viewtype=e&event={{event.id}}">
+                            {% if event.photo_set.all.count > 0 %}
+                            <a href="{% url 'photolist' %}?viewtype=e&event={{event.id}}" disabled="disabled" >
                                 <button class="btn btn-sm btn-secondary" title="{% trans 'view' %}">
                                     <i class="far fa-eye"></i>
                                 </button>
                             </a>
-                        </td>
-                        <form method="get" class="from-horizontal" role="form" action="">
-                        {% csrf_token %}
-                        <td>
-                            <button class="btn btn-sm btn-secondary" name="edit" value="{{ event.id }}" title="{% trans 'edit' %}">
-                                <i class="far fa-edit"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-danger" name="delete" value="{{ event.id }}" title="{% trans 'delete' %}">
-                                <i class="far fa-trash"></i>
-                            </button>
+                            {% else %}
+                                <button class="btn btn-sm btn-secondary" title="{% trans 'view' %}" disabled="disabled">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            {% endif %}
+                            <a href="{% url 'eventupdate' event.id %}">
+                                <button class="btn btn-sm btn-secondary" title="{% trans 'edit' %}">
+                                    <i class="far fa-edit"></i>
+                                </button>
+                            </a>
+                            <a href="{% url 'eventdelete' event.id %}">
+                                <button class="btn btn-sm btn-danger" name="delete" value="{{ event.id }}" title="{% trans 'delete' %}">
+                                    <i class="far fa-trash"></i>
+                                </button>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <button class="btn btn-primary" name="back" title="{% trans 'back' %}">
-                <i class="far fa-check"></i>
-            </button>
-            <button class="btn btn-success" name="add" title="{% trans 'new' %}">
-                <i class="far fa-plus"></i>
-            </button>
+            <a href="{% url 'photolist' %}">
+                <button class="btn btn-primary" name="back" title="{% trans 'back' %}">
+                    <i class="far fa-check"></i>
+                </button>
+            </a>
+            <a href="{% url 'eventcreate' %}">
+                <button class="btn btn-success" name="add" title="{% trans 'new' %}">
+                    <i class="far fa-plus"></i>
+                </button>
+            </a>
         </div>
     </div>
 </div>
-</form>
 {% endblock %}

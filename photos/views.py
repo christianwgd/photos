@@ -40,7 +40,7 @@ def photolist(request):
         recent = settings.recent
     except UserSettings.DoesNotExist:
         recent = 10
-    
+
     photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
     
     return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': viewtype})
@@ -300,19 +300,6 @@ class EventListView(ListView):
         context['eventlist'] = Event.objects.all()
         return context
 
-    def get(self, request, *args, **kwargs):
-        if 'edit' in request.GET:
-            event_id = request.GET.get('edit')
-            return HttpResponseRedirect(reverse('eventupdate', kwargs={'pk': event_id}))
-        elif 'delete' in request.GET:
-            event_id = request.GET.get('delete')
-            return HttpResponseRedirect(reverse('eventdelete', kwargs={'pk': event_id}))
-        elif 'back' in request.GET:
-            return HttpResponseRedirect(reverse('photolist'))
-        elif 'add' in request.GET:
-            return HttpResponseRedirect(reverse('eventcreate'))
-        return super(EventListView, self).get(request, *args, **kwargs)
-
 
 class EventUpdateView(UpdateView):
 
@@ -335,6 +322,13 @@ class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('eventlist')
 
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            messages.info(request, _('Delete cancelled'))
+            return HttpResponseRedirect(reverse('eventlist'))
+        messages.info(request, _('Event deleted'))
+        return super(EventDeleteView, self).post(request, *args, **kwargs)
+
 
 class TagListView(ListView):
 
@@ -345,19 +339,6 @@ class TagListView(ListView):
         context = super().get_context_data(**kwargs)
         context['taglist'] = Tag.objects.all()
         return context
-
-    def get(self, request, *args, **kwargs):
-        if 'edit' in request.GET:
-            event_id = request.GET.get('edit')
-            return HttpResponseRedirect(reverse('tagupdate', kwargs={'pk': event_id}))
-        elif 'delete' in request.GET:
-            event_id = request.GET.get('delete')
-            return HttpResponseRedirect(reverse('tagdelete', kwargs={'pk': event_id}))
-        elif 'back' in request.GET:
-            return HttpResponseRedirect(reverse('photolist'))
-        elif 'add' in request.GET:
-            return HttpResponseRedirect(reverse('tagcreate'))
-        return super(TagListView, self).get(request, *args, **kwargs)
 
 
 class TagUpdateView(UpdateView):
@@ -381,6 +362,12 @@ class TagDeleteView(DeleteView):
     model = Tag
     success_url = reverse_lazy('taglist')
 
+    def post(self, request, *args, **kwargs):
+        if 'cancel' in request.POST:
+            messages.info(request, _('Delete cancelled'))
+            return HttpResponseRedirect(reverse('taglist'))
+        messages.info(request, _('Tag deleted'))
+        return super(TagDeleteView, self).post(request, *args, **kwargs)
 
 def photos_as_json(request):
     photos = Photo.objects.all().values('id', 'name')
