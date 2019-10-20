@@ -1,8 +1,6 @@
 {% extends 'bootstrap4/bootstrap4.html' %}
 {% load i18n bootstrap4 static %}
 
-{% block bootstrap4_title %}{% trans 'Photos' %}{% endblock %}
-
 {% block bootstrap4_extra_head %}
 {{ block.super }}
 {% bootstrap_javascript jquery='full' %}
@@ -28,8 +26,10 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
 <link rel="stylesheet" href="{% static 'font-awesome-5/css/all.min.css' %}">
 <script defer src="{% static 'font-awesome-5/js/all.min.js' %}"></script>
-
 {% endblock %}
+
+{% block bootstrap4_title %}{% trans 'Photos' %}{% endblock %}
+{% block title %}{% trans 'Photos' %}{% endblock %}
 
 {% block bootstrap4_content %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
