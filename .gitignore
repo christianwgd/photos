@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 !requirements.txt
 !.gitignore
-.idea/photos.iml
+.idea/
 media/
 __pycache__/
 localsettings.py
