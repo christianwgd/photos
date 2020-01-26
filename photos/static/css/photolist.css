@@ -1,11 +1,62 @@
+.card-deck {
+    margin: 0 auto;
+    padding: 0 5px;
+}
+
+.card {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 15px;
+    height: 280px;
+}
+
+.card-body {
+    position: absolute;
+    height: 50px;
+    bottom: 10px;
+}
+
 .image-container {
     background-color: #fff;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
+    padding: 0px;
+    margin: 0px;
 }
-.image-container:hover {
-    border: 1px solid #ddd;
+
+.img-thumbnail {
+    width: 200px;
+    height: 220px;
+    object-fit: cover;
+    border: none;
+    padding: 0;
+}
+
+.dot {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    border: 1px solid white;
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 99;
+}
+
+.dot svg {
+    display: none;
+}
+
+.image-container.selected .dot {
+    background-color: white;
+    display: inline;
+}
+
+.image-container:hover .dot {
+    display: inline;
+}
+
+.image-container.selected .dot svg {
+    display: inline;
 }
 
 .tool {
@@ -15,37 +66,14 @@
     text-decoration: none;
 }
 
-.tool-overlay {
-    visibility: hidden;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    padding: 0px 10px;
+.toolbar {
     text-align: center;
     width: 100%;
 }
-.image-container:hover .tool-overlay {
-    background-color: #333;
-    opacity: 0.7;
-}
 
-.tool-overlay a {
+.toolbar a {
     color: #999;
 }
-.tool-overlay a:hover {
-    color: #fff;
+.toolbar a:hover {
+    color: #000;
 }
-
-.tool-separator {
-    padding: 0 10px;
-}
-
-
-.image-container:hover .tool-overlay {
-    visibility: visible;
-}
-
-.image-container.selected {
-    background-color: #ddd;
-}
-

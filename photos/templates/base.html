@@ -22,9 +22,9 @@
 <meta name="msapplication-TileImage" content="{% static 'favicon/ms-icon-144x144.png'%}">
 <meta name="theme-color" content="#ffffff">
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
 <link rel="stylesheet" href="{% static 'font-awesome-5/css/all.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
+
 <script defer src="{% static 'font-awesome-5/js/all.min.js' %}"></script>
 {% endblock %}
 
@@ -56,10 +56,10 @@
                         {% trans 'recent photos' %}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=e">
+                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=event">
                         {% trans 'by event' %}
                     </a>
-                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=i">
+                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=upload">
                         {% trans 'by import' %}
                     </a>
                 </div>

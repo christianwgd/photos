@@ -118,6 +118,8 @@ SWAGGER_SETTINGS = {
 BOOTSTRAP4 = {
     # wird sonst 2-mal geladen...
     'javascript_in_head': True,
+    'theme_url': '/static/bootstrap-4/css/yeti.min.css',
+    # 'theme_url': '/static/bootstrap-4/css/materia.min.css',
 }
 
 

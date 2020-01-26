@@ -23,14 +23,14 @@ $(document).ready(function() {
         tLoading: 'Loading image #%curr%...',
         mainClass: 'mfp-img-mobile',
         gallery: {
-            enabled: true,
-            navigateByImgClick: false,
+            enabled: false,
+            navigateByImgClick: true,
             preload: [0,1] // Will preload 0 - before current, and 1 after the current image
         },
         image: {
             tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
             titleSrc: function(item) {
-                 return item.el.attr('title') + '<small>' + item.el.attr('href') + '</small>';
+                 return item.el.attr('data-name') + '<small>' + item.el.attr('href') + '</small>';
             }
         }
     });
@@ -172,14 +172,14 @@ $(document).ready(function() {
 </button>
 <span class="tool-separator"></span>
 <button class="btn btn-default" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">
-    <i class="far fa-box-open"></i>
+    <i class="fal fa-box-open"></i>
 </button>
 <button class="btn btn-default" data-toggle="modal" data-target="#deleteModal" title="{% trans 'delete' %}">
-    <i class="far fa-trash-alt"></i>
+    <i class="fal fa-trash-alt"></i>
 </button>
 <span class="tool-separator"></span>
 <button class="btn btn-default" id="download" title="{% trans 'download' %}">
-    <i class="far fa-download"></i>
+    <i class="fal fa-download"></i>
 </button>
 {% endblock %}
 
@@ -201,7 +201,7 @@ $(document).ready(function() {
                 {% trans 'Do you really want to delete the selected photos?' %}
             </p>
 {#            <p>#}
-{#                <i class="far fa-exclamation-triangle"></i>#}
+{#                <i class="fal fa-exclamation-triangle"></i>#}
 {#                {% trans 'The physical file will not be deleted!' %}#}
 {#            </p>#}
         </div>
@@ -209,11 +209,11 @@ $(document).ready(function() {
         <!-- Modal footer -->
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete">
-                <i class="far fa-trash"></i>
+                <i class="fal fa-trash"></i>
                 {% trans 'delete' %}
             </button>
             <button type="button" class="btn btn-default" data-dismiss="modal">
-                <i class="far fa-times"></i>
+                <i class="fal fa-times"></i>
             </button>
         </div>
 
@@ -253,11 +253,11 @@ $(document).ready(function() {
         <!-- Modal footer -->
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal" id="assign">
-                <i class="far fa-box-open"></i>
+                <i class="fal fa-box-open"></i>
                 {% trans 'assign' %}
             </button>
             <button type="button" class="btn btn-default" data-dismiss="modal">
-                <i class="far fa-times"></i>
+                <i class="fal fa-times"></i>
             </button>
         </div>
 
@@ -266,114 +266,83 @@ $(document).ready(function() {
 </div>
 
 
-    {% if photos.qs %}
-        {% if not view or view == 'r' %}
-            {% cut_photos photos.qs recent as photolist %}
-            <div class="row justify-content-center list popup-gallery">
-            {% for photo in photolist %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
-                <div class="image text-center">
-                    <span class="toggleselect">
-                        {% if photo.thumb %}
-                        <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
-                        {% else %}
-                        <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
-                        {% endif %}
-                    </span>
-                    <span class="tool-overlay">
-                        <a href="{{ photo.imagefile.url }}" class="tool img-large" title="{% trans 'view' %}">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="{% url 'photodetail' photo.id %}" class="tool">
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-                        <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="{{ photo.imagefile.url }}" download class="tool">
-                            <i class="fas fa-download"></i>
-                        </a>
-                    </span>
-                </div>
+{% if photos.qs %}
+{% cut_photos photos.qs recent as photolist %}
 
+    {% if not view %}
+    <div class="row popup-gallery justify-content-center">
+        <div class="card-deck">
+            {% for photo in photolist %}
+            <div class="card text-center" id="{{ photo.id }}">
+                <div class="image-container">
+                    <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                    <span class="dot"><i class="fal fa-check"></i></span>
+                </div>
+                <div class="card-body toolbar">
+                    <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                       title="{% trans 'view' %}" data-name="{{ photo.name }}">
+                        <i class="fal fa-eye"></i>
+                    </a>
+                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                        <i class="fal fa-info-circle"></i>
+                    </a>
+                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
+                        <i class="fal fa-edit"></i>
+                    </a>
+                    <a href="{{ photo.imagefile.url }}" download class="tool">
+                        <i class="fal fa-download"></i>
+                    </a>
+                </div>
             </div>
             {% endfor %}
-            </div>
-        {% else %}
-            {% if view == 'e' %}
-                {% regroup photos.qs by event as event_list %}
-                {% for event in event_list %}
-                <h4 class="text-center">{{ event.grouper }}</h4>
-                <div class="row justify-content-center list popup-gallery">
-                    {% for photo in event.list %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
-                        <div class="image text-center">
-                            <span class="toggleselect">
-                                {% if photo.thumb %}
-                                <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
-                                {% else %}
-                                <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
-                                {% endif %}
-                            </span>
-                            <span class="tool-overlay">
-                                <a href="{{ photo.imagefile.url }}" class="tool img-large" title="{% trans 'view' %}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{% url 'photodetail' photo.id %}" class="tool">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{{ photo.imagefile.url }}" download class="tool">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <hr/>
-                {% endfor %}
-            {% endif %}
-            {% if view == 'i' %}
-                {% regroup photos.qs by upload as import_list %}
-                {% for import in import_list %}
-                <h4 class="text-center">{{ import.grouper }}</h4>
-                <div class="row justify-content-center list popup-gallery">
-                    {% for photo in import.list %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 image-container justify-content-center align-self-center" id="{{ photo.id }}">
-                        <div class="image text-center">
-                            <span class="toggleselect">
-                                {% if photo.thumb %}
-                                <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
-                                {% else %}
-                                <img class="img-responsive" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
-                                {% endif %}
-                            </span>
-                            <span class="tool-overlay">
-                                <a href="{{ photo.imagefile.url }}" class="tool img-large" title="{% trans 'view' %}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{% url 'photodetail' photo.id %}" class="tool">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{{ photo.imagefile.url }}" download class="tool">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <hr/>
-                {% endfor %}
-            {% endif %}
-        {% endif %}
+        </div>
+    </div>
+
     {% else %}
-        <p>{% trans 'no photos found.' %}</p>
+
+    {% if view == 'event' %}
+        {% regroup photolist by event as grouped_list %}
+    {% else %}
+        {% regroup photolist by upload as grouped_list %}
     {% endif %}
+    {% for group in grouped_list %}
+    <div class="row popup-gallery justify-content-center">
+        <div class="col-12" style="margin-top: 20px;">
+            <h4 class="text-center">{{ group.grouper }}</h4>
+            <hr/>
+        </div>
+        <div class="card-deck">
+            {% for photo in group.list %}
+            <div class="card text-center" id="{{ photo.id }}">
+                <div class="image-container">
+                    <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                    <span class="dot"><i class="fal fa-check"></i></span>
+                </div>
+                <div class="card-body toolbar">
+                    <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                       title="{% trans 'view' %}" data-name="{{ photo.name }}">
+                        <i class="fal fa-eye"></i>
+                    </a>
+                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                        <i class="fal fa-info-circle"></i>
+                    </a>
+                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
+                        <i class="fal fa-edit"></i>
+                    </a>
+                    <a href="{{ photo.imagefile.url }}" download class="tool">
+                        <i class="fal fa-download"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+
+    {% endif %}
+</div>
+{% else %}
+    <p>{% trans 'no photos found.' %}</p>
+{% endif %}
 {% endblock %}

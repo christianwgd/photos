@@ -41,7 +41,10 @@ def photolist(request):
     except UserSettings.DoesNotExist:
         recent = 10
 
-    photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+    if viewtype is None:
+        photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+    else:
+        photos = PhotoFilter(request.GET, queryset=Photo.objects.all().order_by(viewtype))
     
     return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': viewtype})
 

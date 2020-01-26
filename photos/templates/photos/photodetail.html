@@ -87,8 +87,11 @@ $(document).ready(function(){
             </div>
 
             <div class="modal-footer">
-                <div class="col-8">{{ photo.address.formatted }}</div>
-                <div class="col-4">Breitengrad: {{ photo.latitude }}<br/>Längengrad: {{ photo.longitude }}</div>
+                <div class="col">{{ photo.address.formatted }}</div>
+                <div class="col">
+                    Breitengrad: {{ photo.latitude }}<br/>
+                    Längengrad: {{ photo.longitude }}
+                </div>
             </div>
 
         </div>
@@ -146,25 +149,25 @@ $(document).ready(function(){
         <div class="col">
             <a href="{% url 'photolist' %}" title="{% trans 'back' %}">
                 <button class="btn btn-primary" type="link">
-                    <i class="far fa-check"></i>
+                    <i class="fal fa-check"></i>
                 </button>
             </a>
             {% if photo.latitude and photo.longitude %}
             <button class="btn btn-default" data-toggle="modal" data-target="#mapModal" title="{% trans 'show on map' %}">
-                <i class="far fa-map"></i>
+                <i class="fal fa-map"></i>
             </button>
             {% endif %}
             <button class="btn btn-default" data-toggle="modal" data-target="#exifModal" title="{% trans 'show EXIF data' %}">
-                <i class="far fa-camera"></i>
+                <i class="fal fa-camera"></i>
             </button>
             <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool" title="{% trans 'edit metadata' %}">
                 <button class="btn btn-default">
-                    <i class="far fa-pen"></i>
+                    <i class="fal fa-pen"></i>
                 </button>
             </a>
             <a href="{% url 'imgedit' photo.id %}?next={{ request.path }}" class="tool" title="{% trans 'edit image' %}">
                 <button class="btn btn-default">
-                    <i class="far fa-edit"></i>
+                    <i class="fal fa-edit"></i>
                 </button>
             </a>
         </div>
