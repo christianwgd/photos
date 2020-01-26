@@ -289,44 +289,34 @@ def processassign(request):
 
 @login_required(login_url='/accounts/login/')
 def processdownload(request):
-    print('processdownload')
     ids = request.POST.getlist('ids[]')
     filenames = [photo.imagefile.path for photo in Photo.objects.filter(pk__in=ids)]
-    print(filenames)
 
     try:
-        # Folder name in ZIP archive which contains the above files
-        # E.g [thearchive.zip]/somefiles/file2.txt
-        # FIXME: Set this to something better
-        zip_path = os.path.join(BASE_DIR, 'media', 'temp')
-        zip_filename = "fotos.zip"
-        print(zip_filename)
+        zip_filename = _('photos') + '.zip'
+        zip_path = os.path.join(
+            BASE_DIR, 'media', 'temp',
+        )
+        zip_fullpath = os.path.join(zip_path, zip_filename)
 
-        # Open StringIO to grab in-memory ZIP contents
-        s = io.BytesIO()
+        zf = zipfile.ZipFile(zip_fullpath, "w")
 
-        # The zip compressor
-        zf = zipfile.ZipFile(s, "w")
-
-        for fpath in filenames:
-            # Calculate path for file in zip
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-
-            # Add file, at correct path
-            zf.write(fpath, zip_path)
-
-        # Must close zip for all contents to be written
+        for file_name in filenames:
+            zf.write(
+                file_name,
+                os.path.basename(file_name),
+                compress_type=zipfile.ZIP_DEFLATED
+            )
         zf.close()
     except:
         import traceback
         traceback.print_exc()
 
-    # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(content_type="application/zip")
-    # ..and correct content-disposition
+    # TODO: This doesn't work! No downlaod
+    zip_file = open(zip_fullpath, 'rb')
+    #resp = HttpResponse(zip_file, content_type="application/force-download")
+    resp = HttpResponse(zip_file, content_type="application/zip")
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-
     return resp
 
 
