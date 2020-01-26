@@ -46,7 +46,7 @@
     display: none;
 }
 
-.image-container.selected .dot {
+.card.selected .dot {
     background-color: white;
     display: inline;
 }
@@ -55,12 +55,12 @@
     display: inline;
 }
 
-.image-container.selected .dot svg {
+.card.selected .dot svg {
     display: inline;
 }
 
 .tool {
-    padding: 0.5rem 0.5rem;
+    padding: 6px;
 }
 .tool:hover {
     text-decoration: none;
@@ -71,9 +71,9 @@
     width: 100%;
 }
 
-.toolbar a {
+.toolbar a, .toolbar span {
     color: #999;
 }
-.toolbar a:hover {
+.toolbar a:hover, .toolbar span:hover {
     color: #000;
 }

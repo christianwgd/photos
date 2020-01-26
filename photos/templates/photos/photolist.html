@@ -16,6 +16,10 @@
 
 {% block bootstrap4_extra_script %}
 <script type="text/javascript">
+function toggleTools(enabled) {
+    $('#toolbar .global-tool').prop('disabled', !enabled);
+}
+
 $(document).ready(function() {
     $('.popup-gallery').magnificPopup({
         delegate: 'a.img-large',
@@ -35,6 +39,8 @@ $(document).ready(function() {
         }
     });
 
+    toggleTools(false);
+    $('#user-select').select2({ width: '100%' });
     $('#id_event').select2({ width: '100%' });
     $('#id_tags').select2({ width: '100%' });
     $('#id_assign_event').select2({ width: '100%' });
@@ -59,22 +65,32 @@ $(document).ready(function() {
     $('#id_uploaded_1').datetimepicker(options);
 
 
-    $('.image-container').on('click', function() {
+    $('.card').on('click', function() {
        if ($(this).hasClass('selected')) {
            $(this).removeClass('selected');
+           if ($('.card.selected').length == 0) {
+               toggleTools(false);
+           };
         } else {
             $(this).addClass('selected');
+            toggleTools(true);
        }
     });
     $('#all').on('click', function() {
-        $('.image-container').addClass('selected');
+        $('.card').addClass('selected');
+        toggleTools(true);
     });
     $('#none').on('click', function() {
-        $('.image-container').removeClass('selected');
+        $('.card').removeClass('selected');
+        toggleTools(false);
+    });
+
+    $('#confirm_delete').on('click', function() {
+        $('#deleteModal').modal(options);
     });
 
     $('#delete').on('click', function() {
-        var ids = $.map($(".image-container.selected"), function (item) {
+        var ids = $.map($(".card.selected"), function (item) {
             return $(item).attr("id");
         });
         $.ajax({
@@ -85,7 +101,7 @@ $(document).ready(function() {
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
             success: function(){
-                $(".selected").remove();
+                $(".card.selected").remove();
             },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
@@ -94,14 +110,12 @@ $(document).ready(function() {
     });
 
     $('#assign').on('click', function() {
-        var ids = $.map($(".image-container.selected"), function (item) {
+        var ids = $.map($(".card.selected"), function (item) {
             return $(item).attr("id");
         });
 
         var event = $('#id_assign_event').val();
-        console.log(event);
         var tags = $('#id_assign_tags').val();
-        console.log(tags);
 
         $.ajax({
             type: 'POST',
@@ -112,9 +126,6 @@ $(document).ready(function() {
                 'tags[]': tags,
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
-            success: function(){
-
-            },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
             }
@@ -122,7 +133,7 @@ $(document).ready(function() {
     });
 
     $('#download').on('click', function() {
-        var ids = $.map($(".image-container.selected"), function (item) {
+        var ids = $.map($(".card.selected"), function (item) {
             return $(item).attr("id");
         });
         $.ajax({
@@ -132,8 +143,33 @@ $(document).ready(function() {
                 'ids[]': ids,
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
-            success: function(data){
-                console.log(data);
+            error: function (xhr, ajaxOptions, thrownError){
+                alert('error!');
+            }
+        });
+    });
+
+    $('#select_share').on('click', function() {
+        $('#shareModal').modal(options);
+    });
+
+    $('#share').on('click', function() {
+        var ids = $.map($(".card.selected"), function (item) {
+            return $(item).attr("id");
+        });
+        var users = $.map($('#user-select').find(':selected'), function (item) {
+            return $(item).val();
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/processshare/',
+            data: {
+                'ids[]': ids,
+                'users[]': users,
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function(){
+                alert(ids.length + ' Fotos geteilt.');
             },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
@@ -164,22 +200,25 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block toolbar %}
-<button class="btn btn-default" id="all" title="{% trans 'select all' %}">
+<button class="btn btn-secondary" id="all" title="{% trans 'select all' %}">
     <i class="fas fa-th"></i>
 </button>
-<button class="btn btn-default" id="none" title="{% trans 'select none' %}">
+<button class="btn btn-secondary" id="none" title="{% trans 'select none' %}">
     <i class="fal fa-th"></i>
 </button>
 <span class="tool-separator"></span>
-<button class="btn btn-default" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">
+<button class="btn btn-secondary global-tool" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">
     <i class="fal fa-box-open"></i>
 </button>
-<button class="btn btn-default" data-toggle="modal" data-target="#deleteModal" title="{% trans 'delete' %}">
+<button id="confirm_delete" class="btn btn-secondary global-tool" title="{% trans 'delete' %}">
     <i class="fal fa-trash-alt"></i>
 </button>
 <span class="tool-separator"></span>
-<button class="btn btn-default" id="download" title="{% trans 'download' %}">
+<button id="download" class="btn btn-secondary global-tool" id="download" title="{% trans 'download' %}">
     <i class="fal fa-download"></i>
+</button>
+<button id="select_share" class="btn btn-secondary global-tool" title="{% trans 'share' %}">
+    <i class="fal fa-share-all"></i>
 </button>
 {% endblock %}
 
@@ -208,11 +247,11 @@ $(document).ready(function() {
 
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete">
+            <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal" id="delete">
                 <i class="fal fa-trash"></i>
                 {% trans 'delete' %}
             </button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 <i class="fal fa-times"></i>
             </button>
         </div>
@@ -221,6 +260,46 @@ $(document).ready(function() {
     </div>
 </div>
 
+<div class="modal fade" id="shareModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">{% trans 'Share photos' %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <label for="user-select">{% trans 'User' %}</label>
+            <select id="user-select" multiple>
+                {% for user in users %}
+                    <option value="{{ user.id }}">
+                        {% if user.get_full_name %}
+                        {{ user.get_full_name }}
+                        {% else %}
+                        {{ user.username }}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button id="share" type="button" class="btn btn-primary" data-dismiss="modal" id="delete">
+                <i class="fal fa-share"></i>
+                {% trans 'share' %}
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <i class="fal fa-times"></i>
+            </button>
+        </div>
+
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="categoryModal">
     <div class="modal-dialog">
@@ -256,7 +335,7 @@ $(document).ready(function() {
                 <i class="fal fa-box-open"></i>
                 {% trans 'assign' %}
             </button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 <i class="fal fa-times"></i>
             </button>
         </div>
@@ -292,6 +371,9 @@ $(document).ready(function() {
                     <a href="{{ photo.imagefile.url }}" download class="tool">
                         <i class="fal fa-download"></i>
                     </a>
+{#                    <span id="hs" class="tool" data-toggle="modal" title="{% trans 'share' %}">#}
+{#                        <i class="fal fa-share"></i>#}
+{#                    </span>#}
                 </div>
             </div>
             {% endfor %}

@@ -40,3 +40,19 @@ pre {
 .btn.remove {
     margin: 3px auto;
 }
+
+#toolbar {
+    padding: 10px;
+}
+
+#toolbar .btn-secondary:disabled {
+    cursor: not-allowed;
+}
+
+#toolbar .btn-secondary:disabled  svg {
+    color: #999999;
+}
+
+.tool-separator {
+    padding: 0 10px;
+}

@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
+import io
 import json
 import os
 import zipfile
-import io
-import requests
 import exifread
 from shutil import rmtree
 
 from django.conf import settings
-from django.apps import apps
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
@@ -28,6 +26,7 @@ from usersettings.models import UserSettings
 from rest_framework import viewsets
 from .serializers import (PhotoSerializer, EventSerializer, TagSerializer,
                           ImportSerializer, UserSerializer, PhotoEXIFSerializer)
+from .settings import BASE_DIR
 
 
 @login_required(login_url='/accounts/login/')
@@ -41,12 +40,19 @@ def photolist(request):
     except UserSettings.DoesNotExist:
         recent = 10
 
+    users = User.objects.exclude(id=request.user.id)
+    photos = Photo.objects.visible(request.user)
     if viewtype is None:
-        photos = PhotoFilter(request.GET, queryset=Photo.objects.all())
+        photos = PhotoFilter(request.GET, queryset=photos)
     else:
-        photos = PhotoFilter(request.GET, queryset=Photo.objects.all().order_by(viewtype))
+        photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype))
     
-    return render(request, 'photos/photolist.html', {'photos': photos, 'recent': recent, 'view': viewtype})
+    return render(request, 'photos/photolist.html', {
+        'photos': photos,
+        'users': users,
+        'recent': recent,
+        'view': viewtype
+    })
 
 
 @login_required(login_url='/accounts/login/')
@@ -212,6 +218,31 @@ def processdelete(request):
 
 
 @login_required(login_url='/accounts/login/')
+def processshare(request):
+    ids = request.POST.getlist('ids[]')
+    users = request.POST.getlist('users[]')
+    share_to = User.objects.filter(pk__in=users)
+    share = Photo.objects.filter(pk__in=ids)
+    for photo in share:
+        photo.shared.add(*share_to)
+    return HttpResponse('success')
+
+
+@login_required(login_url='/accounts/login/')
+def removeshare(request, photo_id, user_id):
+    try:
+        photo = Photo.objects.get(pk=photo_id)
+        user = User.objects.get(pk=user_id)
+        photo.shared.remove(user)
+    except Photo.DoesNotExist:
+        pass
+    except:
+        import traceback
+        traceback.print_exc()
+    return redirect(reverse('photodetail', args=(photo_id,)))
+
+
+@login_required(login_url='/accounts/login/')
 def delete_empty(request):
 
     usedUploads = Photo.objects.all().order_by('upload_id').values('upload_id').distinct('upload_id')
@@ -258,37 +289,43 @@ def processassign(request):
 
 @login_required(login_url='/accounts/login/')
 def processdownload(request):
+    print('processdownload')
     ids = request.POST.getlist('ids[]')
     filenames = [photo.imagefile.path for photo in Photo.objects.filter(pk__in=ids)]
+    print(filenames)
 
-    # Folder name in ZIP archive which contains the above files
-    # E.g [thearchive.zip]/somefiles/file2.txt
-    # FIXME: Set this to something better
-    zip_subdir = "fotos"
-    zip_filename = "%s.zip" % zip_subdir
+    try:
+        # Folder name in ZIP archive which contains the above files
+        # E.g [thearchive.zip]/somefiles/file2.txt
+        # FIXME: Set this to something better
+        zip_path = os.path.join(BASE_DIR, 'media', 'temp')
+        zip_filename = "fotos.zip"
+        print(zip_filename)
 
-    # Open StringIO to grab in-memory ZIP contents
-    s = io.BytesIO()
+        # Open StringIO to grab in-memory ZIP contents
+        s = io.BytesIO()
 
-    # The zip compressor
-    zf = zipfile.ZipFile(s, "w")
+        # The zip compressor
+        zf = zipfile.ZipFile(s, "w")
 
-    for fpath in filenames:
-        # Calculate path for file in zip
-        fdir, fname = os.path.split(fpath)
-        zip_path = os.path.join(zip_subdir, fname)
+        for fpath in filenames:
+            # Calculate path for file in zip
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
 
-        # Add file, at correct path
-        zf.write(fpath, zip_path)
+            # Add file, at correct path
+            zf.write(fpath, zip_path)
 
-    # Must close zip for all contents to be written
-    zf.close()
+        # Must close zip for all contents to be written
+        zf.close()
+    except:
+        import traceback
+        traceback.print_exc()
 
     # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(content_type="application/force-download")
+    resp = HttpResponse(content_type="application/zip")
     # ..and correct content-disposition
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    resp.write(s.getvalue())
 
     return resp
 

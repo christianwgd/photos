@@ -53,6 +53,8 @@ urlpatterns = [
     path('geocode/', views.geocode, name='geocode'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
+    path('processshare/', views.processshare, name='processshare'),
+    path('removeshare/<int:photo_id>/<int:user_id>/', views.removeshare, name='removeshare'),
     path('processassign/', views.processassign, name='processassign'),
     path('processdownload/', views.processdownload, name='processdownload'),
 

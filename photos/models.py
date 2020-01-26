@@ -15,6 +15,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from photos import settings
 from photos.geocoder import MapsGeocoder
+from photos.managers import VisibleManager
 
 
 class Import(models.Model):
@@ -107,6 +108,13 @@ class Photo(models.Model):
     event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
     upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    shared = models.ManyToManyField(
+        User, related_name='shared_with',
+        verbose_name='Shared with', blank=True
+    )
+    public = models.BooleanField(default=False, verbose_name='Public')
+
+    objects = VisibleManager()
 
     def create_thumbnail(self):
         # original code for this method came from
