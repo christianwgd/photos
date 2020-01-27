@@ -393,7 +393,8 @@ $(document).ready(function() {
             {% for photo in photolist %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
-                    <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                    <img class="img-responsive thumb img-thumbnail" 
+                         src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
                 <div class="card-body toolbar">
@@ -401,13 +402,16 @@ $(document).ready(function() {
                        title="{% trans 'view' %}" data-name="{{ photo.name }}">
                         <i class="fal fa-eye"></i>
                     </a>
-                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                    <a href="{% url 'photodetail' photo.id %}" class="tool" 
+                       title="{% trans 'Details' %}">
                         <i class="fal fa-info-circle"></i>
                     </a>
-                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
+                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" 
+                       class="tool" title="{% trans 'edit metadata' %}">
                         <i class="fal fa-edit"></i>
                     </a>
-                    <a href="{{ photo.imagefile.url }}" download class="tool">
+                    <a href="{{ photo.imagefile.url }}" download class="tool" 
+                       title="{% trans 'download' %}">
                         <i class="fal fa-download"></i>
                     </a>
 {#                    <span id="hs" class="tool" data-toggle="modal" title="{% trans 'share' %}">#}
@@ -436,7 +440,9 @@ $(document).ready(function() {
             {% for photo in group.list %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
-                    <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                    <img class="img-responsive thumb img-thumbnail" 
+                         src="{{ photo.thumb.url }}" alt="{{ photo.name }}"
+                    >
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
                 <div class="card-body toolbar">
@@ -444,13 +450,16 @@ $(document).ready(function() {
                        title="{% trans 'view' %}" data-name="{{ photo.name }}">
                         <i class="fal fa-eye"></i>
                     </a>
-                    <a href="{% url 'photodetail' photo.id %}" class="tool">
+                    <a href="{% url 'photodetail' photo.id %}" class="tool" 
+                       title="{% trans 'Details' %}">
                         <i class="fal fa-info-circle"></i>
                     </a>
-                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" class="tool">
+                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" 
+                       class="tool" title="{% trans 'edit metadata' %}">
                         <i class="fal fa-edit"></i>
                     </a>
-                    <a href="{{ photo.imagefile.url }}" download class="tool">
+                    <a href="{{ photo.imagefile.url }}" download class="tool" 
+                       title="{% trans 'download' %}">
                         <i class="fal fa-download"></i>
                     </a>
                 </div>

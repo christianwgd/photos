@@ -30,6 +30,7 @@
 
 {% block bootstrap4_title %}{% trans 'Photos' %}{% endblock %}
 
+
 {% block bootstrap4_content %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{% url 'photolist' %}">{% trans 'Photos' %}</a>
@@ -126,7 +127,8 @@
 <div id="container" class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h3>{% block title %}{% endblock %}</h3>
+            <h3 class="title-block">{% block title %}{% endblock %}</h3>
+            <hr/>
 
             {% bootstrap_messages %}
             {% block content %}{% endblock %}

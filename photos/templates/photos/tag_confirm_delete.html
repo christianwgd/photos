@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
-{% block content %}
+{% block title %}{% trans 'Delete' %} {% trans 'tag' %} "{{ object }}"{% endblock %}
 
+{% block content %}
 <form action="" method="post" class="form-inline">
 {% csrf_token %}
 
     <div class="container-fluid">
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-md-6 offset-md-3 text-center">
-                <h4>{% trans 'Delete' %} {% trans 'tag' %} "{{ object }}"</h4>
-            </div>
-        </div>
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-6 offset-md-3 text-center">
                 <p>{% trans 'really delete this tag?' %}</p>
@@ -22,7 +18,7 @@
         <button type="submit" class="btn btn-danger" value="Confirm">
             <i class="far fa-check"></i>
         </button>
-        <button type="submit" class="btn btn-default" name="cancel">
+        <button type="submit" class="btn btn-secondary" name="cancel">
             <i class="far fa-times"></i>
         </button>
         {% endbuttons %}
