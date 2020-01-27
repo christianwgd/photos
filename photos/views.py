@@ -169,6 +169,7 @@ def fileupload(request):
                 imagefile=imgfile,
                 timestamp=exif_tsp,
                 uploaded_by=request.user,
+                owner=request.user,
                 exif=exif_json,
                 latitude=lat,
                 longitude=lon,

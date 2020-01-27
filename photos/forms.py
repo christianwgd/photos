@@ -11,7 +11,7 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = (
-            'name', 'event', 'tags', 'uploaded_by',
+            'name', 'event', 'tags', 'owner',
             'timestamp', 'latitude', 'longitude'
         )
         widgets = {

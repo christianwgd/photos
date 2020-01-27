@@ -166,6 +166,16 @@ $(document).ready(function(){
                         </td>
                     </tr>
                     <tr>
+                        <th>{% trans 'Owner' %}</th>
+                        <td>
+                            {% if photo.owner.get_full_name %}
+                                {{ photo.owner.get_full_name }}
+                            {% else %}
+                                {{ photo.owner.username }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
                         <th>{% trans 'shared with' %}</th>
                         <td>
                             {% for user in photo.shared.all %}

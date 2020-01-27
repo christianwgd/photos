@@ -103,8 +103,10 @@ class Photo(models.Model):
     imagefile = models.ImageField(
         _('file'), upload_to=photo_path, max_length=255)
     timestamp = models.DateTimeField(_('timestamp'), null=True)
-    thumb = models.ImageField(_('thumbnail'), upload_to=thumb_path,
-                              max_length=255, null=True, blank=True)
+    thumb = models.ImageField(
+        _('thumbnail'), upload_to=thumb_path,
+        max_length=255, null=True, blank=True
+    )
     uploaded_by = models.ForeignKey(User, verbose_name=_(
         'uploaded by'), on_delete=models.PROTECT)
     uploaded = models.DateTimeField(_('uploaded'), auto_now_add=True)
@@ -114,9 +116,15 @@ class Photo(models.Model):
         _('longitude'), max_length=20, null=True, blank=True)
     address = JSONField(null=True, blank=True, default=dict)
     exif = JSONField()
-    event = models.ForeignKey(Event, models.SET_NULL, blank=True, null=True)
+    event = models.ForeignKey(
+        Event, models.CASCADE, blank=True, null=True
+    )
     upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    owner = models.ForeignKey(
+        User, verbose_name=_('Owner'),
+        on_delete=models.PROTECT, related_name='owner',
+    )
     shared = models.ManyToManyField(
         User, related_name='shared_with',
         verbose_name='Shared with', blank=True

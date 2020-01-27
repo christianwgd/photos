@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-27 16:16+0100\n"
+"POT-Creation-Date: 2020-01-27 20:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,11 @@ msgstr "Fotos"
 msgid "Photos administration"
 msgstr "Foto Verwaltung"
 
-#: apps.py:8 models.py:86 templates/base.html:47 views.py:299 views.py:323
+#: apps.py:8 models.py:95 templates/base.html:47 views.py:300 views.py:324
 msgid "photos"
 msgstr "Fotos"
 
-#: filters.py:11 forms.py:19 models.py:48
+#: filters.py:11 forms.py:36 models.py:57
 #: templates/photos/event_confirm_delete.html:4
 #: templates/photos/event_form.html:4 templates/photos/photodetail.html:121
 #: templates/photos/photolist.html:359 templates/photos/photonew.html:76
@@ -38,73 +38,77 @@ msgstr "Fotos"
 msgid "event"
 msgstr "Ereignis"
 
-#: forms.py:20 models.py:62 templates/base.html:77
+#: forms.py:37 models.py:71 templates/base.html:77
 #: templates/photos/photodetail.html:125 templates/photos/photolist.html:363
 #: templates/photos/photonew.html:80 templates/photos/tag_list.html:9
 msgid "tags"
 msgstr "Tags"
 
-#: models.py:24
+#: models.py:33
 msgid "import"
 msgstr "Import"
 
-#: models.py:25
+#: models.py:34
 msgid "imports"
 msgstr "Importe"
 
-#: models.py:31 models.py:55 models.py:68 models.py:92
+#: models.py:40 models.py:64 models.py:77 models.py:101
 #: templates/photos/photodetail.html:113
 msgid "name"
 msgstr "Name"
 
-#: models.py:32 models.py:101 templates/photos/photodetail.html:157
+#: models.py:41 models.py:112 templates/photos/photodetail.html:157
 msgid "uploaded"
 msgstr "hochgeladen"
 
-#: models.py:33
+#: models.py:42
 msgid "slug"
 msgstr "Slug"
 
-#: models.py:49 templates/base.html:71 templates/photos/event_list.html:9
+#: models.py:58 templates/base.html:71 templates/photos/event_list.html:9
 msgid "events"
 msgstr "Ereignisse"
 
-#: models.py:61 templates/photos/tag_confirm_delete.html:4
+#: models.py:70 templates/photos/tag_confirm_delete.html:4
 #: templates/photos/tag_form.html:4
 msgid "tag"
 msgstr "Tag"
 
-#: models.py:85
+#: models.py:94
 msgid "photo"
 msgstr "Foto"
 
-#: models.py:93 templates/photos/photodetail.html:117
+#: models.py:102 templates/photos/photodetail.html:117
 msgid "filename"
 msgstr "Dateiname"
 
-#: models.py:95
+#: models.py:104
 msgid "file"
 msgstr "Datei"
 
-#: models.py:96 templates/photos/photodetail.html:133
+#: models.py:105 templates/photos/photodetail.html:133
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: models.py:97
+#: models.py:107
 msgid "thumbnail"
 msgstr "Miniaturansicht"
 
-#: models.py:100
+#: models.py:111
 msgid "uploaded by"
 msgstr "hochgeladen von"
 
-#: models.py:103
+#: models.py:114
 msgid "latitude"
 msgstr "Breitengrad"
 
-#: models.py:105
+#: models.py:116
 msgid "longitude"
 msgstr "Längengrad"
+
+#: models.py:125 templates/photos/photodetail.html:169
+msgid "Owner"
+msgstr "Eigentümer"
 
 #: templates/base.html:53 templates/photos/photonew.html:97
 msgid "uplaod"
@@ -166,7 +170,7 @@ msgstr "bearbeiten"
 msgid "delete"
 msgstr "löschen"
 
-#: templates/photos/event_list.html:49 templates/photos/photodetail.html:191
+#: templates/photos/event_list.html:49 templates/photos/photodetail.html:201
 #: templates/photos/tag_list.html:49
 msgid "back"
 msgstr "Zurück"
@@ -216,19 +220,19 @@ msgstr ""
 msgid "by"
 msgstr "von"
 
-#: templates/photos/photodetail.html:169
+#: templates/photos/photodetail.html:179
 msgid "shared with"
 msgstr "geteilt mit"
 
-#: templates/photos/photodetail.html:197
+#: templates/photos/photodetail.html:207
 msgid "show on map"
 msgstr "Auf Karte anzeigen"
 
-#: templates/photos/photodetail.html:201
+#: templates/photos/photodetail.html:211
 msgid "show EXIF data"
 msgstr "EXIF Daten anzeigen"
 
-#: templates/photos/photodetail.html:204 templates/photos/photoedit.html:4
+#: templates/photos/photodetail.html:214 templates/photos/photoedit.html:4
 #: templates/photos/photolist.html:410 templates/photos/photolist.html:458
 msgid "edit metadata"
 msgstr "Metadaten bearbeiten"
@@ -316,29 +320,28 @@ msgstr "Foto Metadaten geändert."
 msgid "Photo {photo} deleted."
 msgstr "Foto {photo} gelöscht."
 
-#: views.py:189
+#: views.py:190
 #, python-brace-format
 msgid "successfully added {count} photos."
 msgstr "{count} Fotos hinzugefügt."
 
-#: views.py:211
+#: views.py:212
 #, python-brace-format
 msgid "successfully geocoded {count} photos."
 msgstr "{count} Fotos Geo-codiert."
 
-#: views.py:260
+#: views.py:261
 msgid "could not remove directory"
 msgstr "Verzeichnis konnte nicht gelöscht werden"
 
-#: views.py:369 views.py:409
+#: views.py:370 views.py:410
 msgid "Delete cancelled"
 msgstr "Löschen abgebrochen"
 
-#: views.py:371
+#: views.py:372
 msgid "Event deleted"
 msgstr "Ereignis gelöscht"
 
-#: views.py:411
+#: views.py:412
 msgid "Tag deleted"
 msgstr "Tag gelöscht"
-
