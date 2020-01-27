@@ -15,7 +15,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from photos import settings
 from photos.geocoder import MapsGeocoder
-from photos.managers import VisibleManager
+from photos.managers import PhotoVisibleManager
 
 
 def user_str_patch(self):
@@ -131,7 +131,7 @@ class Photo(models.Model):
     )
     public = models.BooleanField(default=False, verbose_name='Public')
 
-    objects = VisibleManager()
+    objects = PhotoVisibleManager()
 
     def create_thumbnail(self):
         # original code for this method came from

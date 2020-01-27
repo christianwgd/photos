@@ -273,11 +273,18 @@ def processassign(request):
     ids = request.POST.getlist('ids[]')
     evt = request.POST.get('event')
     tgs = request.POST.getlist('tags[]')
+    own = request.POST.get('owner')
 
     if evt:
         event = Event.objects.get(pk=evt)
     else:
         event = None
+
+    if own:
+        owner = User.objects.get(pk=own)
+    else:
+        owner = None
+
     tags = Tag.objects.filter(pk__in=tgs)
     photos = Photo.objects.filter(pk__in=ids)
 
@@ -285,6 +292,8 @@ def processassign(request):
         for photo in photos:
             if event is not None:
                 photo.event = event
+            if owner is not None:
+                photo.owner = owner
             photo.tags.add(*tags)
             photo.save()
 
