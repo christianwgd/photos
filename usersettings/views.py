@@ -2,7 +2,7 @@
 from django.contrib import messages
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 
 from .forms import UserSettingsForm
@@ -31,7 +31,11 @@ def settings(request):
                 if settings_form.has_changed():
                     settings_form.save()
                 messages.success(
-                    request, _('settings saved for user {}'.format(request.user)))
+                    request,
+                    _('settings saved for user {user}').format(
+                        user=request.user
+                    )
+                )
                 return HttpResponseRedirect(reverse('photolist'))
             except Exception as e:
                 messages.error(

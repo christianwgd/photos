@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 16:37+0100\n"
+"POT-Creation-Date: 2020-01-27 21:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,30 +18,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps.py:8
+#: apps.py:8
 msgid "User settings"
 msgstr "Benutzereinstellungen"
 
-#: .\models.py:15 .\models.py:16
+#: models.py:15 models.py:16
 msgid "user settings"
 msgstr "Benutzereinstellungen"
 
-#: .\models.py:19
+#: models.py:20
 msgid "number of recent photos"
 msgstr "Anzahl letzte Fotos"
 
-#: .\templates\usersettings\user_settings.html:16
+#: models.py:20
+msgid "0 means no limit"
+msgstr "0 bedeutet keine Einschränkung"
+
+#: templates/usersettings/user_settings.html:9
 msgid "settings"
 msgstr "Einstellungen"
 
-#: .\views.py:16
+#: views.py:16
 msgid "edit cancelled"
 msgstr "Bearbeiten abgebrochen"
 
-#: .\views.py:34
-msgid "settings saved for user {}"
-msgstr "Einstellungen für Benutzer {} gesichert"
+#: views.py:35
+#, python-brace-format
+msgid "settings saved for user {user}"
+msgstr "Einstellungen für Benutzer {user} gesichert"
 
-#: .\views.py:38
+#: views.py:42
+#, python-brace-format
 msgid "error saving settings: {}"
-msgstr "Fehler beim Speichern der Benutzereinstellungen"
+msgstr "Fehler beim Speichern der Benutzereinstellungen: {}"

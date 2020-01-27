@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 
 class UserSettings(models.Model):
@@ -16,4 +16,6 @@ class UserSettings(models.Model):
         verbose_name_plural = _('user settings')
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    recent = models.PositiveIntegerField(_('number of recent photos'), help_text=_('0 means no limit'))
+    recent = models.PositiveIntegerField(
+        _('number of recent photos'), help_text=_('0 means no limit')
+    )
