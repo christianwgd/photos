@@ -16,9 +16,11 @@
             <div class="row popup-gallery justify-content-center">
                 <div class="card-deck">
                     {% for tag in taglist %}
+                    {% get_visibles tag.photo_set.all user as visibles %}
+                    {% if visibles.count > 0 %}
                     <div class="card text-center" id="{{ event.id }}">
                         <div class="image-container">
-                            {% for photo in tag.photo_set.visible|slice:"0:3" %}
+                            {% for photo in visibles|slice:"0:3" %}
                             <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}"
                                 style="transform: rotate({{forloop.counter|rotation}}deg);">
                             {% endfor %}
@@ -26,10 +28,10 @@
                         <div class="card-body toolbar">
                             <h5 class="card-title">
                                 {{ tag.name }}
-                                <span class="badge badge-secondary">{{ tag.photo_set.visible.count }}</span>
+                                <span class="badge badge-secondary">{{ visibles.count }}</span>
                             </h5>
                             <a href="{% url 'photolist' %}?viewtype=event&tags={{tag.id}}" class="tool"
-                            {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}" 
+                            {% if visibles.count == 0 %}disabled="disabled{% endif %}"
                             title="{% trans 'view' %}">
                                 <i class="far fa-eye"></i>
                             </a>
@@ -41,6 +43,7 @@
                             </a>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
