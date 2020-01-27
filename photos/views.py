@@ -60,7 +60,9 @@ def detail(request, photo_id):
 
     google_api_key = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
     photo = Photo.objects.get(pk=photo_id)
-    return render(request, 'photos/photodetail.html', {'photo': photo, 'google_api_key': google_api_key})
+    return render(request, 'photos/photodetail.html', {
+        'photo': photo, 'google_api_key': google_api_key
+    })
 
 
 @login_required(login_url='/accounts/login/')
