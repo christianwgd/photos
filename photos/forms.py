@@ -1,14 +1,31 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
 from django import forms
-from .models import Photo, Event
+from tempus_dominus.widgets import DateTimePicker
+
+from .models import Photo
 
 
 class PhotoForm(forms.ModelForm):
 
     class Meta:
         model = Photo
-        fields = ('name', 'event', 'tags', 'latitude', 'longitude')
+        fields = (
+            'name', 'event', 'tags', 'uploaded_by',
+            'timestamp', 'latitude', 'longitude'
+        )
+        widgets = {
+            'timestamp': DateTimePicker(
+                    options={
+                        'useCurrent': True,
+                        'collapse': False,
+                    },
+                    attrs={
+                        'append': 'fa fa-calendar',
+                        'icon_toggle': True,
+                    }
+                )
+        }
 
 
 PhotoFormSet = forms.modelformset_factory(Photo, form=PhotoForm, extra=0)

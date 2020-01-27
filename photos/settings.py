@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'photos',
     'usersettings',
     'django_filters',
+    'tempus_dominus',
     'accounts',
     'bootstrap4',
     'rest_framework',
@@ -122,6 +123,7 @@ BOOTSTRAP4 = {
     # 'theme_url': '/static/bootstrap-4/css/materia.min.css',
 }
 
+TEMPUS_DOMINUS_LOCALIZE = True
 
 #################1#
 # LOCAL SETTINGS #

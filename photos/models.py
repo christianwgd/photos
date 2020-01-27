@@ -18,6 +18,15 @@ from photos.geocoder import MapsGeocoder
 from photos.managers import VisibleManager
 
 
+def user_str_patch(self):
+    return '{first} {last}'.format(
+        first=self.first_name,
+        last=self.last_name
+    )
+
+User.__str__ = user_str_patch
+
+
 class Import(models.Model):
 
     class Meta:
