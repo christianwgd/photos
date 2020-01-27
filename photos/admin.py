@@ -8,7 +8,7 @@ from .models import Photo, Event, Tag, Import
 
 AdminSite.site_title = _('Photos')
 AdminSite.site_header = _('Photos')
-AdminSite.index_title = _('Photos ADMINISTRATION')
+AdminSite.index_title = _('Photos administration')
 
 class PhotoAdmin(admin.ModelAdmin):
     search_fields = ['name', 'address',]

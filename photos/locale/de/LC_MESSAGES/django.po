@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-05 18:31+0200\n"
+"POT-Creation-Date: 2020-01-27 10:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,129 +18,130 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:9 admin.py:10 templates/base.html:4 templates/base.html:36
+#: admin.py:9 admin.py:10 templates/base.html:31 templates/base.html:35
 msgid "Photos"
 msgstr "Fotos"
 
 #: admin.py:11
-msgid "Photos ADMINISTRATION"
+msgid "Photos administration"
 msgstr "Foto Verwaltung"
 
-#: apps.py:8 models.py:85 templates/base.html:47
+#: apps.py:8 models.py:86 templates/base.html:46
 #: templates/photos/event_list.html:13 templates/photos/tag_list.html:13
+#: views.py:296 views.py:320
 msgid "photos"
 msgstr "Fotos"
 
-#: filters.py:11 forms.py:19 models.py:47
+#: filters.py:11 forms.py:19 models.py:48
 #: templates/photos/event_confirm_delete.html:12
-#: templates/photos/event_form.html:10 templates/photos/photodetail.html:109
-#: templates/photos/photolist.html:241 templates/photos/photonew.html:74
+#: templates/photos/event_form.html:10 templates/photos/photodetail.html:120
+#: templates/photos/photolist.html:359 templates/photos/photonew.html:74
 #: templates/photos/photonew.html:75
 msgid "event"
 msgstr "Ereignis"
 
-#: forms.py:20 models.py:61 templates/base.html:77
-#: templates/photos/photodetail.html:111 templates/photos/photolist.html:245
+#: forms.py:20 models.py:62 templates/base.html:76
+#: templates/photos/photodetail.html:124 templates/photos/photolist.html:363
 #: templates/photos/photonew.html:78 templates/photos/tag_list.html:7
 msgid "tags"
 msgstr "Tags"
 
-#: models.py:23
-msgid "import"
-msgstr ""
-
 #: models.py:24
-msgid "imports"
-msgstr ""
+msgid "import"
+msgstr "Import"
 
-#: models.py:30 models.py:54 models.py:67 models.py:91
-#: templates/photos/event_list.html:12 templates/photos/photodetail.html:107
+#: models.py:25
+msgid "imports"
+msgstr "Importe"
+
+#: models.py:31 models.py:55 models.py:68 models.py:92
+#: templates/photos/event_list.html:12 templates/photos/photodetail.html:112
 #: templates/photos/tag_list.html:12
 msgid "name"
 msgstr "Name"
 
-#: models.py:31 models.py:100 templates/photos/photodetail.html:133
+#: models.py:32 models.py:101 templates/photos/photodetail.html:156
 msgid "uploaded"
 msgstr "hochgeladen"
 
-#: models.py:32
+#: models.py:33
 msgid "slug"
-msgstr ""
+msgstr "Slug"
 
-#: models.py:48 templates/base.html:71 templates/photos/event_list.html:8
+#: models.py:49 templates/base.html:70 templates/photos/event_list.html:8
 msgid "events"
 msgstr "Ereignisse"
 
-#: models.py:60 templates/photos/tag_confirm_delete.html:12
+#: models.py:61 templates/photos/tag_confirm_delete.html:12
 #: templates/photos/tag_form.html:10
 msgid "tag"
 msgstr "Tag"
 
-#: models.py:84
+#: models.py:85
 msgid "photo"
 msgstr "Foto"
 
-#: models.py:92 templates/photos/photodetail.html:108
+#: models.py:93 templates/photos/photodetail.html:116
 msgid "filename"
 msgstr "Dateiname"
 
-#: models.py:94
+#: models.py:95
 msgid "file"
 msgstr "Datei"
 
-#: models.py:95 templates/photos/photodetail.html:116
+#: models.py:96 templates/photos/photodetail.html:132
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: models.py:96
+#: models.py:97
 msgid "thumbnail"
 msgstr "Miniaturansicht"
 
-#: models.py:99
+#: models.py:100
 msgid "uploaded by"
 msgstr "hochgeladen von"
 
-#: models.py:102
+#: models.py:103
 msgid "latitude"
 msgstr "Breitengrad"
 
-#: models.py:104
+#: models.py:105
 msgid "longitude"
 msgstr "Längengrad"
 
-#: templates/base.html:53 templates/photos/photonew.html:95
+#: templates/base.html:52 templates/photos/photonew.html:95
 msgid "uplaod"
 msgstr "hochladen"
 
-#: templates/base.html:57
+#: templates/base.html:56
 msgid "recent photos"
 msgstr "Letzte Fotos"
 
-#: templates/base.html:61
+#: templates/base.html:60
 msgid "by event"
 msgstr "Nach Ereignis"
 
-#: templates/base.html:64
+#: templates/base.html:63
 msgid "by import"
 msgstr "Nach Import"
 
-#: templates/base.html:97
+#: templates/base.html:96
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/base.html:101
+#: templates/base.html:100
 msgid "settings"
 msgstr "Einstellungen"
 
-#: templates/base.html:105
+#: templates/base.html:104
 msgid "Password change"
 msgstr ""
 
-#: templates/base.html:110
+#: templates/base.html:109
 msgid "Admin"
 msgstr ""
 
-#: templates/base.html:119
+#: templates/base.html:118
 msgid "Log in"
 msgstr "Anmelden"
 
@@ -154,9 +155,8 @@ msgid "really delete this event?"
 msgstr "Dieses Ereignis wirklich löschen?"
 
 #: templates/photos/event_list.html:25 templates/photos/event_list.html:30
-#: templates/photos/photolist.html:284 templates/photos/photolist.html:319
-#: templates/photos/photolist.html:355 templates/photos/tag_list.html:25
-#: templates/photos/tag_list.html:30
+#: templates/photos/photolist.html:401 templates/photos/photolist.html:444
+#: templates/photos/tag_list.html:25 templates/photos/tag_list.html:30
 msgid "view"
 msgstr "Anzeigen"
 
@@ -165,15 +165,15 @@ msgid "edit"
 msgstr "bearbeiten"
 
 #: templates/photos/event_list.html:40 templates/photos/photodelete.html:17
-#: templates/photos/photolist.html:177 templates/photos/photolist.html:213
+#: templates/photos/photolist.html:220 templates/photos/photolist.html:259
 #: templates/photos/tag_list.html:40
 msgid "delete"
 msgstr "löschen"
 
-#: templates/photos/event_list.html:50 templates/photos/photodetail.html:147
+#: templates/photos/event_list.html:50 templates/photos/photodetail.html:190
 #: templates/photos/tag_list.html:50
 msgid "back"
-msgstr ""
+msgstr "Zurück"
 
 #: templates/photos/event_list.html:55 templates/photos/tag_list.html:55
 msgid "new"
@@ -185,7 +185,8 @@ msgstr "Diese Foto wirklich löschen?"
 
 #: templates/photos/photodelete.html:23
 msgid "The physical file will not be deleted!"
-msgstr "Die Fotodatei im Dateisystem wird nicht mit gelöscht."
+msgstr ""
+"Die Fotodatei im Dateisystem wird nicht mit gelöscht."
 
 #: templates/photos/photodetail.html:45
 msgid "EXIF data"
@@ -195,75 +196,92 @@ msgstr "EXIF Daten"
 msgid "Map"
 msgstr "Karte"
 
-#: templates/photos/photodetail.html:100
+#: templates/photos/photodetail.html:103
 msgid "not set"
 msgstr "Nicht gesetzt"
 
-#: templates/photos/photodetail.html:118
+#: templates/photos/photodetail.html:136
 msgid "location"
 msgstr "Ort"
 
-#: templates/photos/photodetail.html:122 templates/photos/photodetail.html:130
+#: templates/photos/photodetail.html:141 templates/photos/photodetail.html:151
 msgid "not available"
 msgstr "nicht verfügbar"
 
-#: templates/photos/photodetail.html:126
+#: templates/photos/photodetail.html:146
 msgid "GPS Position"
 msgstr ""
 
-#: templates/photos/photodetail.html:134
+#: templates/photos/photodetail.html:159
 msgid "by"
 msgstr "von"
 
-#: templates/photos/photodetail.html:153
+#: templates/photos/photodetail.html:168
+msgid "shared with"
+msgstr "geteilt mit"
+
+#: templates/photos/photodetail.html:196
 msgid "show on map"
 msgstr "Auf Karte anzeigen"
 
-#: templates/photos/photodetail.html:157
+#: templates/photos/photodetail.html:200
 msgid "show EXIF data"
 msgstr "EXIF Daten anzeigen"
 
-#: templates/photos/photodetail.html:160
+#: templates/photos/photodetail.html:203
 msgid "edit metadata"
 msgstr "Metadaten bearbeiten"
 
-#: templates/photos/photodetail.html:165
-msgid "edit image"
-msgstr "Bild bearbeiten"
-
-#: templates/photos/photolist.html:167
+#: templates/photos/photolist.html:210
 msgid "select all"
 msgstr "Alle auswählen"
 
-#: templates/photos/photolist.html:170
+#: templates/photos/photolist.html:213
 msgid "select none"
 msgstr "Keine auswählen"
 
-#: templates/photos/photolist.html:174
+#: templates/photos/photolist.html:217
 msgid "categorize"
 msgstr "kategorisieren"
 
-#: templates/photos/photolist.html:181
+#: templates/photos/photolist.html:224 templates/photos/photolist.html:317
+#: templates/photos/photolist.html:331
 msgid "download"
 msgstr "Herunterladen"
 
-#: templates/photos/photolist.html:194
+#: templates/photos/photolist.html:227 templates/photos/photolist.html:300
+msgid "share"
+msgstr "Teilen"
+
+#: templates/photos/photolist.html:240
 msgid "Delete photos"
 msgstr "Fotos löschen"
 
-#: templates/photos/photolist.html:201
+#: templates/photos/photolist.html:247
 msgid "Do you really want to delete the selected photos?"
 msgstr "Diese Fotos wirklich löschen?"
 
-#: templates/photos/photolist.html:231
+#: templates/photos/photolist.html:276
+msgid "Share photos"
+msgstr "Fotos teilen"
+
+#: templates/photos/photolist.html:282
+msgid "User"
+msgstr ""
+
+#: templates/photos/photolist.html:324
+msgid "Download compressed photos."
+msgstr "Komprimierte Fotos laden."
+
+#: templates/photos/photolist.html:349
 msgid "categorize photos"
 msgstr "Fotos kategorisieren"
 
-#: templates/photos/photolist.html:257
+#: templates/photos/photolist.html:375
 msgid "assign"
 msgstr "zuordnen"
 
-#: templates/photos/photolist.html:377
+#: templates/photos/photolist.html:467
 msgid "no photos found."
 msgstr "Keine Fotos vorhanden."
 
@@ -279,41 +297,43 @@ msgstr "Datei entfernen"
 msgid "really delete this tag?"
 msgstr "Dieses Tag wirklich löschen?"
 
-#: views.py:70 views.py:106
+#: views.py:79 views.py:115
 msgid "Photo does not exist."
 msgstr "Das Foto existiert nicht."
 
-#: views.py:83
+#: views.py:92
 msgid "photo metadata changed."
 msgstr "Foto Metadaten geändert."
 
-#: views.py:116
+#: views.py:125
 #, python-brace-format
 msgid "Photo {photo} deleted."
 msgstr "Foto {photo} gelöscht."
 
-#: views.py:177
+#: views.py:186
 #, python-brace-format
 msgid "successfully added {count} photos."
 msgstr "{count} Fotos hinzugefügt."
 
-#: views.py:199
+#: views.py:208
 #, python-brace-format
 msgid "successfully geocoded {count} photos."
 msgstr "{count} Fotos Geo-codiert."
 
-#: views.py:223
+#: views.py:257
 msgid "could not remove directory"
 msgstr ""
+"Verzeichnis konnte nicht gelöscht werden"
 
-#: views.py:327 views.py:367
+#: views.py:366 views.py:406
 msgid "Delete cancelled"
 msgstr "Löschen abgebrochen"
 
-#: views.py:329
+#: views.py:368
 msgid "Event deleted"
 msgstr "Ereignis gelöscht"
 
-#: views.py:369
+#: views.py:408
 msgid "Tag deleted"
 msgstr "Tag gelöscht"
+

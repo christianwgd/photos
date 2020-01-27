@@ -8,7 +8,7 @@ from shutil import rmtree
 
 from django.conf import settings
 from django.db import transaction
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect, redirect
@@ -288,7 +288,7 @@ def processassign(request):
 
 
 @login_required(login_url='/accounts/login/')
-def processdownload(request):
+def preparedownload(request):
     ids = request.POST.getlist('ids[]')
     filenames = [photo.imagefile.path for photo in Photo.objects.filter(pk__in=ids)]
 
@@ -312,11 +312,20 @@ def processdownload(request):
         import traceback
         traceback.print_exc()
 
-    # TODO: This doesn't work! No downlaod
+    return HttpResponse('success')
+
+
+@login_required(login_url='/accounts/login/')
+def processdownload(request):
+    zip_filename = _('photos') + '.zip'
+    zip_path = os.path.join(
+        BASE_DIR, 'media', 'temp',
+    )
+    zip_fullpath = os.path.join(zip_path, zip_filename)
     zip_file = open(zip_fullpath, 'rb')
-    #resp = HttpResponse(zip_file, content_type="application/force-download")
-    resp = HttpResponse(zip_file, content_type="application/zip")
+    resp = FileResponse(zip_file, content_type="application/force-download")
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    os.remove(zip_fullpath)
     return resp
 
 

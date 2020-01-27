@@ -56,6 +56,7 @@ urlpatterns = [
     path('processshare/', views.processshare, name='processshare'),
     path('removeshare/<int:photo_id>/<int:user_id>/', views.removeshare, name='removeshare'),
     path('processassign/', views.processassign, name='processassign'),
+    path('preparedownload/', views.preparedownload, name='preparedownload'),
     path('processdownload/', views.processdownload, name='processdownload'),
 
     path('eventlist/', views.EventListView.as_view(), name='eventlist'),
