@@ -48,6 +48,7 @@ $(document).ready(function() {
     $('#id_assign_tags').select2({ width: '100%' });
     $('#id_event option').clone().appendTo('#id_assign_event');
     $('#id_tags option').clone().appendTo('#id_assign_tags');
+    $("#user-select").prepend("<option value='' selected='selected'>---------</option>");
     $('#user-select option').clone().appendTo('#id_assign_owner');
     $('#id_uploaded_by').select2({ width: '100%' });
     $('#id_upload').select2({ width: '100%' });
