@@ -1,0 +1,55 @@
+.card-deck {
+    margin: 0 auto;
+    padding: 0 5px;
+}
+
+.card {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 15px;
+    min-height: 300px;
+    max-height: 400px;
+}
+
+.img-thumbnail {
+    width: 160px;
+    height: 180px;
+    object-fit: cover;
+    border: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #cccccc;
+}
+
+.dot {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    border: 1px solid white;
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 99;
+}
+
+.tool {
+    padding: 6px;
+}
+.tool:hover {
+    text-decoration: none;
+}
+
+.toolbar {
+    text-align: center;
+    width: 100%;
+    padding-top: 230px;
+}
+
+.toolbar a, .toolbar span {
+    color: #999;
+}
+.toolbar a:hover, .toolbar span:hover {
+    color: #000;
+}

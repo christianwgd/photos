@@ -1,51 +1,49 @@
 {% extends 'base.html' %}
-{% load i18n static bootstrap4 %}
+{% load i18n static bootstrap4 photo_tags %}
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/eventlist.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <h4>{% trans 'events' %}</h4>
-            <table id="events" class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans 'name' %}</th>
-                        <th># {% trans 'photos' %}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+
+            <div class="row popup-gallery justify-content-center">
+                <div class="card-deck">
                     {% for event in eventlist %}
-                    <tr>
-                        <td>{{ event.name }}</td>
-                        <td>{{ event.photo_set.all.count }}</td>
-                        <td>
-                            {% if event.photo_set.all.count > 0 %}
-                            <a href="{% url 'photolist' %}?viewtype=e&event={{event.id}}" disabled="disabled" >
-                                <button class="btn btn-sm btn-secondary" title="{% trans 'view' %}">
-                                    <i class="far fa-eye"></i>
-                                </button>
+                    <div class="card text-center" id="{{ event.id }}">
+                        <div class="image-container">
+                            {% for photo in event.photo_set.visible|slice:"0:3" %}
+                            <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}"
+                                style="transform: rotate({{forloop.counter|rotation}}deg);">
+                            {% endfor %}
+                        </div>
+                        <div class="card-body toolbar">
+                            <h5 class="card-title">
+                                {{ event.name }}
+                                <span class="badge badge-secondary">{{ event.photo_set.visible.count }}</span>
+                            </h5>
+                            <a href="{% url 'photolist' %}?viewtype=event&event={{event.id}}" class="tool"
+                            {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}" 
+                            title="{% trans 'view' %}">
+                                <i class="far fa-eye"></i>
                             </a>
-                            {% else %}
-                                <button class="btn btn-sm btn-secondary" title="{% trans 'view' %}" disabled="disabled">
-                                    <i class="far fa-eye"></i>
-                                </button>
-                            {% endif %}
-                            <a href="{% url 'eventupdate' event.id %}">
-                                <button class="btn btn-sm btn-secondary" title="{% trans 'edit' %}">
-                                    <i class="far fa-edit"></i>
-                                </button>
+                            <a href="{% url 'eventupdate' event.id %}" class="tool" title="{% trans 'edit' %}">
+                                <i class="fal fa-edit"></i>
                             </a>
-                            <a href="{% url 'eventdelete' event.id %}">
-                                <button class="btn btn-sm btn-danger" name="delete" value="{{ event.id }}" title="{% trans 'delete' %}">
-                                    <i class="far fa-trash"></i>
-                                </button>
+                            <a href="{% url 'eventdelete' event.id %}" class="tool" title="{% trans 'delete' %}">
+                                <i class="fal fa-trash"></i>
                             </a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
+
             <a href="{% url 'photolist' %}">
                 <button class="btn btn-primary" name="back" title="{% trans 'back' %}">
                     <i class="far fa-check"></i>

@@ -13,3 +13,8 @@ def cut_photos(photos, n):
     if n > 0:
         photos = photos[:n]
     return photos
+
+
+@register.filter(name='rotation')
+def rotation(value):
+    return value * 10 - 20

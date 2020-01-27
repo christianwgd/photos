@@ -155,6 +155,7 @@ def fileupload(request):
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
             exif_tsp = parse_exif_data.get_exif_timestamp(exif_data)
+            print('exif_tsp:', exif_tsp)
             lat, lon = parse_exif_data.get_exif_location(exif_data)
             if lat is not None and lon is not None:
                 lat = '{:3.10}'.format(lat)
