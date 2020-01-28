@@ -19,10 +19,12 @@ from photos.managers import PhotoVisibleManager
 
 
 def user_str_patch(self):
-    return '{first} {last}'.format(
-        first=self.first_name,
-        last=self.last_name
-    )
+    if self.first_name and self.last_name:
+        return '{first} {last}'.format(
+            first=self.first_name,
+            last=self.last_name
+        )
+    return self.username
 
 User.__str__ = user_str_patch
 
