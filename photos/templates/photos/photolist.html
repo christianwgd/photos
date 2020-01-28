@@ -48,8 +48,8 @@ $(document).ready(function() {
     $('#id_assign_tags').select2({ width: '100%' });
     $('#id_event option').clone().appendTo('#id_assign_event');
     $('#id_tags option').clone().appendTo('#id_assign_tags');
-    $("#user-select").prepend("<option value='' selected='selected'>---------</option>");
     $('#user-select option').clone().appendTo('#id_assign_owner');
+    $("#id_assign_owner").prepend("<option value='' selected='selected'>---------</option>");
     $('#id_uploaded_by').select2({ width: '100%' });
     $('#id_upload').select2({ width: '100%' });
     var options = {
@@ -181,7 +181,11 @@ $(document).ready(function() {
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
             success: function(){
-                alert(ids.length + ' Fotos geteilt.');
+                if (ids.lenght > 1) {
+                    alert(ids.length + ' Fotos geteilt.');
+                } else {
+                    alert(ids.length + ' Foto geteilt.');
+                }
             },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
