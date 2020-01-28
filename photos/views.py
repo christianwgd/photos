@@ -43,9 +43,9 @@ def photolist(request):
     users = User.objects.exclude(id=request.user.id)
     photos = Photo.objects.visible(request.user)
     if viewtype is None:
-        photos = PhotoFilter(request.GET, queryset=photos)
+        photos = PhotoFilter(request.GET, queryset=photos, user=request.user)
     else:
-        photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype))
+        photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype), user=request.user)
     
     return render(request, 'photos/photolist.html', {
         'photos': photos,
