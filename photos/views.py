@@ -38,24 +38,30 @@ from .settings import BASE_DIR
 
 
 def photolist(request):
-    
     viewtype = request.GET.get('viewtype', None)
 
     if request.user.is_authenticated:
         try:
-            settings = UserSettings.objects.get(user=request.user)
-            recent = settings.recent
+            user_settings = UserSettings.objects.get(user=request.user)
+            recent = user_settings.recent
         except UserSettings.DoesNotExist:
-            recent = 10
+            recent = getattr(settings, "DEFAULT_PHOTOS_RECENT", 10)
 
         users = User.objects.exclude(id=request.user.id)
         photos = Photo.objects.visible(request.user)
         if viewtype is None:
-            photos = PhotoFilter(request.GET, queryset=photos, user=request.user)
+            photos = PhotoFilter(
+                request.GET, queryset=photos, user=request.user
+            )
         else:
-            photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype), user=request.user)
+            photos = PhotoFilter(
+                request.GET, queryset=photos.order_by(viewtype), 
+                user=request.user
+            )
     else:
-        photos = PhotoFilter(request.GET, queryset=Photo.objects.filter(public=True))
+        photos = PhotoFilter(
+            request.GET, queryset=Photo.objects.filter(public=True)
+        )
         user = None
         users = User.objects.none()
         recent = 0
