@@ -4,6 +4,7 @@ import json
 import os
 import zipfile
 import exifread
+import traceback
 from shutil import rmtree
 
 from django.conf import settings
@@ -171,7 +172,6 @@ def fileupload(request):
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
             exif_tsp = parse_exif_data.get_exif_timestamp(exif_data)
-            print('exif_tsp:', exif_tsp)
             lat, lon = parse_exif_data.get_exif_location(exif_data)
             if lat is not None and lon is not None:
                 lat = '{:3.10}'.format(lat)
@@ -242,7 +242,10 @@ def processshare(request):
     share_to = User.objects.filter(pk__in=users)
     share = Photo.objects.filter(pk__in=ids)
     for photo in share:
-        photo.shared.add(*share_to)
+        if photo.owner in share_to:
+            photo.shared.add(*(share_to.exclude(pk=photo.owner.id)))
+        else:
+            photo.shared.add(*share_to)
     return HttpResponse('success')
 
 
@@ -255,7 +258,6 @@ def removeshare(request, photo_id, user_id):
     except Photo.DoesNotExist:
         pass
     except:
-        import traceback
         traceback.print_exc()
     return redirect(reverse('photodetail', args=(photo_id,)))
 
@@ -270,7 +272,6 @@ def delete_empty(request):
         try:
             rmtree(dirname)
         except:
-            import traceback
             traceback.print_exc()
             messages.error(request, _('could not remove directory'))
     uploadsToDelete.delete()
@@ -336,7 +337,6 @@ def preparedownload(request):
             )
         zf.close()
     except:
-        import traceback
         traceback.print_exc()
 
     return HttpResponse('success')
