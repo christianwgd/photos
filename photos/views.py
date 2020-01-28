@@ -37,23 +37,28 @@ from .serializers import (
 from .settings import BASE_DIR
 
 
-@login_required(login_url='/accounts/login/')
 def photolist(request):
     
     viewtype = request.GET.get('viewtype', None)
-    
-    try:
-        settings = UserSettings.objects.get(user=request.user)
-        recent = settings.recent
-    except UserSettings.DoesNotExist:
-        recent = 10
 
-    users = User.objects.exclude(id=request.user.id)
-    photos = Photo.objects.visible(request.user)
-    if viewtype is None:
-        photos = PhotoFilter(request.GET, queryset=photos, user=request.user)
+    if request.user.is_authenticated:
+        try:
+            settings = UserSettings.objects.get(user=request.user)
+            recent = settings.recent
+        except UserSettings.DoesNotExist:
+            recent = 10
+
+        users = User.objects.exclude(id=request.user.id)
+        photos = Photo.objects.visible(request.user)
+        if viewtype is None:
+            photos = PhotoFilter(request.GET, queryset=photos, user=request.user)
+        else:
+            photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype), user=request.user)
     else:
-        photos = PhotoFilter(request.GET, queryset=photos.order_by(viewtype), user=request.user)
+        photos = PhotoFilter(request.GET, queryset=Photo.objects.filter(public=True))
+        user = None
+        users = User.objects.none()
+        recent = 0
     
     return render(request, 'photos/photolist.html', {
         'photos': photos,
