@@ -15,17 +15,25 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView
+from django.views.generic import (
+    ListView, UpdateView, CreateView, DeleteView, DetailView
+)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from photos.forms import PhotoForm
+from photos.mixins import ReturnToRefererMixin
 from usersettings.models import UserSettings
 
 from rest_framework import viewsets
-from .serializers import (PhotoSerializer, EventSerializer, TagSerializer,
-                          ImportSerializer, UserSerializer, PhotoEXIFSerializer)
+from .serializers import (
+    PhotoSerializer, EventSerializer, TagSerializer,
+    ImportSerializer, UserSerializer, PhotoEXIFSerializer
+)
 from .settings import BASE_DIR
 
 
@@ -55,49 +63,44 @@ def photolist(request):
     })
 
 
-@login_required(login_url='/accounts/login/')
-def detail(request, photo_id):
+class PhotoDetailView(ReturnToRefererMixin, DetailView):
+    model = Photo
 
-    google_api_key = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
-    photo = Photo.objects.get(pk=photo_id)
-    return render(request, 'photos/photodetail.html', {
-        'photo': photo, 'google_api_key': google_api_key
-    })
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PhotoDetailView, self).get_context_data(**kwargs)
+        google_api_key = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
+        ctx['google_api_key'] = google_api_key
+        if 'HTTP_REFERER' in self.request.META:
+            ctx['caller'] = self.request.META['HTTP_REFERER']
+        else:
+            ctx['caller'] = reverse('photolist')
+        return ctx
 
 
 @login_required(login_url='/accounts/login/')
 def new(request):
-
     return render(request, 'photos/photonew.html', {})
 
 
-@login_required(login_url='/accounts/login/')
-def edit(request, photo_id):
+class PhotoUpdateView(ReturnToRefererMixin, SuccessMessageMixin, UpdateView):
 
-    try:
-        photo = Photo.objects.get(pk=photo_id)
-    except Photo.DoesNotExist:
-        messages.error(request, _(
-            'Photo does not exist.'))
-        return HttpResponseRedirect(reverse('photolist'))
+    model = Photo
+    form_class = PhotoForm
+    success_message =  _('photo metadata changed.')
 
-    if request.method == 'POST':
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
         if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
-
-        form = PhotoForm(request.POST, instance=photo)
-        if form.is_valid():
-            if 'latitude' in form.changed_data or 'longitude' in form.changed_data:
-                form.instance.geocode()
-            form.save()
-            messages.success(request, _('photo metadata changed.'))
-            return HttpResponseRedirect(reverse('photolist'))
-
-    else:
-        form = PhotoForm(instance=photo)
-
-    return render(request, 'photos/photoedit.html', {'form': form})
+            messages.info(request, 'Funktion abgebrochen.')
+            return redirect(self.get_cancel_url())
+        return super(PhotoUpdateView, self).post(request, *args, **kwargs)
 
 
 @login_required(login_url='/accounts/login/')

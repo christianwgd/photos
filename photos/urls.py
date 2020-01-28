@@ -36,6 +36,7 @@ router.register(r'photo_exif', views.PhotoExifViewSet)
 
 schema_view = get_swagger_view(title='Photos API')
 
+app_name = 'photos'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,9 +45,9 @@ urlpatterns = [
 
     path('', RedirectView.as_view(url='/photolist/')),
     path('photolist/', views.photolist, name='photolist'),
-    path('detail/<int:photo_id>/', views.detail, name='photodetail'),
+    path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),
     path('new/', views.new, name='new'),
-    path('edit/<int:photo_id>/', views.edit, name='photoedit'),
+    path('edit/<int:pk>/', views.PhotoUpdateView.as_view(), name='photoedit'),
     path('imgedit/<int:photo_id>/', views.imgedit, name='imgedit'),
     path('file-upload', views.fileupload, name='fileupload'),
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),

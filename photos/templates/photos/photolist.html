@@ -415,7 +415,7 @@ $(document).ready(function() {
                        title="{% trans 'Details' %}">
                         <i class="fal fa-info-circle"></i>
                     </a>
-                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" 
+                    <a href="{% url 'photoedit' photo.id %}" 
                        class="tool" title="{% trans 'edit metadata' %}">
                         <i class="fal fa-edit"></i>
                     </a>
