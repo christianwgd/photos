@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 
 def logout_user(request):
-    return render(request, 'accounts/logout.html', {})
+    redirect(reverse('photolist'))
+    #return render(request, 'accounts/logout.html', {})
 
 def login_form(request):
     return render(request, 'accounts/login.html', {})
