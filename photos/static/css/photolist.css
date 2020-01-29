@@ -77,3 +77,8 @@
 .toolbar a:hover, .toolbar span:hover {
     color: #000;
 }
+
+/* remvove hr from title since here is no title */
+.title-hr {
+    display: none;
+}
