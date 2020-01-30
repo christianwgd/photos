@@ -5,9 +5,9 @@
 
 .card {
     min-width: 200px;
-    max-width: 200px;
-    margin: 15px;
+    max-width: 400px;
     height: 280px;
+    margin: 15px;
 }
 
 .card-body {
@@ -23,7 +23,7 @@
 }
 
 .img-thumbnail {
-    width: 200px;
+    /* width: 200px;*/
     height: 220px;
     object-fit: cover;
     border: none;

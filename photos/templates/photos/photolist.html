@@ -406,7 +406,7 @@ $(document).ready(function() {
             {% for photo in photolist %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
-                    <img class="img-responsive thumb img-thumbnail" 
+                    <img class="img-fluid thumb img-thumbnail card-img-top" 
                          src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
