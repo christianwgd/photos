@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
+from filebrowser.sites import site
 
 from . import views
 
@@ -39,6 +40,7 @@ schema_view = get_swagger_view(title='Photos API')
 app_name = 'photos'
 
 urlpatterns = [
+    path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
 
     path('settings/', include('usersettings.urls')),

@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
+    'filebrowser',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -112,6 +113,16 @@ SWAGGER_SETTINGS = {
     'SHOW_REQUEST_HEADERS': True,
     'DOC_EXPANSION': "list"
 }
+
+##################
+# FileBrowser    #
+##################
+FILEBROWSER_DIRECTORY = 'photos/'
+FILEBROWSER_SELECT_FORMATS = {
+    'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
+    'thumb': {'verbose_name': 'Thumbnail', 'width': 200, 'height': 200, 'opts': 'crop'}
+}
+
 
 ##################
 # BOOTSTRAP 4    #

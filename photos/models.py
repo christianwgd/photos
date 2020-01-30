@@ -13,6 +13,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from filebrowser.fields import FileBrowseField
+
 from photos import settings
 from photos.geocoder import MapsGeocoder
 from photos.managers import PhotoVisibleManager
@@ -102,13 +104,11 @@ class Photo(models.Model):
 
     name = models.CharField(_('name'), max_length=255)
     filename = models.CharField(_('filename'), max_length=255)
-    imagefile = models.ImageField(
-        _('file'), upload_to=photo_path, max_length=255)
-    timestamp = models.DateTimeField(_('timestamp'), null=True)
-    thumb = models.ImageField(
-        _('thumbnail'), upload_to=thumb_path,
-        max_length=255, null=True, blank=True
+    imagefile = FileBrowseField(
+        _('file'), max_length=255,
+        extensions=[".jpg, .jpeg"], blank=True
     )
+    timestamp = models.DateTimeField(_('timestamp'), null=True)
     uploaded_by = models.ForeignKey(User, verbose_name=_(
         'uploaded by'), on_delete=models.PROTECT)
     uploaded = models.DateTimeField(_('uploaded'), auto_now_add=True)
@@ -135,58 +135,6 @@ class Photo(models.Model):
 
     objects = PhotoVisibleManager()
 
-    def create_thumbnail(self):
-        # original code for this method came from
-        # http://snipt.net/danfreak/generate-thumbnails-in-django-with-pil/
-
-        # If there is no image associated with this.
-        # do not create thumbnail
-        if not self.imagefile:
-            return
-
-        Image.LOAD_TRUNCATED_IMAGES = True
-
-        # Set our max thumbnail size in a tuple (max width, max height)
-        THUMBNAIL_SIZE = (200, 200)
-
-        DJANGO_TYPE = self.imagefile.file.content_type
-
-        if DJANGO_TYPE == 'image/jpeg':
-            PIL_TYPE = 'jpeg'
-            FILE_EXTENSION = 'jpg'
-        elif DJANGO_TYPE == 'image/png':
-            PIL_TYPE = 'png'
-            FILE_EXTENSION = 'png'
-
-        # Open original photo which we want to thumbnail using PIL's Image
-        #image = Image.open(io.BytesIO(self.imagefile.read()))
-        image = Image.open(self.imagefile)
-
-        # We use our PIL Image object to create the thumbnail, which already
-        # has a thumbnail() convenience method that contrains proportions.
-        # Additionally, we use file.ANTIALIAS to make the image look better.
-        # Without antialiasing the image pattern artifacts may result.
-        image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-
-        # Save the thumbnail
-        temp_handle = io.BytesIO()
-        image.save(temp_handle, PIL_TYPE)
-        temp_handle.seek(0)
-
-        # Save image to a SimpleUploadedFile which can be saved into
-        # ImageField
-        suf = SimpleUploadedFile(os.path.split(self.imagefile.name)[-1],
-                                 temp_handle.read(), content_type=DJANGO_TYPE)
-        # Save SimpleUploadedFile into image field
-        self.thumb.save(
-            '{name}_thumbnail.{extension}'.format(
-                name=os.path.splitext(suf.name)[0],
-                extension=FILE_EXTENSION
-            ),
-            suf,
-            save=False
-        )
-
     def rotate_to_normal(self, orientation):
         image=Image.open(self.imagefile.path)
         thumb=Image.open(self.thumb.path)
@@ -195,12 +143,7 @@ class Photo(models.Model):
             thumb=thumb.rotate(270, expand=True)
             self.exif['Image']['Orientation'] = 'Normal'
             self.save()
-        # elif orientation == '':
-        #     image=image.rotate(270, expand=True)
-        # elif orientation == '':
-        #     image=image.rotate(90, expand=True)
         image.save(self.imagefile.path)
-        thumb.save(self.thumb.path)
         image.close()
         thumb.close()
     
@@ -213,21 +156,6 @@ class Photo(models.Model):
                 loc_str = location.raw['display_name']
                 address = {'formatted': loc_str, 'address': location.raw}
                 self.address = address
-
-    def save(self, *args, **kwargs):
-
-        if not self.thumb:
-            self.create_thumbnail()
-
-        force_update = False
-
-        # If the instance already has been saved, it has an id and we set
-        # force_update to True
-        if self.id:
-            force_update = True
-
-        # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
-        super(Photo, self, *args, **kwargs).save(force_update=force_update)
 
 
 @receiver(models.signals.post_save, sender=Photo)

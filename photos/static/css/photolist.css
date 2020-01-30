@@ -23,7 +23,6 @@
 }
 
 .img-thumbnail {
-    /* width: 200px;*/
     height: 220px;
     object-fit: cover;
     border: none;
