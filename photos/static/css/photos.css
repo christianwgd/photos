@@ -30,8 +30,8 @@ pre {
 }
 
 .img-detail {
-    width: 90%;
-    padding: 20px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 #map {

@@ -1,13 +1,12 @@
 .card-deck {
-    margin: 0 auto;
-    padding: 0 5px;
+    padding: 15px;
 }
 
 .card {
     min-width: 200px;
     max-width: 400px;
     height: 280px;
-    margin: 15px;
+    margin-bottom: 15px !important;
 }
 
 .card-body {

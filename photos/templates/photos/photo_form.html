@@ -27,19 +27,22 @@ $(document).ready(function() {
         </div>
         <div class="col-lg-6 col-md-12">
             {% bootstrap_form form %}
-
-            {% buttons %}
-                <button class="btn btn-primary" name="submit" type="submit" formnovalidate>
-                    <i class="fal fa-check"></i>
-                </button>
-                <button class="btn btn-secondary" type="submit" name="cancel" formnovalidate>
-                    <i class="fal fa-times"></i>
-                </button>
-            {% endbuttons %}
         </div>
     </div>
     
+    <div class="row">
+        <div class="col">
+            {% buttons %}
+            <button class="btn btn-primary" name="submit" type="submit" formnovalidate>
+                <i class="fal fa-check"></i>
+            </button>
+            <button class="btn btn-secondary" type="submit" name="cancel" formnovalidate>
+                <i class="fal fa-times"></i>
+            </button>
+            {% endbuttons %}
+        </div>
     </div>
 </div>
+
 </form>
 {% endblock %}
