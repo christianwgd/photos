@@ -326,7 +326,7 @@ def processassign(request):
 @login_required(login_url='/accounts/login/')
 def preparedownload(request):
     ids = request.POST.getlist('ids[]')
-    filenames = [photo.imagefile.path for photo in Photo.objects.filter(pk__in=ids)]
+    filenames = [photo.imagefile.path_full for photo in Photo.objects.filter(pk__in=ids)]
 
     try:
         zip_filename = _('photos') + '.zip'
