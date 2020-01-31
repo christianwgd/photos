@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static bootstrap4 photo_tags %}
+{% load i18n static bootstrap4 photo_tags fb_versions %}
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
@@ -21,7 +21,7 @@
                     <div class="card text-center" id="{{ event.id }}">
                         <div class="image-container">
                             {% for photo in visibles|slice:"0:3" %}
-                            <img class="img-responsive thumb img-thumbnail" src="{{ photo.thumb.url }}" alt="{{ photo.name }}"
+                            <img class="img-responsive thumb img-thumbnail" src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
                                 style="transform: rotate({{forloop.counter|rotation}}deg);">
                             {% endfor %}
                         </div>

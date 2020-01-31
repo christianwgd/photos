@@ -1,5 +1,5 @@
 {% extends 'base_struct.html' %}
-{% load i18n static bootstrap4 photo_tags %}
+{% load i18n static bootstrap4 photo_tags fb_versions %}
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
@@ -407,7 +407,7 @@ $(document).ready(function() {
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
                     <img class="img-fluid thumb img-thumbnail card-img-top" 
-                         src="{{ photo.thumb.url }}" alt="{{ photo.name }}">
+                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
                 <div class="card-body toolbar">
@@ -454,7 +454,7 @@ $(document).ready(function() {
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
                     <img class="img-responsive thumb img-thumbnail" 
-                         src="{{ photo.thumb.url }}" alt="{{ photo.name }}"
+                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
                     >
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>

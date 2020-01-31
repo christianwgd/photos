@@ -118,10 +118,13 @@ SWAGGER_SETTINGS = {
 # FileBrowser    #
 ##################
 FILEBROWSER_DIRECTORY = 'photos/'
-FILEBROWSER_SELECT_FORMATS = {
+FILEBROWSER_VERSIONS_BASEDIR = 'photos/_versions'
+FILEBROWSER_VERSIONS = {
     'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-    'thumb': {'verbose_name': 'Thumbnail', 'width': 200, 'height': 200, 'opts': 'crop'}
+    'thumbnail': {'verbose_name': 'Thumbnail', 'width': 400, 'height': 400, 'opts': 'crop'}
 }
+FILEBROWSER_ADMIN_VERSIONS = ['thumbnail']
+FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
 
 
 ##################

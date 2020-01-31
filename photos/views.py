@@ -22,6 +22,8 @@ from django.views.generic import (
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.files.storage import FileSystemStorage
+from django.utils.timezone import make_aware
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag, Import
@@ -167,7 +169,12 @@ def fileupload(request):
         files = request.FILES
         for f in files:
 
+            # save file to media directory
             imgfile = files[f]
+            fs = FileSystemStorage()
+            mediadir = getattr(settings, "MEDIA_ROOT", None)
+            filename = os.path.join(mediadir, 'photos', upload.slug, imgfile.name)
+            imgfilename = fs.save(filename, imgfile)
 
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
@@ -177,11 +184,11 @@ def fileupload(request):
                 lat = '{:3.10}'.format(lat)
                 lon = '{:3.10}'.format(lon)
 
+            basename = os.path.basename(imgfilename)
             photo = Photo(
-                name=imgfile.name.split('.')[0],
-                filename=imgfile.name,
-                imagefile=imgfile,
-                timestamp=exif_tsp,
+                name=basename.split('.')[0],
+                filename=basename,
+                timestamp=make_aware(exif_tsp),
                 uploaded_by=request.user,
                 owner=request.user,
                 exif=exif_json,
@@ -192,6 +199,7 @@ def fileupload(request):
             if event:
                 photo.event = event
 
+            photo.imagefile = os.path.join('photos', upload.slug, basename)
             photo.geocode()
             photo.save()
             count += 1

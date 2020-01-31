@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 from filebrowser.fields import FileBrowseField
 
@@ -106,7 +105,7 @@ class Photo(models.Model):
     filename = models.CharField(_('filename'), max_length=255)
     imagefile = FileBrowseField(
         _('file'), max_length=255,
-        extensions=[".jpg, .jpeg"], blank=True
+        extensions=[".jpg", ".jpeg"], blank=True
     )
     timestamp = models.DateTimeField(_('timestamp'), null=True)
     uploaded_by = models.ForeignKey(User, verbose_name=_(
@@ -158,12 +157,12 @@ class Photo(models.Model):
                 self.address = address
 
 
-@receiver(models.signals.post_save, sender=Photo)
-def rotate_to_normal(sender, instance, **kwargs):
-    if 'Image' in instance.exif:
-        if 'Orientation' in instance.exif['Image']:
-            orientation = instance.exif['Image']['Orientation']
-            instance.rotate_to_normal(orientation)
+# @receiver(models.signals.post_save, sender=Photo)
+# def rotate_to_normal(sender, instance, **kwargs):
+#     if 'Image' in instance.exif:
+#         if 'Orientation' in instance.exif['Image']:
+#             orientation = instance.exif['Image']['Orientation']
+#             instance.rotate_to_normal(orientation)
 
 
 @receiver(models.signals.post_delete, sender=Photo)
@@ -175,14 +174,14 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.imagefile:
         if os.path.isfile(instance.imagefile.path):
             new_file_path = os.path.join(settings.MEDIA_ROOT, 'trash/', instance.imagefile.name)
-            new_thumb_path = os.path.join(settings.MEDIA_ROOT, 'trash/', instance.thumb.name)
-
             if not os.path.exists(os.path.dirname(new_file_path)):
                 os.makedirs(os.path.dirname(new_file_path))
-
-            if not os.path.exists(os.path.dirname(new_thumb_path)):
-                os.makedirs(os.path.dirname(new_thumb_path))
-
-            #os.remove(instance.file.path)
             os.rename(instance.imagefile.path, new_file_path)
-            os.rename(instance.thumb.path, new_thumb_path)
+            # TODO: Remove all related thumbs recursive
+            # -> import glob
+            #  	fileList = glob.glob(<basepath>/media/photos/_versions/<name>_*.*', recursive=True)
+            # for filePath in fileList:
+            # try:
+            #     os.remove(filePath)
+            # except OSError:
+            #     print("Error while deleting file")
