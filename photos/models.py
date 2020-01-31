@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import io
+import glob
 import pytz
 from geopy import Nominatim
 from datetime import datetime
@@ -172,16 +173,40 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     when corresponding `Photo` object is deleted.
     """
     if instance.imagefile:
-        if os.path.isfile(instance.imagefile.path):
-            new_file_path = os.path.join(settings.MEDIA_ROOT, 'trash/', instance.imagefile.name)
+        if os.path.isfile(instance.imagefile.path_full):
+            new_file_path = os.path.join(
+                settings.MEDIA_ROOT, 'trash/', instance.imagefile.name
+            )
             if not os.path.exists(os.path.dirname(new_file_path)):
                 os.makedirs(os.path.dirname(new_file_path))
-            os.rename(instance.imagefile.path, new_file_path)
-            # TODO: Remove all related thumbs recursive
-            # -> import glob
-            #  	fileList = glob.glob(<basepath>/media/photos/_versions/<name>_*.*', recursive=True)
-            # for filePath in fileList:
-            # try:
-            #     os.remove(filePath)
-            # except OSError:
-            #     print("Error while deleting file")
+            os.rename(instance.imagefile.path_full, new_file_path)
+
+            # remove all related thumbs recursive
+            name = ''.join(instance.filename.split('.')[:-1])
+            findpath = '{mediapath}/photos/_versions/**/{name}_*.*'.format(
+                mediapath = settings.MEDIA_ROOT,
+                name = name
+            )
+            fileList = glob.glob(
+                findpath,
+                recursive=True
+            )
+            for filePath in fileList:
+                try:
+                    os.remove(filePath)
+                except OSError:
+                    pass
+
+            # remove empty '_versions' dirs
+            path = os.path.join(settings.MEDIA_ROOT, 'photos', '_versions')
+            for root, dirs, files in os.walk(path, topdown=False):
+                for name in dirs:
+                    try:
+                        # check whether the directory is empty
+                        if len(os.listdir( os.path.join(root, name) )) == 0:
+                            try:
+                                os.rmdir( os.path.join(root, name) )
+                            except:
+                                pass
+                    except:
+                        pass
