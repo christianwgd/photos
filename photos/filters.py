@@ -16,6 +16,7 @@ class PhotoFilter(django_filters.FilterSet):
 
     event = django_filters.ModelChoiceFilter(
         queryset=Event.objects.all(),
+        label=_('event')
     )
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
