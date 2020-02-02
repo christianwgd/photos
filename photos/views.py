@@ -74,7 +74,7 @@ def photolist(request):
         )
         users = User.objects.none()
         recent = 0
-    
+
     return render(request, 'photos/photolist.html', {
         'photos': photos,
         'users': users,

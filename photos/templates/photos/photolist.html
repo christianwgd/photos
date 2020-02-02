@@ -402,7 +402,7 @@ $(document).ready(function() {
     {% if not view %}
     <div class="row popup-gallery justify-content-center">
         <div class="card-deck">
-            {% for photo in photolist %}
+            {% for photo in photos.qs %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
                     <img class="img-fluid thumb img-thumbnail card-img-top" 
@@ -438,9 +438,9 @@ $(document).ready(function() {
     {% else %}
 
     {% if view == 'event' %}
-        {% regroup photolist by event as grouped_list %}
+        {% regroup photos.qs by event as grouped_list %}
     {% else %}
-        {% regroup photolist by upload as grouped_list %}
+        {% regroup photos.qs by upload as grouped_list %}
     {% endif %}
     {% for group in grouped_list %}
     <div class="row popup-gallery justify-content-center">
