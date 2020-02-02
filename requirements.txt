@@ -7,6 +7,7 @@ coreschema==0.0.4
 Django>=2.0
 django-appconf==1.0.3
 django-bootstrap4==1.1.1
+django-filebrowser-no-grappelli>=3.8.0
 django-filter==2.2.0
 django-rest-swagger==2.2.0
 django-tempus-dominus==5.1.2.13
