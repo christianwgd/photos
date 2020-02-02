@@ -12,7 +12,7 @@ AdminSite.index_title = _('Photos administration')
 
 class PhotoAdmin(admin.ModelAdmin):
     search_fields = ['name', 'address',]
-    list_filter = ['event', 'tags', 'upload']
+    list_filter = ['event', 'tags', 'owner', 'upload']
     autocomplete_fields = ['shared', 'tags']
 
 

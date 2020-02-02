@@ -119,10 +119,16 @@ class Photo(models.Model):
     address = JSONField(null=True, blank=True, default=dict)
     exif = JSONField()
     event = models.ForeignKey(
-        Event, models.CASCADE, blank=True, null=True
+        Event, models.CASCADE,
+        verbose_name=_('event'),
+        blank=True, null=True
     )
-    upload = models.ForeignKey(Import, models.PROTECT, blank=True, null=True)
-    tags = models.ManyToManyField(Tag, blank=True)
+    upload = models.ForeignKey(
+        Import, models.PROTECT,
+        verbose_name=_('import'),
+        blank=True, null=True
+    )
+    tags = models.ManyToManyField(Tag, verbose_name=_('tag'), blank=True)
     owner = models.ForeignKey(
         User, verbose_name=_('Owner'),
         on_delete=models.PROTECT, related_name='owner',
