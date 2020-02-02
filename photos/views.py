@@ -43,6 +43,13 @@ from .settings import BASE_DIR
 def photolist(request):
     viewtype = request.GET.get('viewtype', None)
 
+    filter = {}
+    for param in request.GET:
+        val = request.GET.get(param, None)
+        if len(val) > 0:
+            filter[param] = val
+    request.session['filter'] = filter
+
     if request.user.is_authenticated:
         try:
             user_settings = UserSettings.objects.get(user=request.user)
@@ -86,12 +93,16 @@ class PhotoDetailView(ReturnToRefererMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(PhotoDetailView, self).get_context_data(**kwargs)
+        filter_params = self.request.session.get('filter')
+        query_param = ''
+        if len(filter_params) > 1:
+            c = '?'
+            for key, value in filter_params.items():
+                query_param += '{}{}={}'.format(c, key, value)
+                c = '&'
+        ctx['query_param'] = query_param
         google_api_key = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
         ctx['google_api_key'] = google_api_key
-        if 'HTTP_REFERER' in self.request.META:
-            ctx['caller'] = self.request.META['HTTP_REFERER']
-        else:
-            ctx['caller'] = reverse('photolist')
         return ctx
 
 
