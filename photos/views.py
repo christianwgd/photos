@@ -22,7 +22,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.files.storage import FileSystemStorage
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, is_aware
 
 from photos import parse_exif_data
 from photos.models import Photo, Event, Tag, Import
@@ -189,6 +189,8 @@ def fileupload(request):
             exif_data = exifread.process_file(imgfile, details=False)
             exif_json = parse_exif_data.get_exif_data_as_json(exif_data)
             exif_tsp = parse_exif_data.get_exif_timestamp(exif_data)
+            if not is_aware(exif_tsp):
+                exif_tsp = make_aware(exif_tsp)
             lat, lon = parse_exif_data.get_exif_location(exif_data)
             if lat is not None and lon is not None:
                 lat = '{:3.10}'.format(lat)
@@ -198,7 +200,7 @@ def fileupload(request):
             photo = Photo(
                 name=basename.split('.')[0],
                 filename=basename,
-                timestamp=make_aware(exif_tsp),
+                timestamp=exif_tsp,
                 uploaded_by=request.user,
                 owner=request.user,
                 exif=exif_json,
