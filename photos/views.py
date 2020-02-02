@@ -11,7 +11,6 @@ from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
@@ -40,6 +39,7 @@ from .serializers import (
 from .settings import BASE_DIR
 
 
+@login_required(login_url='/accounts/login/')
 def photolist(request):
     viewtype = request.GET.get('viewtype', None)
 
@@ -72,7 +72,6 @@ def photolist(request):
         photos = PhotoFilter(
             request.GET, queryset=Photo.objects.filter(public=True)
         )
-        user = None
         users = User.objects.none()
         recent = 0
     
