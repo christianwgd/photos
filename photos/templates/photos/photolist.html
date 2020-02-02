@@ -398,9 +398,9 @@ $(document).ready(function() {
 
 
 {% if photos.qs %}
-{% cut_photos photos.qs recent as photolist %}
 
     {% if not view %}
+    {% cut_photos photos.qs recent as photolist %}
     <div class="row popup-gallery justify-content-center">
         <div class="card-deck">
             {% for photo in photolist %}
