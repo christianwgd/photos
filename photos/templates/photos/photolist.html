@@ -18,6 +18,13 @@
 <script type="text/javascript">
 function toggleTools(enabled) {
     $('#toolbar .global-tool').prop('disabled', !enabled);
+    if (enabled) {
+        $('#id_selected').show();
+    } else {
+        $('#id_selected').hide();
+    }
+    var count = $(".card.selected").length;
+    $('#id_count').text(count);
 }
 
 $(document).ready(function() {
@@ -200,7 +207,10 @@ $(document).ready(function() {
 {% block filter %}
 <div class="row">
     <div class="col">
-        <h5>Filter</h5>
+        <h5>
+            Filter
+            <span class="badge badge-secondary">{{ photos.qs.count }}</span>
+        </h5>
         <form action="" method="get">
             {% csrf_token %}
             {% bootstrap_field photos.form.event %}
@@ -236,6 +246,10 @@ $(document).ready(function() {
 <button id="select_share" class="btn btn-secondary global-tool" title="{% trans 'share' %}">
     <i class="fal fa-share-all"></i>
 </button>
+<span class="tool-separator"></span>
+<span class="badge badge-secondary badge-info float-right" id="id_selected">
+    <span id="id_count"></span>
+</span>
 {% endblock %}
 
 {% block photocontent %}

@@ -80,3 +80,9 @@
 .title-hr {
     display: none;
 }
+
+#id_selected {
+    margin-top: 7px;
+    margin-right: 10px;
+    font-size: 16px;
+}
