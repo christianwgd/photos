@@ -53,6 +53,9 @@
             });
 
             this.on('sendingmultiple', function (data, xhr, formData) {
+                $('#submit-all').addClass('disabled');
+                $('#id_upload_icon').remove();
+                $('#submit-all').append('<i id="id_spinner" class="fas fa-spinner fa-pulse"></i>');
                 formData.append("event", $("#id_event").val());
                 formData.append("tags", $("#id_tags").val());
                 formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
@@ -60,6 +63,10 @@
 
             this.on("success", function() {
                 window.location = "{% url 'photolist' %}";
+            });
+
+            this.on("error", function() {
+                $('#submit-all').removeClass('disabled');
             });
         }
     };
@@ -94,7 +101,9 @@
 <div class="container-fluid">
     <div class="row" style="margin-top: 10px;">
         <div class="col">
-            <button class="btn btn-secondary" type="submit" id="submit-all">{% trans 'uplaod' %}</button>
+            <button class="btn btn-lg btn-secondary" type="submit" id="submit-all" title="{% trans 'uplaod' %}">
+                <i id="id_upload_icon" class="far fa-upload"></i>
+            </button>
         </div>
     </div>
 </div>

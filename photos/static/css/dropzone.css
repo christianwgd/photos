@@ -438,7 +438,8 @@
   transition: opacity 0.3s ease;
   border-radius: 8px;
   font-size: 13px;
-  top: 130px;
+  /* error message overlaps remove button */
+  top: 150px;
   left: -10px;
   width: 140px;
   background: #be2626;

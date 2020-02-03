@@ -112,6 +112,9 @@ $(document).ready(function() {
             },
             success: function(){
                 $(".card.selected").remove();
+                $('#id_selected').hide();
+                $('#id_count').text('');
+
             },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
