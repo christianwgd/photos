@@ -223,6 +223,9 @@ $(document).ready(function() {
             {% bootstrap_field photos.form.uploaded %}
             {% bootstrap_field photos.form.upload %}
             {% bootstrap_button "<i class='far fa-filter'></i>" button_type="submit" button_class="btn-primary" %}
+            <a href="{% url 'photolist' %}" class="btn btn-secondary" title="{% trans 'Remove filter' %}">
+                <i class="far fa-times"></i>
+            </a>
         </form>
     </div>
 </div>
