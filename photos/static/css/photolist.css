@@ -4,7 +4,7 @@
 
 .card {
     min-width: 200px;
-    max-width: 400px;
+    /* max-width: 400px; */
     height: 280px;
     margin-bottom: 15px !important;
 }
@@ -67,13 +67,6 @@
     text-align: center;
     width: 100%;
 }
-
-/* .toolbar a, .toolbar span {
-    color: var(--secondary);
-}
-.toolbar a:hover, .toolbar span:hover {
-    color: var(--primary);
-} */
 
 /* remove hr from title since here is no title */
 .title-hr {

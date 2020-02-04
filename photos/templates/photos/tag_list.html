@@ -19,17 +19,19 @@
                     {% get_visibles tag.photo_set.all user as visibles %}
                     {% if visibles.count > 0 %}
                     <div class="card text-center" id="{{ event.id }}">
-                        <div class="image-container">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                {{ tag.name }}
+                                <span class="badge badge-secondary">{{ visibles.count }}</span>
+                            </h5>
+                        </div>
+                        <div class="card-body toolbar">
                             {% for photo in visibles|slice:"0:3" %}
                             <img class="img-responsive thumb img-thumbnail" src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
                                 style="transform: rotate({{forloop.counter|rotation}}deg);">
                             {% endfor %}
                         </div>
-                        <div class="card-body toolbar">
-                            <h5 class="card-title">
-                                {{ tag.name }}
-                                <span class="badge badge-secondary">{{ visibles.count }}</span>
-                            </h5>
+                        <div class="card-footer">
                             <a href="{% url 'photolist' %}?viewtype=event&tags={{tag.id}}" class="tool"
                             {% if visibles.count == 0 %}disabled="disabled{% endif %}"
                             title="{% trans 'view' %}">

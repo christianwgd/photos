@@ -426,7 +426,7 @@ $(document).ready(function() {
             {% for photo in photos.qs %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
-                    <img class="img-fluid thumb img-thumbnail card-img-top" 
+                    <img class="img-fluid img-thumbnail card-img" 
                          src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
                     <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
@@ -473,7 +473,7 @@ $(document).ready(function() {
             {% for photo in group.list %}
             <div class="card text-center" id="{{ photo.id }}">
                 <div class="image-container">
-                    <img class="img-responsive thumb img-thumbnail" 
+                    <img class="img-fluid img-thumbnail card-img" 
                          src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
                     >
                     <span class="dot"><i class="fal fa-check"></i></span>

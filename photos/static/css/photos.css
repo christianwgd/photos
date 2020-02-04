@@ -6,9 +6,9 @@
     padding: 10px;
 }
 
-/* .row {
-    margin-bottom: 3px;
-} */
+.row {
+    margin-bottom: 1rem;
+}
 
 .title-block {
     text-align: center;
