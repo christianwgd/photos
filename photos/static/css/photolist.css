@@ -58,6 +58,7 @@
 
 .tool {
     padding: 6px;
+    text-decoration: none;
 }
 .tool:hover {
     text-decoration: none;

@@ -12,7 +12,11 @@
 }
 
 .card-header {
-    min-height: 72px;
+    min-height: 5.5rem;
+}
+
+.card-header h5 {
+    margin-bottom: 0;
 }
 
 .card-body {
@@ -33,7 +37,9 @@
 
 .tool {
     padding: 6px;
+    text-decoration: none;
 }
 .tool:hover {
     text-decoration: none;
+    text-shadow: 2px 2px #ff0000;
 }
