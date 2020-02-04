@@ -9,9 +9,9 @@ django-appconf==1.0.3
 django-bootstrap4==1.1.1
 django-filebrowser-no-grappelli>=3.8.0
 django-filter==2.2.0
-django-rest-swagger==2.2.0
 django-tempus-dominus==5.1.2.13
 djangorestframework==3.11.0
+drf-yasg==1.17.0
 ExifRead==2.1.2
 geographiclib==1.50
 geopy==1.20.0
