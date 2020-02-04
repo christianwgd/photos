@@ -1,5 +1,5 @@
 .card-deck {
-    padding: 15px;
+    padding: 5px 20px;
 }
 
 .card {
@@ -16,7 +16,6 @@
 }
 
 .image-container {
-    background-color: #fff;
     padding: 0px;
     margin: 0px;
 }
@@ -32,7 +31,7 @@
     height: 22px;
     width: 22px;
     border-radius: 50%;
-    border: 1px solid white;
+    border: 1px solid var(--light);
     display: none;
     position: absolute;
     right: 15px;
@@ -45,7 +44,7 @@
 }
 
 .card.selected .dot {
-    background-color: white;
+    background-color: var(--light);
     display: inline;
 }
 
@@ -69,14 +68,14 @@
     width: 100%;
 }
 
-.toolbar a, .toolbar span {
-    color: #999;
+/* .toolbar a, .toolbar span {
+    color: var(--secondary);
 }
 .toolbar a:hover, .toolbar span:hover {
-    color: #000;
-}
+    color: var(--primary);
+} */
 
-/* remvove hr from title since here is no title */
+/* remove hr from title since here is no title */
 .title-hr {
     display: none;
 }

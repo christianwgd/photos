@@ -5,6 +5,7 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
 <link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'datetimepicker/bootstrap-datetimepicker.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/photolist.css' %}">
 <script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
@@ -47,18 +48,18 @@ $(document).ready(function() {
     });
 
     toggleTools(false);
-    $('#user-select').select2({ width: '100%' });
-    $('#id_event').select2({ width: '100%' });
-    $('#id_tags').select2({ width: '100%' });
-    $('#id_assign_owner').select2({ width: '100%' });
-    $('#id_assign_event').select2({ width: '100%' });
-    $('#id_assign_tags').select2({ width: '100%' });
+    $('#user-select').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_event').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_tags').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_assign_owner').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_assign_event').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_assign_tags').select2({ theme: 'bootstrap4', width: '100%' });
     $('#id_event option').clone().appendTo('#id_assign_event');
     $('#id_tags option').clone().appendTo('#id_assign_tags');
     $('#user-select option').clone().appendTo('#id_assign_owner');
     $("#id_assign_owner").prepend("<option value='' selected='selected'>---------</option>");
-    $('#id_uploaded_by').select2({ width: '100%' });
-    $('#id_upload').select2({ width: '100%' });
+    $('#id_uploaded_by').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_upload').select2({ theme: 'bootstrap4', width: '100%' });
     var options = {
         locale: 'de',
         format: 'L',

@@ -10,25 +10,23 @@ AdminSite.site_title = _('Photos')
 AdminSite.site_header = _('Photos')
 AdminSite.index_title = _('Photos administration')
 
+@admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     search_fields = ['name', 'address',]
     list_filter = ['event', 'tags', 'owner', 'upload']
     autocomplete_fields = ['shared', 'tags']
 
 
+@admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     search_fields = ['name',]
 
 
+@admin.register(Import)
 class ImportAdmin(admin.ModelAdmin):
     search_fields = ['name',]
 
 
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name',]
-
-
-admin.site.register(Photo, PhotoAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(Import, ImportAdmin)
-admin.site.register(Tag, TagAdmin)

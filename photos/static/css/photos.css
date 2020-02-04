@@ -1,13 +1,14 @@
 .dropdown-menu.right { right: 0; left: auto; }
 
 .panel {
-    border: 1px solid #ccc;
+    border: 1px solid  var(--secondary);
     margin: 5px;
+    padding: 10px;
 }
 
-.row {
-    margin-bottom: 1rem;
-}
+/* .row {
+    margin-bottom: 3px;
+} */
 
 .title-block {
     text-align: center;
@@ -16,6 +17,7 @@
 
 hr {
     width: 30%;
+    background-color: var(--secondary);
 }
 
 
@@ -52,10 +54,6 @@ pre {
 
 #toolbar .btn-secondary:disabled {
     cursor: not-allowed;
-}
-
-#toolbar .btn-secondary:disabled  svg {
-    color: #999999;
 }
 
 .tool-separator {

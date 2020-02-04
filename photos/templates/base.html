@@ -1,5 +1,5 @@
 {% extends 'bootstrap4/bootstrap4.html' %}
-{% load i18n bootstrap4 static %}
+{% load i18n bootstrap4 static user_tags %}
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
@@ -22,6 +22,7 @@
 <meta name="msapplication-TileImage" content="{% static 'favicon/ms-icon-144x144.png'%}">
 <meta name="theme-color" content="#ffffff">
 
+{% user_theme request.user %}
 <link rel="stylesheet" href="{% static 'font-awesome-5/css/all.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
 
@@ -32,7 +33,7 @@
 
 
 {% block bootstrap4_content %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="{% url 'photolist' %}">{% trans 'Photos' %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

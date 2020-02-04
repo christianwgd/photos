@@ -125,6 +125,13 @@ FILEBROWSER_VERSIONS = {
 }
 FILEBROWSER_ADMIN_VERSIONS = ['thumbnail']
 FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
+FILEBROWSER_EXTENSIONS = {
+    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+    'Document': ['.pdf','.doc','.rtf','.txt','.xls','.csv'],
+    'Video': ['.mov','.wmv','.mpeg','.mpg','.avi','.rm'],
+    'Audio': ['.mp3','.mp4','.wav','.aiff','.midi','.m4p'],
+    'Style': ['.css']
+}
 
 
 ##################
@@ -133,8 +140,6 @@ FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
 BOOTSTRAP4 = {
     # wird sonst 2-mal geladen...
     'javascript_in_head': True,
-    'theme_url': '/static/bootstrap-4/css/yeti.min.css',
-    # 'theme_url': '/static/bootstrap-4/css/materia.min.css',
 }
 
 TEMPUS_DOMINUS_LOCALIZE = True
