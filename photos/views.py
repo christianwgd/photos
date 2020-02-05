@@ -455,11 +455,6 @@ class TagDeleteView(DeleteView):
         messages.info(request, _('Tag deleted'))
         return super(TagDeleteView, self).post(request, *args, **kwargs)
 
-def photos_as_json(request):
-    photos = Photo.objects.all().values('id', 'name')
-    return JsonResponse({'results': list(photos)})
-
-
 # REST Views
 class PhotoViewSet(viewsets.ModelViewSet):
     """
