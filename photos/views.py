@@ -455,6 +455,7 @@ class TagDeleteView(DeleteView):
         messages.info(request, _('Tag deleted'))
         return super(TagDeleteView, self).post(request, *args, **kwargs)
 
+
 # REST Views
 class PhotoViewSet(viewsets.ModelViewSet):
     """

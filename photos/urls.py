@@ -88,8 +88,6 @@ urlpatterns = [
     path('tagdelete/<int:pk>/', views.TagDeleteView.as_view(), name='tagdelete'),
     path('deleteempty/', views.delete_empty, name='deleteempty'),
 
-    # path('photos_as_json/', views.photos_as_json),
-
     path('photos/', include(router.urls)),
     path('accounts/', include('accounts.urls')),
 
