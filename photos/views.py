@@ -171,7 +171,7 @@ def fileupload(request):
             event, ev_created = Event.objects.get_or_create(name=upload.name)
         tagstr = request.POST.get('tags')
         if tagstr != '':
-            tags = tagstr.split(' ')
+            tags = tagstr.split(';')
         else:
             tags = []
 

@@ -3,7 +3,11 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'css/photonew.css' %}">
+<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
 <script src="{% static 'js/dropzone.js' %}"></script>
 {% endblock %}
 
@@ -11,81 +15,239 @@
 
 {% block bootstrap4_extra_script %}
 <script type="text/javascript">
+Dropzone.options.myDropzone = {
+    url: "/file-upload",
+    paramName: "file",
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 100,
+    maxFiles: 100,
+    acceptedFiles: "image/*",
+    dictDefaultMessage: "{% trans 'Drop files here to upload' %}",
 
-    Dropzone.options.myDropzone = {
-        url: "/file-upload",
-        paramName: "file",
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 100,
-        maxFiles: 100,
-        acceptedFiles: "image/*",
-        dictDefaultMessage: "{% trans 'Drop files here to upload' %}",
+    init: function () {
 
-        init: function () {
+        var submitButton = document.querySelector("#submit-all");
+        var wrapperThis = this;
 
-            var submitButton = document.querySelector("#submit-all");
-            var wrapperThis = this;
+        submitButton.addEventListener("click", function () {
+            wrapperThis.processQueue();
+        });
 
-            submitButton.addEventListener("click", function () {
-                wrapperThis.processQueue();
+        this.on("addedfile", function (file) {
+
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-secondary remove'>{% trans 'Remove File' %}</button>");
+
+            // Listen to the click event
+            removeButton.addEventListener("click", function (e) {
+                // Make sure the button click doesn't submit the form:
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Remove the file preview.
+                wrapperThis.removeFile(file);
+                // If you want to the delete the file on the server as well,
+                // you can do the AJAX request here.
             });
 
-            this.on("addedfile", function (file) {
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+        });
 
-                // Create the remove button
-                var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-secondary remove'>{% trans 'Remove File' %}</button>");
+        this.on('sendingmultiple', function (data, xhr, formData) {
+            $('#submit-all').addClass('disabled');
+            $('#id_upload_icon').remove();
+            $('#submit-all').append('<i id="id_spinner" class="fas fa-spinner fa-pulse"></i>');
+            formData.append(
+                "event",
+                $("#id_event_select option:selected").text()
+            );
+            formData.append(
+                "tags",
+                $("#id_tag_select option:selected").map(function () {
+                    return $(this).text();
+                }).get().join(';')
+            );
+            formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+        });
 
-                // Listen to the click event
-                removeButton.addEventListener("click", function (e) {
-                    // Make sure the button click doesn't submit the form:
-                    e.preventDefault();
-                    e.stopPropagation();
+        this.on("success", function() {
+            window.location = "{% url 'photolist' %}";
+        });
 
-                    // Remove the file preview.
-                    wrapperThis.removeFile(file);
-                    // If you want to the delete the file on the server as well,
-                    // you can do the AJAX request here.
-                });
+        this.on("error", function() {
+            $('#submit-all').removeClass('disabled');
+        });
+    }
+};
 
-                // Add the button to the file preview element.
-                file.previewElement.appendChild(removeButton);
-            });
-
-            this.on('sendingmultiple', function (data, xhr, formData) {
-                $('#submit-all').addClass('disabled');
-                $('#id_upload_icon').remove();
-                $('#submit-all').append('<i id="id_spinner" class="fas fa-spinner fa-pulse"></i>');
-                formData.append("event", $("#id_event").val());
-                formData.append("tags", $("#id_tags").val());
-                formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
-            });
-
-            this.on("success", function() {
-                window.location = "{% url 'photolist' %}";
-            });
-
-            this.on("error", function() {
-                $('#submit-all').removeClass('disabled');
-            });
+function update_event_options(selected) {
+    $.ajax({
+        type: 'GET',
+        url: '/photos/events/',
+        success: function(events){
+            for (e in events) {
+                if (selected === events[e].id) {
+                    $('#id_event_select')
+                    .append($("<option selected></option>")
+                        .attr("value",events[e].id)
+                        .text(events[e].name));    
+                } else {
+                    $('#id_event_select')
+                        .append($("<option></option>")
+                            .attr("value",events[e].id)
+                            .text(events[e].name));
+                }
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            alert('Error fetching events!');
         }
-    };
+    });
+}
+
+function update_tag_options(selected) {
+    $.ajax({
+        type: 'GET',
+        url: '/photos/tags/',
+        success: function(tags){
+            for (t in tags) {
+                if (selected === tags[t].id) {
+                    $('#id_tag_select')
+                    .append($("<option selected></option>")
+                        .attr("value",tags[t].id)
+                        .text(tags[t].name));    
+                } else {
+                    $('#id_tag_select')
+                        .append($("<option></option>")
+                            .attr("value",tags[t].id)
+                            .text(tags[t].name));
+                }
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            alert('Error fetching tags!');
+        }
+    });
+}
+
+$(document).ready(function() {
+
+    $('#id_event_select').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_tag_select').select2({ theme: 'bootstrap4', width: '100%' });
+
+    $('#id_event_add').click(function() {
+        $('#eventAddModal').modal();
+    });
+    $('#id_add_event').click(function() {
+        var new_event = $('#id_new_event').val();
+        $('#id_event_select')
+            .append($("<option selected></option>")
+            .attr("value",new_event).text(new_event)); 
+    });
+
+    $('#id_tag_add').click(function() {
+        $('#tagAddModal').modal();
+    });
+    $('#id_add_tag').click(function() {
+        var new_tag = $('#id_new_tag').val();
+        $('#id_tag_select')
+            .append($("<option selected></option>")
+            .attr("value",new_tag).text(new_tag)); 
+    });
+
+    update_event_options();
+    update_tag_options();
+});
 </script>
 {% endblock %}
 
 {% block content %}
 
+<div class="modal fade" id="eventAddModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">{% trans 'Add event' %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <label for="id_new_event">{% trans 'event' %}</label>
+            <input type="text" name="event" autofocus maxlength="254" class="form-control" placeholder="{% trans 'event' %}" id="id_new_event" />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button id="id_add_event" type="button" class="btn btn-primary" data-dismiss="modal">
+                <i class="fal fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <i class="fal fa-times"></i>
+            </button>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="tagAddModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">{% trans 'Add tag' %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <label for="id_new_tag">{% trans 'tag' %}</label>
+            <input type="text" name="tag" autofocus maxlength="254" class="form-control" placeholder="{% trans 'tag' %}" id="id_new_tag" />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button id="id_add_tag" type="button" class="btn btn-primary" data-dismiss="modal">
+                <i class="fal fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <i class="fal fa-times"></i>
+            </button>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+
  <form action="" enctype="multipart/form-data" method="post">
+{% csrf_token %}
  <div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label for="id_event">{% trans 'event' %}</label>
-                <input type="text" name="event" autofocus maxlength="254" class="form-control" placeholder="{% trans 'event' %}" id="id_event" />
+                <label for="id_event_select">{% trans 'event' %}</label>
+                <button type="button" class="btn btn-sm btn-success btn-add" id="id_event_add">
+                    <i class="fal fa-plus"></i>
+                </button>
+                <div class="input-group">
+                    <select id="id_event_select" class="form-control" autofocus>
+                        <option value="">----------</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group">
-                <label for="id_tags">{% trans 'tags' %}</label>
-                <input type="text" name="tags" class="form-control" placeholder="tags" id="id_tags" />
+                <label for="id_tag_select">{% trans 'tags' %}</label>
+                <button type="button" class="btn btn-sm btn-success btn-add" id="id_tag_add">
+                    <i class="fal fa-plus"></i>
+                </button>
+                <select id="id_tag_select" multiple></select>
             </div>
         </div>
     </div>
