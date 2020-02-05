@@ -43,7 +43,7 @@ schema_view = get_schema_view(
       default_version='v1',
    ),
    authentication_classes=(
-        authentication.TokenAuthentication,
+        authentication.SessionAuthentication,
     ),
 )
 

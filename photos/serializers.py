@@ -9,7 +9,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['url', 'name']
+        fields = ['url', 'id', 'name']
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
