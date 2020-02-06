@@ -43,3 +43,7 @@
     text-decoration: none;
     text-shadow: 2px 2px #ff0000;
 }
+
+a, a:hover {
+    text-decoration: none;
+}
