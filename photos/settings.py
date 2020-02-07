@@ -102,6 +102,7 @@ REST_FRAMEWORK = {
 ##################
 # FileBrowser    #
 ##################
+FILE_UPLOAD_PERMISSIONS = 0o644
 FILEBROWSER_DIRECTORY = 'photos/'
 FILEBROWSER_VERSIONS_BASEDIR = 'photos/_versions'
 FILEBROWSER_VERSIONS = {
