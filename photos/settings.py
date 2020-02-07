@@ -69,6 +69,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'photos.wsgi.application'
 
 
+# Setup support for proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
