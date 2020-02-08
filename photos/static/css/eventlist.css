@@ -47,3 +47,8 @@
 a, a:hover {
     text-decoration: none;
 }
+
+.row.buttons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
