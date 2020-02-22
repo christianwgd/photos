@@ -13,24 +13,10 @@
    crossorigin=""></script>
 
 <script>
-function get_photo(id) {
-    $.ajax({
-        type: 'POST',
-        url: '/processdelete/',
-        data: {
-            'ids[]': ids,
-            'csrfmiddlewaretoken': "{{ csrf_token }}"
-        },
-        success: function(){
-            $(".card.selected").remove();
-            $('#id_selected').hide();
-            $('#id_count').text('');
-
-        },
-        error: function (xhr, ajaxOptions, thrownError){
-            alert('error!');
-        }
-    });
+function resizeMap() {
+    var height = $(window).height() - 250;
+    $('#mapid').height(height);
+    mymap.invalidateSize();
 }
 
 $(document).ready(function(){
@@ -67,6 +53,10 @@ $(document).ready(function(){
         marker.properties.url = "{{ photo.imagefile.url }}";
     {% endfor %}
 
+    resizeMap();
+    window.onresize = function() {
+        resizeMap();
+    }
 });
 </script>
 {% endblock %}
@@ -96,7 +86,7 @@ $(document).ready(function(){
 
 <div class="container-fluid">
         <div class="col">
-            <div id="mapid" style="height: 800px; width: 100%;"></div>
+            <div id="mapid" style="height: 200px; width: 100%;"></div>
         </div>
     </div>
 
