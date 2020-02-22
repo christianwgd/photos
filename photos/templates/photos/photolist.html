@@ -100,6 +100,14 @@ $(document).ready(function() {
         $('#deleteModal').modal(options);
     });
 
+    $('#show_in_map').on('click', function() {
+        var ids = $.map($(".card.selected"), function (item) {
+            return $(item).attr("id");
+        });
+
+        window.document.location.href = "{% url 'photomap' %}?ids="+ids;
+    });
+
     $('#delete').on('click', function() {
         var ids = $.map($(".card.selected"), function (item) {
             return $(item).attr("id");
@@ -238,6 +246,10 @@ $(document).ready(function() {
 </button>
 <button class="btn btn-secondary" id="none" title="{% trans 'select none' %}">
     <i class="fal fa-th"></i>
+</button>
+<span class="tool-separator"></span>
+<button id="show_in_map" class="btn btn-secondary global-tool" id="map" title="{% trans 'show selected in map' %}">
+    <i class="fal fa-map"></i>
 </button>
 <span class="tool-separator"></span>
 <button class="btn btn-secondary global-tool" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">

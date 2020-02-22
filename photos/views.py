@@ -83,6 +83,18 @@ def photolist(request):
     })
 
 
+class PhotoMapView(ListView):
+    model = Photo
+    template_name = 'photos/photo_map.html'
+
+    def get_queryset(self):
+        idstr = self.request.GET.get('ids')
+        ids = idstr.split(',')
+        return Photo.objects.filter(
+            pk__in=ids
+        ).exclude(latitude=None).exclude(longitude=None)
+
+
 class PhotoDetailView(ReturnToRefererMixin, DetailView):
     model = Photo
 
@@ -100,8 +112,6 @@ class PhotoDetailView(ReturnToRefererMixin, DetailView):
                 query_param += '{}{}={}'.format(c, key, value)
                 c = '&'
         ctx['query_param'] = query_param
-        google_api_key = getattr(settings, "GEOPOSITION_GOOGLE_MAPS_API_KEY", None)
-        ctx['google_api_key'] = google_api_key
         return ctx
 
 

@@ -67,6 +67,7 @@ urlpatterns = [
     path('file-upload', views.fileupload, name='fileupload'),
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
     path('geocode/', views.geocode, name='geocode'),
+    path('photomap/', views.PhotoMapView.as_view(), name='photomap'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processshare/', views.processshare, name='processshare'),
