@@ -106,7 +106,6 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 FILEBROWSER_DIRECTORY = 'photos/'
 FILEBROWSER_VERSIONS_BASEDIR = 'photos/_versions'
 FILEBROWSER_VERSIONS = {
-    'map_thumbnail': {'verbose_name': 'Map Thumbnail', 'width': 40, 'height': 40, 'opts': 'crop'},
     'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
     'thumbnail': {'verbose_name': 'Thumbnail', 'width': 400, 'height': 400, 'opts': 'crop'}
 }

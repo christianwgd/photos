@@ -34,7 +34,7 @@ $(document).ready(function(){
     {% for photo in photo_list %}
         var map_icon = L.icon({
             iconUrl: '{% version photo.imagefile 'admin_thumbnail' %}',
-            iconAnchor:   [15, 15] // point of the icon which will correspond to marker's location
+            iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
         });
         var marker = L.marker(
             [{{ photo.latitude }}, {{ photo.longitude }}],
