@@ -13,6 +13,26 @@
    crossorigin=""></script>
 
 <script>
+function get_photo(id) {
+    $.ajax({
+        type: 'POST',
+        url: '/processdelete/',
+        data: {
+            'ids[]': ids,
+            'csrfmiddlewaretoken': "{{ csrf_token }}"
+        },
+        success: function(){
+            $(".card.selected").remove();
+            $('#id_selected').hide();
+            $('#id_count').text('');
+
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            alert('error!');
+        }
+    });
+}
+
 $(document).ready(function(){
 
     mymap = new L.Map('mapid').setView([{{ photo_list.0.latitude }}, {{ photo_list.0.longitude }}], 10);
@@ -33,7 +53,18 @@ $(document).ready(function(){
         var marker = L.marker(
             [{{ photo.latitude }}, {{ photo.longitude }}],
             { icon: map_icon }
-        ).addTo(mymap);
+        ).addTo(mymap).on('click', function(e) {
+            var props = e.target.properties;
+            $('#id_photo_name').html(props.name);
+            $('#id_photo_file').attr('src', props.url);
+            $('#id_photo_file').attr('alt', props.name);
+            $('#photoModal').modal();
+            //alert(props.url);
+        });
+        marker.properties = {};
+        marker.properties.id = {{ photo.id }};
+        marker.properties.name = "{{ photo.name }}";
+        marker.properties.url = "{{ photo.imagefile.url }}";
     {% endfor %}
 
 });
@@ -43,6 +74,26 @@ $(document).ready(function(){
 {% block title %}{% trans 'Map' %}{% endblock %}
 
 {% block content %}
+<!-- The Modal -->
+<div class="modal fade" id="photoModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 id="id_photo_name" class="modal-title">Test</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <img id="id_photo_file" src="" alt="" width="100%">
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
         <div class="col">
             <div id="mapid" style="height: 800px; width: 100%;"></div>

@@ -34,7 +34,7 @@ from usersettings.models import UserSettings
 from rest_framework import viewsets
 from .serializers import (
     PhotoSerializer, EventSerializer, TagSerializer,
-    ImportSerializer, UserSerializer, PhotoEXIFSerializer
+    ImportSerializer, UserSerializer, PhotoEXIFSerializer,
 )
 from .settings import BASE_DIR
 

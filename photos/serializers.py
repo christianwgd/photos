@@ -30,8 +30,11 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ['url', 'id', 'name', 'timestamp', 'uploaded',
-                  'uploaded_by', 'address', 'event', 'upload', 'tags']
+        fields = [
+            'url', 'id', 'name', 'timestamp', 'uploaded',
+            'uploaded_by', 'address', 'event', 'upload',
+            'tags', 'imagefile'
+        ]
 
 
 class PhotoEXIFSerializer(serializers.HyperlinkedModelSerializer):
