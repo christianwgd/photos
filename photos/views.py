@@ -280,6 +280,8 @@ def processshare(request):
             photo.shared.add(*(share_to.exclude(pk=photo.owner.id)))
         else:
             photo.shared.add(*share_to)
+        photo.event.visible_for.add(*share_to)
+
     return HttpResponse('success')
 
 
@@ -372,12 +374,9 @@ def processdownload(request):
 class EventListView(LoginRequiredMixin, ListView):
 
     model = Event
-    # paginate_by = 100  # if pagination is desired
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['eventlist'] = Event.objects.all()
-        return context
+    def get_queryset(self):
+        return Event.objects.filter(visible_for=self.request.user)
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):

@@ -15,7 +15,7 @@
 
             <div class="row popup-gallery justify-content-center">
                 <div class="card-deck">
-                    {% for event in eventlist %}
+                    {% for event in event_list %}
                     {% get_visibles event.photo_set.all user as visibles %}
                     {% if visibles.count > 0 %}
                     <div class="card text-center" id="{{ event.id }}">

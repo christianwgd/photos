@@ -34,8 +34,7 @@ class PhotoFilter(django_filters.FilterSet):
             Q(owner=user) |
             Q(shared=user)
         )
-        # Filtering events doesn't allow assign photo to empty event!
-        # self.filters['event'].queryset = Event.objects.filter(
-        #     photo__pk__in=visibles
-        # ).distinct()
+        self.filters['event'].queryset = Event.objects.visible(
+            for_user=user
+        )
     

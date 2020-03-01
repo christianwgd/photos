@@ -18,7 +18,7 @@ from filebrowser.fields import FileBrowseField
 
 from photos import settings
 from photos.geocoder import MapsGeocoder
-from photos.managers import PhotoVisibleManager
+from photos.managers import PhotoVisibleManager, EventVisibleManager
 
 
 def user_str_patch(self):
@@ -65,6 +65,8 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+    objects = EventVisibleManager()
 
     name = models.CharField(_('name'), max_length=255)
     visible_for = models.ManyToManyField(

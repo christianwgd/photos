@@ -14,6 +14,8 @@ class PhotoVisibleManager(Manager):
 class EventVisibleManager(Manager):
 
     def visible(self, for_user=None):
+        if for_user is None:
+            return self.all()
         return self.filter(
             visible_for=for_user
         )
