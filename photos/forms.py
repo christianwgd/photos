@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from tempus_dominus.widgets import DateTimePicker
 
-from .models import Photo
+from .models import Photo, Event
 
 
 class PhotoForm(forms.ModelForm):

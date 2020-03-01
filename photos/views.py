@@ -8,8 +8,10 @@ import traceback
 from shutil import rmtree
 
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.dispatch import receiver
+from django.http import HttpResponse, FileResponse
 from django.utils.translation import ugettext as _
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
@@ -83,7 +85,7 @@ def photolist(request):
     })
 
 
-class PhotoMapView(ListView):
+class PhotoMapView(LoginRequiredMixin, ListView):
     model = Photo
     template_name = 'photos/photo_map.html'
 
@@ -95,7 +97,7 @@ class PhotoMapView(ListView):
         ).exclude(latitude=None).exclude(longitude=None)
 
 
-class PhotoDetailView(ReturnToRefererMixin, DetailView):
+class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
     model = Photo
 
     @method_decorator(login_required)
@@ -120,7 +122,9 @@ def new(request):
     return render(request, 'photos/photonew.html', {})
 
 
-class PhotoUpdateView(ReturnToRefererMixin, SuccessMessageMixin, UpdateView):
+class PhotoUpdateView(
+    LoginRequiredMixin, ReturnToRefererMixin,
+    SuccessMessageMixin, UpdateView):
 
     model = Photo
     form_class = PhotoForm
@@ -293,27 +297,6 @@ def removeshare(request, photo_id, user_id):
 
 
 @login_required(login_url='/accounts/login/')
-def delete_empty(request):
-
-    usedUploads = Photo.objects.all().order_by('upload_id').values('upload_id').distinct('upload_id')
-    uploadsToDelete = Import.objects.exclude(pk__in=usedUploads)
-    for upload in uploadsToDelete:
-        dirname = os.path.abspath('{}/photos/{}'.format(settings.MEDIA_ROOT, upload.slug))
-        try:
-            rmtree(dirname)
-        except:
-            traceback.print_exc()
-            messages.error(request, _('could not remove directory'))
-    uploadsToDelete.delete()
-
-    usedEvents = Photo.objects.all().order_by('event_id').values('event_id').distinct('event_id')
-    Event.objects.exclude(pk__in=usedEvents).delete()
-
-    return HttpResponseRedirect(reverse('photolist'))
-
-
-
-@login_required(login_url='/accounts/login/')
 def processassign(request):
     ids = request.POST.getlist('ids[]')
     evt = request.POST.get('event')
@@ -386,7 +369,7 @@ def processdownload(request):
     return resp
 
 
-class EventListView(ListView):
+class EventListView(LoginRequiredMixin, ListView):
 
     model = Event
     # paginate_by = 100  # if pagination is desired
@@ -397,7 +380,7 @@ class EventListView(ListView):
         return context
 
 
-class EventUpdateView(UpdateView):
+class EventUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Event
     fields = ['name', ]
@@ -405,15 +388,20 @@ class EventUpdateView(UpdateView):
     success_url = reverse_lazy('eventlist')
 
 
-class EventCreateView(CreateView):
+class EventCreateView(LoginRequiredMixin, CreateView):
 
     model = Event
     fields = ['name', ]
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
 
+    def form_valid(self, form):
+        event = form.save()
+        event.visible_for.add(self.request.user)
+        return super(EventCreateView, self).form_valid(form)
 
-class EventDeleteView(DeleteView):
+
+class EventDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Event
     success_url = reverse_lazy('eventlist')
@@ -426,7 +414,7 @@ class EventDeleteView(DeleteView):
         return super(EventDeleteView, self).post(request, *args, **kwargs)
 
 
-class TagListView(ListView):
+class TagListView(LoginRequiredMixin, ListView):
 
     model = Tag
     # paginate_by = 100  # if pagination is desired
@@ -437,7 +425,7 @@ class TagListView(ListView):
         return context
 
 
-class TagUpdateView(UpdateView):
+class TagUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Tag
     fields = ['name', ]
@@ -445,7 +433,7 @@ class TagUpdateView(UpdateView):
     success_url = reverse_lazy('taglist')
 
 
-class TagCreateView(CreateView):
+class TagCreateView(LoginRequiredMixin, CreateView):
 
     model = Tag
     fields = ['name', ]
@@ -453,7 +441,7 @@ class TagCreateView(CreateView):
     success_url = reverse_lazy('taglist')
 
 
-class TagDeleteView(DeleteView):
+class TagDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Tag
     success_url = reverse_lazy('taglist')

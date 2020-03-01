@@ -3,6 +3,7 @@ import os
 import io
 import glob
 import pytz
+from django.db.models import Q
 from geopy import Nominatim
 from datetime import datetime
 from PIL import Image
@@ -66,6 +67,10 @@ class Event(models.Model):
         return self.name
 
     name = models.CharField(_('name'), max_length=255)
+    visible_for = models.ManyToManyField(
+        User, related_name='visisble_for',
+        verbose_name=_('Visible for'), blank=True
+    )
 
 
 class Tag(models.Model):
@@ -135,7 +140,7 @@ class Photo(models.Model):
     )
     shared = models.ManyToManyField(
         User, related_name='shared_with',
-        verbose_name='Shared with', blank=True
+        verbose_name=_('Shared with'), blank=True
     )
     public = models.BooleanField(default=False, verbose_name='Public')
 

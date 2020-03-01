@@ -20,6 +20,7 @@ class PhotoAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     search_fields = ['name',]
+    autocomplete_fields = ['visible_for']
 
 
 @admin.register(Import)

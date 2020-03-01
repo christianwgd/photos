@@ -87,7 +87,6 @@ urlpatterns = [
     path('tagcreate/', views.TagCreateView.as_view(), name='tagcreate'),
     path('tagupdate/<int:pk>/', views.TagUpdateView.as_view(), name='tagupdate'),
     path('tagdelete/<int:pk>/', views.TagDeleteView.as_view(), name='tagdelete'),
-    path('deleteempty/', views.delete_empty, name='deleteempty'),
 
     path('photos/', include(router.urls)),
     path('accounts/', include('accounts.urls')),
