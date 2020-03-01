@@ -67,7 +67,7 @@ def photolist(request):
             )
         else:
             photos = PhotoFilter(
-                request.GET, queryset=photos.order_by(viewtype), 
+                request.GET, queryset=photos.order_by(viewtype, '-timestamp'),
                 user=request.user
             )
     else:
@@ -271,10 +271,15 @@ def processdelete(request):
 
 @login_required(login_url='/accounts/login/')
 def processshare(request):
-    ids = request.POST.getlist('ids[]')
+    event_id = request.POST.get('event', None)
+    if event_id is None:
+        ids = request.POST.getlist('ids[]')
+        share = Photo.objects.filter(pk__in=ids)
+    else:
+        share = Photo.objects.filter(event__id=event_id)
     users = request.POST.getlist('users[]')
     share_to = User.objects.filter(pk__in=users)
-    share = Photo.objects.filter(pk__in=ids)
+
     for photo in share:
         if photo.owner in share_to:
             photo.shared.add(*(share_to.exclude(pk=photo.owner.id)))
@@ -291,6 +296,10 @@ def removeshare(request, photo_id, user_id):
         photo = Photo.objects.get(pk=photo_id)
         user = User.objects.get(pk=user_id)
         photo.shared.remove(user)
+        event = photo.event
+        # remove user from event.visible_for if no photos for user shared
+        if Photo.objects.filter(event=event, shared=user).count() == 0:
+            event.visible_for.remove(user)
     except Photo.DoesNotExist:
         pass
     except:
@@ -377,6 +386,12 @@ class EventListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Event.objects.filter(visible_for=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.exclude(id=self.request.user.id)
+        return context
+
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):

@@ -150,6 +150,13 @@ $(document).ready(function() {
                 'tags[]': tags,
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
+            success: function() {
+                if (owner) {
+                    location.reload();
+                } else {
+                    $('#id_assign_tags').val(null).trigger('change');
+                }
+            },
             error: function (xhr, ajaxOptions, thrownError){
                 alert('error!');
             }
@@ -200,6 +207,7 @@ $(document).ready(function() {
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
             success: function(){
+                $('#user-select').val(null).trigger('change');
                 if (ids.lenght > 1) {
                     alert(ids.length + ' Fotos geteilt.');
                 } else {
