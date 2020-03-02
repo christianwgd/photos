@@ -176,7 +176,7 @@ $(document).ready(function(){
                         </td>
                     </tr>
                     <tr>
-                        <th>{% trans 'shared with' %}</th>
+                        <th>{% trans 'Shared with' %}</th>
                         <td>
                             {% for user in photo.shared.all %}
                                 {% if user.get_full_name %}
@@ -184,7 +184,7 @@ $(document).ready(function(){
                                 {% else %}
                                     {{ user.username }}
                                 {% endif %}
-                                <a href="{% url 'removeshare' photo.id user.id %}">
+                                <a href="{% url 'removeshare' photo.id user.id %}" title="{% trans 'Remove share' %}">
                                     <i class="fal fa-trash fa-sm"></i>
                                 </a>
                                 {% if not forloop.last %}, {% endif %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 photo_tags fb_versions %}
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/photolist.css' %}">
+{% endblock %}
+
+
+{% block content %}
+{% if object_list %}
+
+    {% regroup object_list by event as grouped_list %}
+    {% for group in grouped_list %}
+    <div class="row popup-gallery justify-content-center">
+        <div class="col-12" style="margin-top: 20px;">
+            <h4 class="text-center">{{ group.grouper }}</h4>
+            <p class="text-center">
+                {% trans 'Shared with' %}
+                {% for usr in group.grouper.visible_for.all %}
+                    {% if usr != request.user %}
+                        {{ usr }}
+                        <a href="{% url 'removeshareevent' group.grouper.id usr.id %}" title="{% trans 'Remove share' %}">
+                            <i class="fal fa-trash fa-sm"></i>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <hr/>
+        </div>
+        <div class="card-deck">
+            {% for photo in group.list %}
+            <div class="card text-center" id="{{ photo.id }}">
+                <div class="image-container">
+                    <img class="img-fluid img-thumbnail card-img" 
+                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
+                    <span class="dot"><i class="fal fa-check"></i></span>
+                </div>
+                <div class="card-body toolbar">
+                    {% trans 'Shared with' %}
+                    <ul>
+                    {% for usr in photo.shared.all %}
+                        <li>
+                            {{ usr }}
+                            <a href="{% url 'removeshare' photo.id usr.id %}" title="{% trans 'Remove share' %}">
+                                <i class="fal fa-trash fa-sm"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% else %}
+    <p>{% trans 'No shares found.' %}</p>
+{% endif %}
+{% endblock %}

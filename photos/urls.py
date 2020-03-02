@@ -68,10 +68,12 @@ urlpatterns = [
     path('delete/<int:photo_id>/', views.delete, name='photodelete'),
     path('geocode/', views.geocode, name='geocode'),
     path('photomap/', views.PhotoMapView.as_view(), name='photomap'),
+    path('myshares/', views.PhotoShareView.as_view(), name='myshares'),
 
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processshare/', views.processshare, name='processshare'),
     path('removeshare/<int:photo_id>/<int:user_id>/', views.removeshare, name='removeshare'),
+    path('removeshareevent/<int:event_id>/<int:user_id>/', views.removeshareevent, name='removeshareevent'),
     path('processassign/', views.processassign, name='processassign'),
     path('preparedownload/', views.preparedownload, name='preparedownload'),
     path('processdownload/', views.processdownload, name='processdownload'),

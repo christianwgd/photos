@@ -85,6 +85,14 @@ def photolist(request):
     })
 
 
+class PhotoShareView(LoginRequiredMixin, ListView):
+    model = Photo
+    template_name = 'photos/photo_shares.html'
+
+    def get_queryset(self):
+        return Photo.objects.shared(for_user=self.request.user)
+
+
 class PhotoMapView(LoginRequiredMixin, ListView):
     model = Photo
     template_name = 'photos/photo_map.html'
@@ -304,7 +312,23 @@ def removeshare(request, photo_id, user_id):
         pass
     except:
         traceback.print_exc()
-    return redirect(reverse('photodetail', args=(photo_id,)))
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='/accounts/login/')
+def removeshareevent(request, event_id, user_id):
+    try:
+        event = Event.objects.get(pk=event_id)
+        user = User.objects.get(pk=user_id)
+        for photo in event.photo_set.all():
+            photo.shared.remove(user)
+        # remove user from event.visible
+        event.visible_for.remove(user)
+    except Photo.DoesNotExist:
+        pass
+    except:
+        traceback.print_exc()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='/accounts/login/')

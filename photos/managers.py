@@ -10,6 +10,12 @@ class PhotoVisibleManager(Manager):
             Q(shared=for_user)
         )
 
+    def shared(self, for_user=None):
+        return self.filter(
+            owner=for_user,
+            shared__isnull=False
+        )
+
 
 class EventVisibleManager(Manager):
 
@@ -19,5 +25,6 @@ class EventVisibleManager(Manager):
         return self.filter(
             visible_for=for_user
         )
+
 
 
