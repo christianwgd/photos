@@ -57,7 +57,7 @@ def photolist(request):
             user_settings = UserSettings.objects.get(user=request.user)
             recent = user_settings.recent
         except UserSettings.DoesNotExist:
-            recent = getattr(settings, "DEFAULT_PHOTOS_RECENT", 10)
+            recent = None
 
         users = User.objects.exclude(id=request.user.id)
         photos = Photo.objects.visible(request.user)

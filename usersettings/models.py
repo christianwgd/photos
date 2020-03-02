@@ -39,8 +39,9 @@ class UserSettings(models.Model):
         return self.user.username
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    recent = models.PositiveIntegerField(
-        _('number of recent photos'), help_text=_('0 means no limit')
+    recent = models.DateField(
+        _('recent photos since'), help_text=_('None means all'),
+        null=True, blank=True
     )
     theme = models.ForeignKey(
         Theme,

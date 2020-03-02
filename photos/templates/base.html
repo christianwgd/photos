@@ -54,7 +54,7 @@
                         {% trans 'uplaod' %}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'photolist' %}">
+                    <a class="dropdown-item" href="{% url 'photolist' %}{% recent_date_param request.user %}">
                         {% trans 'recent photos' %}
                     </a>
                     <div class="dropdown-divider"></div>
