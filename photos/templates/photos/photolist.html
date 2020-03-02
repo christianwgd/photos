@@ -296,15 +296,11 @@ $(document).ready(function() {
             <p>
                 {% trans 'Do you really want to delete the selected photos?' %}
             </p>
-{#            <p>#}
-{#                <i class="fal fa-exclamation-triangle"></i>#}
-{#                {% trans 'The physical file will not be deleted!' %}#}
-{#            </p>#}
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal" id="delete">
+            <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal">
                 <i class="fal fa-trash"></i>
                 {% trans 'delete' %}
             </button>
@@ -345,7 +341,7 @@ $(document).ready(function() {
 
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button id="share" type="button" class="btn btn-primary" data-dismiss="modal" id="delete">
+            <button id="share" type="button" class="btn btn-primary" data-dismiss="modal">
                 <i class="fal fa-share"></i>
                 {% trans 'share' %}
             </button>
@@ -467,9 +463,6 @@ $(document).ready(function() {
                        title="{% trans 'download' %}">
                         <i class="fal fa-download"></i>
                     </a>
-{#                    <span id="hs" class="tool" data-toggle="modal" title="{% trans 'share' %}">#}
-{#                        <i class="fal fa-share"></i>#}
-{#                    </span>#}
                 </div>
             </div>
             {% endfor %}
