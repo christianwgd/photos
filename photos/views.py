@@ -100,7 +100,7 @@ class PhotoShareView(LoginRequiredMixin, ListView):
     template_name = 'photos/photo_shares.html'
 
     def get_queryset(self):
-        return Photo.objects.shared(for_user=self.request.user)
+        return Photo.objects.shared(for_user=self.request.user).distinct()
 
 
 class PhotoMapView(LoginRequiredMixin, ListView):

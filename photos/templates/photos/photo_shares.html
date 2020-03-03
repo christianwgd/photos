@@ -4,6 +4,7 @@
 {% block bootstrap4_extra_head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/photolist.css' %}">
+<link rel="stylesheet" href="{% static 'css/photoshare.css' %}">
 {% endblock %}
 
 
@@ -23,6 +24,7 @@
                         <a href="{% url 'removeshareevent' group.grouper.id usr.id %}" title="{% trans 'Remove share' %}">
                             <i class="fal fa-trash fa-sm"></i>
                         </a>
+                        {% if not forloop.last %}, {% endif %}
                     {% endif %}
                 {% endfor %}
             </p>
@@ -38,16 +40,13 @@
                 </div>
                 <div class="card-body toolbar">
                     {% trans 'Shared with' %}
-                    <ul>
                     {% for usr in photo.shared.all %}
-                        <li>
-                            {{ usr }}
-                            <a href="{% url 'removeshare' photo.id usr.id %}" title="{% trans 'Remove share' %}">
-                                <i class="fal fa-trash fa-sm"></i>
-                            </a>
-                        </li>
+                        {{ usr }}
+                        <a href="{% url 'removeshare' photo.id usr.id %}" title="{% trans 'Remove share' %}">
+                            <i class="fal fa-trash fa-sm"></i>
+                        </a>
+                        {% if not forloop.last %}, {% endif %}
                     {% endfor %}
-                    </ul>
                 </div>
             </div>
             {% endfor %}
