@@ -7,12 +7,12 @@ from .models import UserSettings, Theme
 
 
 @admin.register(Theme)
-class UserSettingsAdmin(admin.ModelAdmin):
+class ThemeAdmin(admin.ModelAdmin):
     list_display = ['name', 'cssfile', ]
 
 
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
-    list_display = ['user', 'recent', ]
+    list_display = ['user', 'limit', 'recent']
 
 

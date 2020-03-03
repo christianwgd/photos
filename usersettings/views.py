@@ -37,10 +37,7 @@ def settings(request):
                         user=request.user
                     )
                 )
-                return HttpResponseRedirect('{}{}'.format(
-                    reverse('photolist'),
-                    recent_date_param(request.user)
-                ))
+                return HttpResponseRedirect(reverse('photolist'))
             except Exception as e:
                 messages.error(
                     request, _('error saving settings: {}'.format(e)))
