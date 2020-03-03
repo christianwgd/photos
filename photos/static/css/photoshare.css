@@ -1,7 +1,44 @@
+.card-deck {
+    padding: 5px 20px;
+}
+
 .card {
-    height: 300px;
+    min-width: 200px;
+    height: 320px;
+    margin-bottom: 15px !important;
 }
 
 .card-body {
-    height: auto;
+    top: 210px;
+    height: 80px;
+}
+
+.image-container {
+    padding: 0px;
+    margin: 0px;
+}
+
+.img-thumbnail {
+    height: 220px;
+    object-fit: cover;
+    border: none;
+    padding: 0;
+}
+
+.tool {
+    padding: 6px;
+    text-decoration: none;
+}
+.tool:hover {
+    text-decoration: none;
+}
+
+/* remove hr from title since here is no title */
+.title-hr {
+    display: none;
+}
+
+
+.card {
+    height: 320px;
 }
