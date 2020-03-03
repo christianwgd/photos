@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserSettingsForm
 from .models import UserSettings
+from .templatetags.user_tags import recent_date_param
 
 
 @login_required(login_url='/accounts/login/')
@@ -36,7 +37,10 @@ def settings(request):
                         user=request.user
                     )
                 )
-                return HttpResponseRedirect(reverse('photolist'))
+                return HttpResponseRedirect('{}{}'.format(
+                    reverse('photolist'),
+                    recent_date_param(request.user)
+                ))
             except Exception as e:
                 messages.error(
                     request, _('error saving settings: {}'.format(e)))

@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from datetime import timedelta, date
+
 from django import template
 from django.utils.html import mark_safe
 from usersettings.models import UserSettings
@@ -37,9 +39,10 @@ def recent_date_param(user):
     try:
         if user.is_authenticated:
             user_settings = UserSettings.objects.get(user=user)
-            if user_settings.theme is not None:
+            if user_settings.recent is not None and user_settings.recent > 0:
+                td = date.today() - timedelta(days=user_settings.recent)
                 recent_param = '?timestamp_after={date}'.format(
-                    date = date_format(user_settings.recent, "SHORT_DATE_FORMAT")
+                    date = date_format(td, "SHORT_DATE_FORMAT")
                 )
                 return mark_safe(recent_param)
     except UserSettings.DoesNotExist:
