@@ -5,7 +5,6 @@ import os
 import zipfile
 import exifread
 import traceback
-from shutil import rmtree
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -45,12 +44,19 @@ from .settings import BASE_DIR
 def photolist(request):
     viewtype = request.GET.get('viewtype', None)
 
+    try:
+        user_settings = UserSettings.objects.get(user=request.user)
+        limit = user_settings.limit
+    except UserSettings.DoesNotExist:
+        limit = 0
+
     filter = {}
     for param in request.GET:
         val = request.GET.get(param, None)
         if len(val) > 0:
             filter[param] = val
     request.session['filter'] = filter
+
 
     if request.user.is_authenticated:
         try:
@@ -60,7 +66,11 @@ def photolist(request):
             recent = None
 
         users = User.objects.exclude(id=request.user.id)
-        photos = Photo.objects.visible(request.user)
+
+        if filter == {} and limit > 0:
+            photos = Photo.objects.visible(request.user)[:limit]
+        else:
+            photos = Photo.objects.visible(request.user)
         if viewtype is None:
             photos = PhotoFilter(
                 request.GET, queryset=photos, user=request.user
@@ -90,7 +100,7 @@ class PhotoShareView(LoginRequiredMixin, ListView):
     template_name = 'photos/photo_shares.html'
 
     def get_queryset(self):
-        return Photo.objects.shared(for_user=self.request.user)
+        return Photo.objects.shared(for_user=self.request.user).distinct()
 
 
 class PhotoMapView(LoginRequiredMixin, ListView):

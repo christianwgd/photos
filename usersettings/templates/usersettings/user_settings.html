@@ -3,26 +3,6 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'datetimepicker/bootstrap-datetimepicker.min.css' %}">
-<script src="{% static 'js/moment.min.js' %}"></script>
-<script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
-<script src="{% static 'js/ds.min.js' %}"></script>
-<script>
-$(document).ready(function() {
-    var options = {
-        locale: 'de',
-        format: 'L',
-        //defaultDate: '1/1/2019',
-        icons: {
-            time: "far fa-clock",
-            date: "far fa-calendar",
-            up: "far fa-arrow-up",
-            down: "far fa-arrow-down"
-        }
-    };
-    $('#id_recent').datetimepicker(options);
-});
-</script>
 {% endblock %}
 
 {% block title %}{% trans 'settings' %}{% endblock %}
@@ -33,9 +13,7 @@ $(document).ready(function() {
 
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            {% bootstrap_field settingsform.recent addon_after='<i class="fas fa-calendar"></i>' %}
-            {% bootstrap_field settingsform.theme %}
-
+            {% bootstrap_form settingsform %}
             {% buttons %}
                 <button class="btn btn-primary" name="submit" type="submit" formnovalidate>
                     <i class="far fa-check"></i>
