@@ -57,6 +57,11 @@ $(document).ready(function(){
     window.onresize = function() {
         resizeMap();
     }
+
+    $("#photoModal").on("hidden.bs.modal", function () {
+        $('#id_photo_file').attr('src', '');
+        $('#id_photo_file').attr('alt', '');
+    });
 });
 </script>
 {% endblock %}
