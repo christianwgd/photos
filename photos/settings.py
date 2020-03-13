@@ -122,7 +122,7 @@ FILEBROWSER_EXTENSIONS = {
 ##################
 BOOTSTRAP4 = {
     # wird sonst 2-mal geladen...
-    'javascript_in_head': True,
+    #'javascript_in_head': True,
 }
 
 TEMPUS_DOMINUS_LOCALIZE = True
