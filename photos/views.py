@@ -1,38 +1,34 @@
 # -*- coding: utf-8 -*-
-import io
-import json
 import os
-import zipfile
-import exifread
 import traceback
+import zipfile
 
+import exifread
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import transaction
-from django.dispatch import receiver
-from django.http import HttpResponse, FileResponse
-from django.utils.translation import ugettext as _
-from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import messages
-from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.files.storage import FileSystemStorage
+from django.db import transaction
+from django.http import HttpResponse, FileResponse
+from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.utils.timezone import make_aware, is_aware
+from django.utils.translation import ugettext as _
 from django.views.generic import (
     ListView, UpdateView, CreateView, DeleteView, DetailView
 )
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.files.storage import FileSystemStorage
-from django.utils.timezone import make_aware, is_aware
+from rest_framework import viewsets
 
 from photos import parse_exif_data
-from photos.models import Photo, Event, Tag, Import
 from photos.filters import PhotoFilter
 from photos.forms import PhotoForm
 from photos.mixins import ReturnToRefererMixin
+from photos.models import Photo, Event, Tag, Import
 from usersettings.models import UserSettings
-
-from rest_framework import viewsets
 from .serializers import (
     PhotoSerializer, EventSerializer, TagSerializer,
     ImportSerializer, UserSerializer, PhotoEXIFSerializer,
@@ -68,9 +64,9 @@ def photolist(request):
         users = User.objects.exclude(id=request.user.id)
 
         if filter == {} and limit > 0:
-            photos = Photo.objects.visible(request.user)[:limit]
+            photos = Photo.objects.visible(request.user).distinct()[:limit]
         else:
-            photos = Photo.objects.visible(request.user)
+            photos = Photo.objects.visible(request.user).distinct()
         if viewtype is None:
             photos = PhotoFilter(
                 request.GET, queryset=photos, user=request.user
