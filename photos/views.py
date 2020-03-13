@@ -72,8 +72,12 @@ def photolist(request):
                 request.GET, queryset=photos, user=request.user
             )
         else:
+            if viewtype == 'event':
+                order = 'timestamp'
+            else:
+                order = '-timestamp'
             photos = PhotoFilter(
-                request.GET, queryset=photos.order_by(viewtype, '-timestamp'),
+                request.GET, queryset=photos.order_by(viewtype, order),
                 user=request.user
             )
     else:
