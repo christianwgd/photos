@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load bootstrap4 %}
+{% load bootstrap4 static %}
 {% if 'use_i18n'|bootstrap_setting %}
     {% load i18n %}
     {% get_current_language as LANGUAGE_CODE %}
@@ -38,6 +38,63 @@
 {% endif %}
 
 {% block bootstrap4_extra_script %}{% endblock %}
+<script defer src="{% static 'font-awesome-5/js/all.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap-notify.min.js' %}"></script>
+<script>
+    var errors = [];
+    {% for message in messages %}
+        var error = {type: "{{ message.tags }}", text: "{{ message|safe }}", icon:"", delay: 5000};
+        switch(error.type) {
+            case "error":
+                error.icon = 'far fa-exclamation-circle';
+                error.type = "danger";
+                error.delay = 0;
+                break;
+            case "warning":
+                error.icon = 'far fa-exclamation-triangle';
+                break;
+            case "success":
+                error.icon = 'far fa-check-circle';
+                break;
+            default: // info
+                error.icon = 'far fa-info-circle';
+        }
+        errors.push(error);
+    {% endfor %}
+
+    errors.forEach(function(entry) {
+        //console.log(entry);
+        $.notify({
+                message: entry.text,
+                icon: entry.icon
+            },{
+                type: entry.type,
+                placement: {
+                    from: "top",
+                    align: "right"
+                },
+                offset: {
+                    x: 10,
+                    y: 60
+                },
+                animate: {
+                    enter: 'animated slideInRight',
+                    exit: 'animated slideOutRight'
+                },
+                delay: error.delay,
+                template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                                '<span data-notify="icon"></span> ' +
+                                '<span data-notify="title">{1}</span> ' +
+                                '<span data-notify="message">{2}</span>' +
+                                '<div class="progress" data-notify="progressbar">' +
+                                    '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                                '</div>' +
+                                '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                            '</div>'
+        });
+    });
+</script>
 
 </body>
 

@@ -116,15 +116,6 @@ FILEBROWSER_EXTENSIONS = {
     'Style': ['.css']
 }
 
-
-##################
-# BOOTSTRAP 4    #
-##################
-BOOTSTRAP4 = {
-    # wird sonst 2-mal geladen...
-    #'javascript_in_head': True,
-}
-
 TEMPUS_DOMINUS_LOCALIZE = True
 
 DEFAULT_PHOTOS_RECENT = 10
