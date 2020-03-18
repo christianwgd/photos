@@ -1,4 +1,4 @@
-{% extends 'base_struct.html' %}
+{% extends 'base.html' %}
 {% load i18n static bootstrap4 photo_tags fb_versions %}
 
 {% block bootstrap4_extra_head %}
@@ -25,8 +25,9 @@ function toggleTools(enabled) {
     } else {
         $('#id_selected').hide();
     }
+
     var count = $(".card.selected").length;
-    $('#id_count').text(count);
+    $('#id_count_sel').text(count);
 }
 
 $(document).ready(function() {
@@ -88,6 +89,11 @@ $(document).ready(function() {
             toggleTools(true);
        }
     });
+
+    $('#filter').click(function() {
+        $('#filterModal').modal(options);
+    });
+
     $('#all').on('click', function() {
         $('.card').addClass('selected');
         toggleTools(true);
@@ -123,7 +129,7 @@ $(document).ready(function() {
             success: function(){
                 $(".card.selected").remove();
                 $('#id_selected').hide();
-                $('#id_count').text('');
+                $('#id_count_sel').text('');
 
             },
             error: function (xhr, ajaxOptions, thrownError){
@@ -225,63 +231,79 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block filter %}
+{% block content %}
 <div class="row">
-    <div class="col">
-        <h5>
-            Filter
-            <span class="badge badge-secondary">{{ photos.qs.count }}</span>
-        </h5>
-        <form action="" method="get">
-            {% csrf_token %}
-            {% bootstrap_field photos.form.event %}
-            {% bootstrap_field photos.form.tags %}
-            {% bootstrap_field photos.form.timestamp %}
-            {% bootstrap_field photos.form.uploaded_by %}
-            {% bootstrap_field photos.form.uploaded %}
-            {% bootstrap_field photos.form.upload %}
-            {% bootstrap_button "<i class='far fa-filter'></i>" button_type="submit" button_class="btn-primary" %}
+    <div class="col-12" id="toolbar">
+        <div class="panel">
+            <button class="btn btn-secondary" id="filter" title="{% trans 'Filter' %}">
+                <i class="fas fa-filter"></i>
+            </button>
             <a href="{% url 'photolist' %}" class="btn btn-secondary" title="{% trans 'Remove filter' %}">
                 <i class="far fa-times"></i>
             </a>
-        </form>
+            <span class="tool-separator"></span>
+            <button class="btn btn-secondary" id="all" title="{% trans 'select all' %}">
+                <i class="fas fa-th"></i>
+            </button>
+            <button class="btn btn-secondary" id="none" title="{% trans 'select none' %}">
+                <i class="fal fa-th"></i>
+            </button>
+            <span class="badge badge-secondary badge-info badge-lg" id="id_selected" style="display:none;">
+                <span id="id_count_sel"></span>
+            </span>
+            <span class="tool-separator"></span>
+            <button id="show_in_map" class="btn btn-secondary global-tool" id="map" title="{% trans 'show selected in map' %}">
+                <i class="fal fa-map"></i>
+            </button>
+            <span class="tool-separator"></span>
+            <button class="btn btn-secondary global-tool" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">
+                <i class="fal fa-box-open"></i>
+            </button>
+            <button id="confirm_delete" class="btn btn-secondary global-tool" title="{% trans 'delete' %}">
+                <i class="fal fa-trash-alt"></i>
+            </button>
+            <span class="tool-separator"></span>
+            <button id="download" class="btn btn-secondary global-tool" id="download" title="{% trans 'download' %}">
+                <i class="fal fa-download"></i>
+            </button>
+            <button id="select_share" class="btn btn-secondary global-tool" title="{% trans 'share' %}">
+                <i class="fal fa-share-all"></i>
+            </button>
+            <span class="tool-separator"></span>
+        </div>
     </div>
 </div>
-{% endblock %}
 
-{% block toolbar %}
-<button class="btn btn-secondary" id="all" title="{% trans 'select all' %}">
-    <i class="fas fa-th"></i>
-</button>
-<button class="btn btn-secondary" id="none" title="{% trans 'select none' %}">
-    <i class="fal fa-th"></i>
-</button>
-<span class="tool-separator"></span>
-<button id="show_in_map" class="btn btn-secondary global-tool" id="map" title="{% trans 'show selected in map' %}">
-    <i class="fal fa-map"></i>
-</button>
-<span class="tool-separator"></span>
-<button class="btn btn-secondary global-tool" data-toggle="modal" data-target="#categoryModal" title="{% trans 'categorize' %}">
-    <i class="fal fa-box-open"></i>
-</button>
-<button id="confirm_delete" class="btn btn-secondary global-tool" title="{% trans 'delete' %}">
-    <i class="fal fa-trash-alt"></i>
-</button>
-<span class="tool-separator"></span>
-<button id="download" class="btn btn-secondary global-tool" id="download" title="{% trans 'download' %}">
-    <i class="fal fa-download"></i>
-</button>
-<button id="select_share" class="btn btn-secondary global-tool" title="{% trans 'share' %}">
-    <i class="fal fa-share-all"></i>
-</button>
-<span class="tool-separator"></span>
-<span class="badge badge-secondary badge-info float-right" id="id_selected" style="display:none;">
-    <span id="id_count"></span>
-</span>
-{% endblock %}
 
-{% block photocontent %}
-<!-- The Modal -->
+<!-- The Modals -->
+<div class="modal fade" id="filterModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">{% trans 'Filter' %}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="" method="get">
+                {% csrf_token %}
+                {% bootstrap_field photos.form.event %}
+                {% bootstrap_field photos.form.tags %}
+                {% bootstrap_field photos.form.timestamp %}
+                {% bootstrap_field photos.form.uploaded_by %}
+                {% bootstrap_field photos.form.uploaded %}
+                {% bootstrap_field photos.form.upload %}
+                {% bootstrap_button "<i class='far fa-filter'></i>" button_type="submit" button_class="btn-primary" %}
+            </form>
+        </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -342,13 +364,6 @@ $(document).ready(function() {
 
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button id="share" type="button" class="btn btn-primary" data-dismiss="modal">
-                <i class="fal fa-share"></i>
-                {% trans 'share' %}
-            </button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                <i class="fal fa-times"></i>
-            </button>
         </div>
 
         </div>
@@ -434,91 +449,106 @@ $(document).ready(function() {
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12" id="photocontent">
+        <div class="panel">
+        {% if photos.qs %}
 
-{% if photos.qs %}
-
-    {% if not view %}
-    <div class="row popup-gallery justify-content-center">
-        <div class="card-deck">
-            {% for photo in photos.qs %}
-            <div class="card text-center" id="{{ photo.id }}">
-                <div class="image-container">
-                    <img class="img-fluid img-thumbnail card-img" 
-                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
-                    <span class="dot"><i class="fal fa-check"></i></span>
+            {% if not view %}
+            <div class="row popup-gallery justify-content-center">
+                <div class="col-12">
+                    <h4 class="text-center" style="margin-top: 20px;">
+                        <span class="badge badge-secondary">{{ photos.qs.count }}</span>
+                    </h4>
+                    <hr/>
+                    <div class="card-deck">
+                        {% for photo in photos.qs %}
+                        <div class="card text-center" id="{{ photo.id }}">
+                            <div class="image-container">
+                                <img class="img-fluid img-thumbnail card-img"
+                                     src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
+                                <span class="dot"><i class="fal fa-check"></i></span>
+                            </div>
+                            <div class="card-body toolbar">
+                                <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                                   title="{% trans 'view' %}" data-name="{{ photo.name }}">
+                                    <i class="fal fa-eye"></i>
+                                </a>
+                                <a href="{% url 'photodetail' photo.id %}" class="tool"
+                                   title="{% trans 'Details' %}">
+                                    <i class="fal fa-info-circle"></i>
+                                </a>
+                                <a href="{% url 'photoedit' photo.id %}"
+                                   class="tool" title="{% trans 'edit metadata' %}">
+                                    <i class="fal fa-edit"></i>
+                                </a>
+                                <a href="{{ photo.imagefile.url }}" download class="tool"
+                                   title="{% trans 'download' %}">
+                                    <i class="fal fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="card-body toolbar">
-                    <a href="{{ photo.imagefile.url }}" class="tool img-large"
-                       title="{% trans 'view' %}" data-name="{{ photo.name }}">
-                        <i class="fal fa-eye"></i>
-                    </a>
-                    <a href="{% url 'photodetail' photo.id %}" class="tool" 
-                       title="{% trans 'Details' %}">
-                        <i class="fal fa-info-circle"></i>
-                    </a>
-                    <a href="{% url 'photoedit' photo.id %}" 
-                       class="tool" title="{% trans 'edit metadata' %}">
-                        <i class="fal fa-edit"></i>
-                    </a>
-                    <a href="{{ photo.imagefile.url }}" download class="tool" 
-                       title="{% trans 'download' %}">
-                        <i class="fal fa-download"></i>
-                    </a>
+            </div>
+
+            {% else %}
+
+            {% if view == 'event' %}
+                {% regroup photos.qs by event as grouped_list %}
+            {% else %}
+                {% regroup photos.qs by upload as grouped_list %}
+            {% endif %}
+            {% for group in grouped_list %}
+            <div class="row popup-gallery justify-content-center">
+                <div class="col-12">
+                    <h4 class="text-center" style="margin-top: 20px;">
+                        {{ group.grouper }}
+                        <span class="badge badge-secondary">{{ group.list|length }}</span>
+                    </h4>
+                    <hr/>
+                </div>
+                <div class="col-12">
+                    <div class="card-deck">
+                        {% for photo in group.list %}
+                        <div class="card text-center" id="{{ photo.id }}">
+                            <div class="image-container">
+                                <img class="img-fluid img-thumbnail card-img"
+                                     src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
+                                >
+                                <span class="dot"><i class="fal fa-check"></i></span>
+                            </div>
+                            <div class="card-body toolbar">
+                                <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                                   title="{% trans 'view' %}" data-name="{{ photo.name }}">
+                                    <i class="fal fa-eye"></i>
+                                </a>
+                                <a href="{% url 'photodetail' photo.id %}" class="tool"
+                                   title="{% trans 'Details' %}">
+                                    <i class="fal fa-info-circle"></i>
+                                </a>
+                                <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}"
+                                   class="tool" title="{% trans 'edit metadata' %}">
+                                    <i class="fal fa-edit"></i>
+                                </a>
+                                <a href="{{ photo.imagefile.url }}" download class="tool"
+                                   title="{% trans 'download' %}">
+                                    <i class="fal fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endfor %}
+
+            {% endif %}
+        {% else %}
+            <p>{% trans 'no photos found.' %}</p>
+        {% endif %}
         </div>
     </div>
-
-    {% else %}
-
-    {% if view == 'event' %}
-        {% regroup photos.qs by event as grouped_list %}
-    {% else %}
-        {% regroup photos.qs by upload as grouped_list %}
-    {% endif %}
-    {% for group in grouped_list %}
-    <div class="row popup-gallery justify-content-center">
-        <div class="col-12" style="margin-top: 20px;">
-            <h4 class="text-center">{{ group.grouper }}</h4>
-            <hr/>
-        </div>
-        <div class="card-deck">
-            {% for photo in group.list %}
-            <div class="card text-center" id="{{ photo.id }}">
-                <div class="image-container">
-                    <img class="img-fluid img-thumbnail card-img" 
-                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
-                    >
-                    <span class="dot"><i class="fal fa-check"></i></span>
-                </div>
-                <div class="card-body toolbar">
-                    <a href="{{ photo.imagefile.url }}" class="tool img-large"
-                       title="{% trans 'view' %}" data-name="{{ photo.name }}">
-                        <i class="fal fa-eye"></i>
-                    </a>
-                    <a href="{% url 'photodetail' photo.id %}" class="tool" 
-                       title="{% trans 'Details' %}">
-                        <i class="fal fa-info-circle"></i>
-                    </a>
-                    <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}" 
-                       class="tool" title="{% trans 'edit metadata' %}">
-                        <i class="fal fa-edit"></i>
-                    </a>
-                    <a href="{{ photo.imagefile.url }}" download class="tool" 
-                       title="{% trans 'download' %}">
-                        <i class="fal fa-download"></i>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-
-    {% endif %}
 </div>
-{% else %}
-    <p>{% trans 'no photos found.' %}</p>
-{% endif %}
 {% endblock %}

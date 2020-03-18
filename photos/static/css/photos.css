@@ -3,7 +3,6 @@
 .panel {
     border: 1px solid  var(--secondary);
     margin: 5px;
-    padding: 10px;
 }
 
 .title-block {
@@ -44,8 +43,12 @@ pre {
     margin: 3px auto;
 }
 
-#toolbar {
-    padding: 10px;
+#toolbar .panel {
+    padding: 8px;
+}
+
+#toolbar .btn {
+    margin: 3px;
 }
 
 #toolbar .btn-secondary:disabled {
