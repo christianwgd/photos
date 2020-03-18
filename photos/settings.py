@@ -88,6 +88,11 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 
+# Settings for django-bootstrap4
+BOOTSTRAP4 = {
+    "include_jquery": True,
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
