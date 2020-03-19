@@ -111,8 +111,10 @@ class PhotoMapView(LoginRequiredMixin, ListView):
         idstr = self.request.GET.get('ids')
         ids = idstr.split(',')
         return Photo.objects.filter(
-            pk__in=ids
-        ).exclude(latitude=None).exclude(longitude=None)
+            pk__in=ids,
+            longitude__isnull=False,
+            latitude__isnull=False
+        )
 
 
 class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):

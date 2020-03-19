@@ -73,7 +73,10 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 
-{% block title %}{% trans 'Map' %}{% endblock %}
+{% block title %}
+    {% trans 'Map' %}
+    <span class="badge badge-secondary">{{ photo_list.count }}</span>
+{% endblock %}
 
 {% block content %}
 <!-- The Modal -->
