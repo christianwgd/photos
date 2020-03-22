@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
 <link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/eventlist.css' %}">
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+{{ block.super }}
 <script src="{% static 'select2/select2.full.min.js' %}"></script>
 <script src="{% static 'js/ds.min.js' %}"></script>
 
@@ -105,14 +109,14 @@ $(document).ready(function() {
                         </div>
                         <div class="card-body">
                             {% for photo in visibles|slice:"0:3" %}
-                            <img class="img-responsive thumb img-thumbnail" src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
-                                style="transform: rotate({{forloop.counter|rotation}}deg);">
+                            <img class="img-thumbnail" src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
+                                {% if visibles.count > 1 %}style="transform: rotate({{forloop.counter|rotation}}deg);"{% endif %}>
                             {% endfor %}
                         </div>
                         <div class="card-footer">
                             <a href="{% url 'photolist' %}?viewtype=event&event={{event.id}}" class="tool"
-                               {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}" 
-                            title="{% trans 'view' %}">
+                               {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}"
+                                title="{% trans 'view' %}">
                                 <i class="far fa-eye"></i>
                             </a>
                             <a href="{% url 'eventupdate' event.id %}" class="tool" title="{% trans 'edit' %}">
@@ -125,6 +129,11 @@ $(document).ready(function() {
                             {% if shareable %}
                             <button type="button" class="btn btn-link" class="tool" title="{% trans 'share' %}"
                                     onclick="selectShare({{ event.id }});">
+                                <i class="fal fa-share"></i>
+                            </button>
+                            {% else %}
+                            <button type="button" class="btn btn-link" class="tool" title="{% trans 'share' %}"
+                                    disabled>
                                 <i class="fal fa-share"></i>
                             </button>
                             {% endif %}

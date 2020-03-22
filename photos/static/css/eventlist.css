@@ -1,14 +1,10 @@
 .card-deck {
-    margin: 0 auto;
-    padding: 0 5px;
+    padding: 15px;
 }
 
 .card {
     min-width: 200px;
-    max-width: 200px;
-    margin: 15px;
-    min-height: 300px;
-    max-height: 400px;
+    margin-bottom: 15px !important;
 }
 
 .card-header {
@@ -25,13 +21,14 @@
 }
 
 .img-thumbnail {
-    width: 160px;
-    height: 180px;
+    width: 80%;
+    height: 80%;
     object-fit: cover;
     border: none;
     position: absolute;
-    top: 20px;
-    left: 19px;
+    top: 10%;
+    left: 10%;
+    padding: 0;
     background-color: var(--secondary);
 }
 
