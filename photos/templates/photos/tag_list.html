@@ -28,7 +28,7 @@
                         <div class="card-body toolbar">
                             {% for photo in visibles|slice:"0:3" %}
                             <img class="img-responsive thumb img-thumbnail" src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
-                                style="transform: rotate({{forloop.counter|rotation}}deg);">
+                                {% if visibles.count > 1 %}style="transform: rotate({{forloop.counter|rotation}}deg);"{% endif %}>
                             {% endfor %}
                         </div>
                         <div class="card-footer">
