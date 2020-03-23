@@ -103,9 +103,18 @@ class PhotoShareView(LoginRequiredMixin, ListView):
         return Photo.objects.shared(for_user=self.request.user).distinct()
 
 
-class PhotoMapView(LoginRequiredMixin, ListView):
+class PhotoMapView(LoginRequiredMixin, ReturnToRefererMixin, ListView):
     model = Photo
     template_name = 'photos/photo_map.html'
+
+    def get(self, request, *args, **kwargs):
+        if self.get_queryset().count() == 0:
+            messages.warning(
+                self.request,
+                _('None of the selected photos has location informations')
+            )
+            return redirect(self.get_success_url())
+        return super(PhotoMapView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         idstr = self.request.GET.get('ids')
@@ -156,7 +165,6 @@ class PhotoUpdateView(
 
     def post(self, request, *args, **kwargs):
         if 'cancel' in request.POST:
-            messages.info(request, 'Funktion abgebrochen.')
             return redirect(self.get_cancel_url())
         return super(PhotoUpdateView, self).post(request, *args, **kwargs)
 
