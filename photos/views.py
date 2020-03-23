@@ -103,17 +103,18 @@ class PhotoShareView(LoginRequiredMixin, ListView):
         return Photo.objects.shared(for_user=self.request.user).distinct()
 
 
-class PhotoMapView(LoginRequiredMixin, ReturnToRefererMixin, ListView):
+class PhotoMapView(LoginRequiredMixin, ListView):
     model = Photo
     template_name = 'photos/photo_map.html'
 
     def get(self, request, *args, **kwargs):
+        back = request.META.get('HTTP_REFERER', '/photolist/')
         if self.get_queryset().count() == 0:
             messages.warning(
                 self.request,
                 _('None of the selected photos has location informations')
             )
-            return redirect(self.get_success_url())
+            return redirect(back)
         return super(PhotoMapView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
