@@ -140,9 +140,9 @@ DEFAULT_PHOTOS_RECENT = 10
 f = os.path.join(BASE_DIR, "photos/localsettings.py")
 if os.path.exists(f):
     import sys
-    import imp
+    import importlib
     module_name = "photos.localsettings"
-    module = imp.new_module(module_name)
+    module = importlib.import_module(module_name)
     module.__file__ = f
     sys.modules[module_name] = module
     exec(open(f, "rb").read())
