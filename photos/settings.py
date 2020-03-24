@@ -88,8 +88,6 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 
-DEFAULT_THEME = 'Slate'
-
 # Settings for django-bootstrap4
 BOOTSTRAP4 = {
     "include_jquery": True,
