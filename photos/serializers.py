@@ -47,7 +47,8 @@ class PhotoEXIFSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     full_name = serializers.SerializerMethodField('get_fullname')
 
-    def get_fullname(self, obj):
+    @staticmethod
+    def get_fullname(obj):
         return obj.first_name + ' ' + obj.last_name
 
     class Meta:

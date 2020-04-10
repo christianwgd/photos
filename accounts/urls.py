@@ -1,7 +1,5 @@
-from django.urls import path
-
-from . import views as local_views
 from django.contrib.auth import views as auth_views
+from django.urls import path
 from rest_framework.authtoken import views as rest_framework_views
 
 urlpatterns = [

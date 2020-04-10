@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
+
 from photos.models import Event, Photo
+
 
 class Command(BaseCommand):
     help = 'Sync visibility of events for users from photos'

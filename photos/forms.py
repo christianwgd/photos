@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.utils.translation import ugettext_lazy as _
 from django import forms
 from tempus_dominus.widgets import DateTimePicker
 
-from .models import Photo, Event
+from .models import Photo
 
 
 class PhotoForm(forms.ModelForm):

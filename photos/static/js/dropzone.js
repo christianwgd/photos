@@ -2391,7 +2391,7 @@ Dropzone.isBrowserSupported = function () {
       for (let regex of Dropzone.blacklistedBrowsers) {
         if (regex.test(navigator.userAgent)) {
           capableBrowser = false;
-          continue;
+
         }
       }
     }

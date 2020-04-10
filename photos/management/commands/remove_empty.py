@@ -1,5 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
+
 from photos.models import Event, Import
+
 
 class Command(BaseCommand):
     help = 'Removes empty Events and Imports'

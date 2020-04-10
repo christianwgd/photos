@@ -1,7 +1,9 @@
 from django.conf import settings
+from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
 from rest_framework.authtoken.models import Token
+
 
 def logout_user(request):
     redirect(reverse('photolist'))

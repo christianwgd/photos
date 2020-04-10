@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
-import os
-import io
 import glob
-import pytz
-from django.db.models import Q
-from geopy import Nominatim
+import os
 from datetime import datetime
-from PIL import Image
 
-from django.db import models
+import pytz
+from PIL import Image
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
+from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.postgres.fields import JSONField
-
 from filebrowser.fields import FileBrowseField
+from geopy import Nominatim
 
 from photos import settings
 from photos.geocoder import MapsGeocoder

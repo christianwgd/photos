@@ -22,7 +22,7 @@
                     {% if usr != request.user %}
                         {{ usr }}
                         <a href="{% url 'removeshareevent' group.grouper.id usr.id %}" title="{% trans 'Remove share' %}">
-                            <i class="fal fa-trash fa-sm"></i>
+                            <i class="fal fa-user-times"></i>
                         </a>
                         {% if not forloop.last %}, {% endif %}
                     {% endif %}
@@ -43,7 +43,7 @@
                     {% for usr in photo.shared.all %}
                         {{ usr }}
                         <a href="{% url 'removeshare' photo.id usr.id %}" title="{% trans 'Remove share' %}">
-                            <i class="fal fa-trash fa-sm"></i>
+                            <i class="fal fa-user-times"></i>
                         </a>
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
@@ -54,7 +54,6 @@
     </div>
     {% endfor %}
 
-</div>
 {% else %}
     <p>{% trans 'No shares found.' %}</p>
 {% endif %}

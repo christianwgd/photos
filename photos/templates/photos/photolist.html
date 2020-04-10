@@ -83,7 +83,7 @@ $(document).ready(function() {
            $(this).parent().removeClass('selected');
            if ($('.card.selected').length == 0) {
                toggleTools(false);
-           };
+           }
         } else {
             $(this).parent().addClass('selected');
             toggleTools(true);
@@ -340,31 +340,38 @@ $(document).ready(function() {
     <div class="modal-dialog">
         <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title">{% trans 'Share photos' %}</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans 'Share photos' %}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
 
-        <!-- Modal body -->
-        <div class="modal-body">
-            <label for="user-select">{% trans 'User' %}</label>
-            <select id="user-select" multiple>
-                {% for user in users %}
-                    <option value="{{ user.id }}">
-                        {% if user.get_full_name %}
-                        {{ user.get_full_name }}
-                        {% else %}
-                        {{ user.username }}
-                        {% endif %}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label for="user-select">{% trans 'User' %}</label>
+                <select id="user-select" multiple>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">
+                            {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                            {% else %}
+                            {{ user.username }}
+                            {% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="share" type="button" class="btn btn-primary" data-dismiss="modal">
+                    <i class="fal fa-share"></i>
+                    {% trans 'share' %}
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fal fa-times"></i>
+                </button>
+            </div>
 
         </div>
     </div>

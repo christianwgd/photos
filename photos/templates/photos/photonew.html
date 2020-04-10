@@ -7,13 +7,11 @@
 <link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
 <link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
-<script src="{% static 'select2/select2.full.min.js' %}"></script>
-<script src="{% static 'js/dropzone.js' %}"></script>
 {% endblock %}
 
-{% block title %}{% trans 'Upload new photos' %}{% endblock %}
-
 {% block bootstrap4_extra_script %}
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
+<script src="{% static 'js/dropzone.js' %}"></script>
 <script type="text/javascript">
 Dropzone.options.myDropzone = {
     url: "/file-upload",
@@ -163,8 +161,9 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block content %}
+{% block title %}{% trans 'Upload new photos' %}{% endblock %}
 
+{% block content %}
 <div class="modal fade" id="eventAddModal">
     <div class="modal-dialog">
         <div class="modal-content">
