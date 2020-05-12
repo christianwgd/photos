@@ -3,19 +3,14 @@
 
 {% block title %}{% trans 'edit metadata' %}{% endblock %}
 
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+{{ form.media.css }}
+{% endblock %}
+
 {% block bootstrap4_extra_script %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
-<link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
-<script src="{% static 'select2/select2.full.min.js' %}"></script>
-{{ form.media }}
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#id_event').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_tags').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_owner').select2({ theme: 'bootstrap4', width: '100%' });
-});
-</script>
+{{ form.media.js }}
 {% endblock %}
 
 {% block content %}

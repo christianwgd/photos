@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
-from tempus_dominus.widgets import DateTimePicker
+from photos import settings
+from .bootstrap_select2 import BootstrapSelect2Widget, BootstrapSelect2MultipleWidget
 
-from .models import Photo
+from .models import Photo, Event
 
+lang = getattr(settings, "LANGUAGE_CODE", 'de')
 
 class PhotoForm(forms.ModelForm):
 
@@ -14,14 +17,13 @@ class PhotoForm(forms.ModelForm):
             'timestamp', 'latitude', 'longitude'
         )
         widgets = {
-            'timestamp': DateTimePicker(
+            'event': BootstrapSelect2Widget,
+            'owner': BootstrapSelect2Widget,
+            'tags': BootstrapSelect2MultipleWidget,
+            'timestamp': DateTimePickerInput(
                     options={
-                        'useCurrent': True,
-                        'collapse': False,
+                        'format': "DD.MM.YYYY HH:mm",
+                        'locale': lang,
                     },
-                    attrs={
-                        'append': 'fa fa-calendar',
-                        'icon_toggle': True,
-                    }
                 )
         }

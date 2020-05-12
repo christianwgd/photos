@@ -95,6 +95,11 @@ def photolist(request):
     })
 
 
+class PhotoDisplayView(LoginRequiredMixin, DetailView):
+    model = Photo
+    template = 'photos/photo_display.html'
+
+
 class PhotoShareView(LoginRequiredMixin, ListView):
     model = Photo
     template_name = 'photos/photo_shares.html'

@@ -55,12 +55,14 @@ urlpatterns = [
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
+    path('select2/', include('django_select2.urls')),
 
     path('settings/', include('usersettings.urls')),
 
     path('', RedirectView.as_view(url='/photolist/')),
     path('photolist/', views.photolist, name='photolist'),
     path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),
+    path('display/<int:pk>/', views.PhotoDisplayView.as_view(), name='display'),
     path('new/', views.new, name='new'),
     path('edit/<int:pk>/', views.PhotoUpdateView.as_view(), name='photoedit'),
     path('imgedit/<int:photo_id>/', views.imgedit, name='imgedit'),

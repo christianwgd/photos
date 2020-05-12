@@ -1,16 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
-
 {% block bootstrap4_extra_head %}
 {{ block.super }}
- <link  href="{% static 'cropper/cropper.min.css' %}" rel="stylesheet"> 
-<script type="text/javascript" src="{% static 'cropper/cropper.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/imgedit.js' %}"></script>
-<script>
-$(document).ready(function() {
-});
-</script>
+<link  href="{% static 'cropper/cropper.min.css' %}" rel="stylesheet">
 <style>
   .img-container {
     margin-bottom: 20px;
@@ -22,6 +15,15 @@ $(document).ready(function() {
     margin:0;
   }
 </style>
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+<script type="text/javascript" src="{% static 'cropper/cropper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/imgedit.js' %}"></script>
+<script>
+$(document).ready(function() {
+});
+</script>
 {% endblock %}
 
 {% block content %}
