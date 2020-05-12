@@ -128,7 +128,7 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="title-block">{% block title %}{% endblock %}</h3>
-            <hr class="title-hr"/>
+            {% block title_sep %}<hr class="title-hr"/>{% endblock %}
 
             {% bootstrap_messages %}
             {% block content %}{% endblock %}

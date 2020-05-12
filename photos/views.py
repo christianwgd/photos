@@ -15,7 +15,6 @@ from django.db import transaction
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.timezone import make_aware, is_aware
 from django.utils.translation import ugettext as _
 from django.views.generic import (
@@ -84,6 +83,7 @@ def photolist(request):
         photos = PhotoFilter(
             request.GET, queryset=Photo.objects.filter(public=True)
         )
+        print(photos.filters)
         users = User.objects.none()
         recent = 0
 
@@ -97,7 +97,11 @@ def photolist(request):
 
 class PhotoDisplayView(LoginRequiredMixin, DetailView):
     model = Photo
-    template = 'photos/photo_display.html'
+    template_name = 'photos/photo_display.html'
+
+    def get(self, request, *args, **kwargs):
+        print('display!!!')
+        return super(PhotoDisplayView, self).get(request, *args, **kwargs)
 
 
 class PhotoShareView(LoginRequiredMixin, ListView):
@@ -135,10 +139,6 @@ class PhotoMapView(LoginRequiredMixin, ListView):
 class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
     model = Photo
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
-
     def get_context_data(self, **kwargs):
         ctx = super(PhotoDetailView, self).get_context_data(**kwargs)
         filter_params = self.request.session.get('filter')
@@ -164,10 +164,6 @@ class PhotoUpdateView(
     model = Photo
     form_class = PhotoForm
     success_message =  _('photo metadata changed.')
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if 'cancel' in request.POST:

@@ -4,19 +4,22 @@
 {% block bootstrap4_extra_head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
-<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
-<link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datetimepicker/bootstrap-datetimepicker.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/photolist.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/bootstrap_datepicker_plus/css/datepicker-widget.css" type="text/css" media="all" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" type="text/css" media="screen" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" type="text/css" media="screen" rel="stylesheet">
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
 {{ block.super }}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/i18n/de.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/static/django_select2/django_select2.js"></script>
+<script type="text/javascript" src="/static/bootstrap_datepicker_plus/js/datepicker-widget.js"></script>
 <script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'js/moment.min.js' %}"></script>
-<script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
-<script src="{% static 'select2/select2.full.min.js' %}"></script>
-<script src="{% static 'js/ds.min.js' %}"></script>
 <script type="text/javascript">
 function toggleTools(enabled) {
     $('#toolbar .global-tool').prop('disabled', !enabled);
@@ -50,27 +53,19 @@ $(document).ready(function() {
     });
 
     toggleTools(false);
-    $('#user-select').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_event').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_tags').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_assign_owner').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_assign_event').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_assign_tags').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#user-select').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_event').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_tags').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_assign_owner').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_assign_event').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_assign_tags').select2({ theme: 'bootstrap', width: '100%' });
     $('#id_event option').clone().appendTo('#id_assign_event');
     $('#id_tags option').clone().appendTo('#id_assign_tags');
     $('#user-select option').clone().appendTo('#id_assign_owner');
     $("#id_assign_owner").prepend("<option value='' selected='selected'>---------</option>");
-    $('#id_uploaded_by').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_upload').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_uploaded_by').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_upload').select2({ theme: 'bootstrap', width: '100%' });
     var options = {
-        locale: 'de',
-        format: 'L',
-        icons: {
-            time: "far fa-clock",
-            date: "far fa-calendar",
-            up: "far fa-arrow-up",
-            down: "far fa-arrow-down"
-        }
     };
     $('#id_timestamp_0').datetimepicker(options);
     $('#id_timestamp_1').datetimepicker(options);
@@ -91,7 +86,7 @@ $(document).ready(function() {
     });
 
     $('#filter').click(function() {
-        $('#filterModal').modal(options);
+        $('#filterModal').modal();
     });
 
     $('#all').on('click', function() {

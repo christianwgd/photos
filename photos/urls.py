@@ -61,8 +61,8 @@ urlpatterns = [
 
     path('', RedirectView.as_view(url='/photolist/')),
     path('photolist/', views.photolist, name='photolist'),
-    path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),
     path('display/<int:pk>/', views.PhotoDisplayView.as_view(), name='display'),
+    path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),
     path('new/', views.new, name='new'),
     path('edit/<int:pk>/', views.PhotoUpdateView.as_view(), name='photoedit'),
     path('imgedit/<int:photo_id>/', views.imgedit, name='imgedit'),
