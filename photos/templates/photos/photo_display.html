@@ -1,19 +1,27 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
-{% block bootstrap4_extra_head %}
-{{ block.super }}
-<link rel="stylesheet" href="{% static 'css/photodisplay.css' %}">
+{% block title %}
+    {% if photo.name %}
+    {{ photo.name }}
+    {% else %}
+    {{ photo.filename }}
+    {% endif %}
 {% endblock %}
-
-{% block title_sep %}{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-    {% trans 'not set' as notset %}
     <div class="row">
-        <div class="col-12 text-center align-self-center">
-            <img class="img-fluid img-display" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}">
+        <div class="col-12 text-center">
+            <img class="img-fluid" src="{{ photo.imagefile.url }}" alt="{{ photo.name }}" style="max-height: 85vh; width: auto;">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col">
+            <a href="{% url 'photolist' %}{{ query_param }}" class="btn btn-primary"
+               role=button" title="{% trans 'back' %}">
+                    <i class="fal fa-check"></i>
+            </a>
         </div>
     </div>
 </div>

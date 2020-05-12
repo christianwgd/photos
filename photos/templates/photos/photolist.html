@@ -3,7 +3,6 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'magnific-popup/magnific-popup.css' %}">
 <link rel="stylesheet" href="{% static 'css/photolist.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
 <link href="/static/bootstrap_datepicker_plus/css/datepicker-widget.css" type="text/css" media="all" rel="stylesheet">
@@ -19,7 +18,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="/static/django_select2/django_select2.js"></script>
 <script type="text/javascript" src="/static/bootstrap_datepicker_plus/js/datepicker-widget.js"></script>
-<script src="{% static 'magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 <script type="text/javascript">
 function toggleTools(enabled) {
     $('#toolbar .global-tool').prop('disabled', !enabled);
@@ -34,24 +32,6 @@ function toggleTools(enabled) {
 }
 
 $(document).ready(function() {
-    $('.popup-gallery').magnificPopup({
-        delegate: 'a.img-large',
-        type: 'image',
-        tLoading: 'Loading image #%curr%...',
-        mainClass: 'mfp-img-mobile',
-        gallery: {
-            enabled: true,
-            navigateByImgClick: true,
-            preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-        },
-        image: {
-            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-            titleSrc: function(item) {
-                 return item.el.attr('data-name') + '<small>' + item.el.attr('href') + '</small>';
-            }
-        }
-    });
-
     toggleTools(false);
     $('#user-select').select2({ theme: 'bootstrap', width: '100%' });
     $('#id_event').select2({ theme: 'bootstrap', width: '100%' });
@@ -102,11 +82,17 @@ $(document).ready(function() {
         $('#deleteModal').modal(options);
     });
 
+    $('#id_slideshow').on('click', function() {
+        var ids = $.map($(".card.selected"), function (item) {
+            return $(item).attr("id");
+        });
+        window.document.location.href = "{% url 'slideshow' %}?ids="+ids;
+    });
+
     $('#show_in_map').on('click', function() {
         var ids = $.map($(".card.selected"), function (item) {
             return $(item).attr("id");
         });
-
         window.document.location.href = "{% url 'photomap' %}?ids="+ids;
     });
 
@@ -247,6 +233,9 @@ $(document).ready(function() {
                 <span id="id_count_sel"></span>
             </span>
             <span class="tool-separator"></span>
+            <button id="id_slideshow" class="btn btn-secondary global-tool" id="map" title="{% trans 'show selected in map' %}">
+                <i class="fal fa-presentation"></i>
+            </button>
             <button id="show_in_map" class="btn btn-secondary global-tool" id="map" title="{% trans 'show selected in map' %}">
                 <i class="fal fa-map"></i>
             </button>
@@ -522,7 +511,7 @@ $(document).ready(function() {
                                 <span class="dot"><i class="fal fa-check"></i></span>
                             </div>
                             <div class="card-body toolbar">
-                                <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                                <a href="{% url 'display' photo.id %}" class="tool"
                                    title="{% trans 'view' %}" data-name="{{ photo.name }}">
                                     <i class="fal fa-eye"></i>
                                 </a>

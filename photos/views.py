@@ -83,7 +83,6 @@ def photolist(request):
         photos = PhotoFilter(
             request.GET, queryset=Photo.objects.filter(public=True)
         )
-        print(photos.filters)
         users = User.objects.none()
         recent = 0
 
@@ -95,13 +94,14 @@ def photolist(request):
     })
 
 
-class PhotoDisplayView(LoginRequiredMixin, DetailView):
+class SlideshowView(LoginRequiredMixin, ListView):
     model = Photo
-    template_name = 'photos/photo_display.html'
+    template_name = 'photos/slideshow.html'
 
-    def get(self, request, *args, **kwargs):
-        print('display!!!')
-        return super(PhotoDisplayView, self).get(request, *args, **kwargs)
+    def get_queryset(self):
+        idstr = self.request.GET.get('ids')
+        ids = idstr.split(',')
+        return Photo.objects.filter(id__in=ids).order_by('timestamp')
 
 
 class PhotoShareView(LoginRequiredMixin, ListView):
@@ -141,6 +141,23 @@ class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(PhotoDetailView, self).get_context_data(**kwargs)
+        filter_params = self.request.session.get('filter')
+        query_param = ''
+        if len(filter_params) > 1:
+            c = '?'
+            for key, value in filter_params.items():
+                query_param += '{}{}={}'.format(c, key, value)
+                c = '&'
+        ctx['query_param'] = query_param
+        return ctx
+
+
+class PhotoDisplayView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
+    model = Photo
+    template_name = 'photos/photo_display.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PhotoDisplayView, self).get_context_data(**kwargs)
         filter_params = self.request.session.get('filter')
         query_param = ''
         if len(filter_params) > 1:

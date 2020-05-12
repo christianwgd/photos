@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load i18n static bootstrap4 fb_versions %}
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/slideshow.css' %}">
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+{{ block.super }}
+<script>
+$(document).ready(function() {
+    $('#slideshow').carousel({
+      interval: 2000
+    })
+
+    $('#prev').click(function() {
+       $('#slideshow').carousel('prev');
+    });
+
+    $('#next').click(function() {
+       $('#slideshow').carousel('next');
+    });
+
+    $('#stop').click(function() {
+        $(this).hide();
+        $('#play').show();
+        $('#slideshow').carousel('pause');
+    });
+
+    $('#play').click(function() {
+       $(this).hide();
+       $('#stop').show();
+       $('#slideshow').carousel('cycle');
+    });
+});
+</script>
+{% endblock %}
+
+{% block title_sep %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    {% trans 'not set' as notset %}
+    <div class="row">
+        <div class="col-md-12 text-center align-self">
+            <div class="toolbar float-right">
+                <button class="btn btn-sm btn-primary" id="prev" title="{% trans 'previous' %}">
+                    <i class="fal fa-arrow-alt-left"></i>
+                </button>
+                <button class="btn btn-sm btn-primary hidden" id="play" title="{% trans 'play' %}">
+                    <i class="fal fa-play"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" id="stop" title="{% trans 'stop' %}">
+                    <i class="fal fa-stop"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" id="next" title="{% trans 'next' %}">
+                    <i class="fal fa-arrow-alt-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center align-self-center">
+            <div id="slideshow" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for photo in photo_list %}
+                    <li class="list-inline-item{% if forloop.first %} active{% endif %}" data-target="#slideshow" data-slide-to="{{ forloop.counter0 }}"
+                        >
+                        <img src="{% version photo.imagefile 'slide_indicator' %}" alt="{{ photo.name }}">
+                    </li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for photo in photo_list %}
+                    <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                        <img src="{{ photo.imagefile.url }}" class="img-fluid img-slideshow" alt="{{ photo.name }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

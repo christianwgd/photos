@@ -201,10 +201,9 @@ $(document).ready(function(){
 
     <div class="row">
         <div class="col">
-            <a href="{% url 'photolist' %}{{ query_param }}" title="{% trans 'back' %}">
-                <button class="btn btn-primary" type="link">
+            <a href="{% url 'photolist' %}{{ query_param }}" class="btn btn-primary"
+               role=button" title="{% trans 'back' %}">
                     <i class="fal fa-check"></i>
-                </button>
             </a>
             {% if photo.latitude and photo.longitude %}
             <button class="btn btn-secondary" data-toggle="modal" data-target="#mapModal" title="{% trans 'show on map' %}">
