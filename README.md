@@ -14,3 +14,14 @@ optional:
   - AUTH_PASSWORD_VALIDATORS
   - DEFAULT_THEME
   - GEOPOSITION_GOOGLE_MAPS_API_KEY (if you want to use the maps)
+
+
+### Theming
+
+You can add themes for user selection in the admin. Create your own 
+themes (https://bootstrap.build/app) or load them from the web 
+(examples below).
+
+- https://bootstrap.build/themes
+- https://bootswatch.com
+- https://bootstrap.themes.guide/#themes
