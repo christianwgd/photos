@@ -1,8 +1,7 @@
 # photos
-Django photos app
+Django photos app - Just another django photos app
 
-Just another django photos app
-
+### localsettings
 To run create photos/localsettings.py:
 
 mandatory:
