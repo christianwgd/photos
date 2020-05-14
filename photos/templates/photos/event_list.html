@@ -114,6 +114,7 @@ $(document).ready(function() {
                             {% endfor %}
                         </div>
                         <div class="card-footer">
+                            <p class="small">{{ event.timestamp|date:'DATETIME_FORMAT' }}</p>
                             <a href="{% url 'photolist' %}?viewtype=event&event={{event.id}}" class="tool"
                                {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}"
                                 title="{% trans 'view' %}">

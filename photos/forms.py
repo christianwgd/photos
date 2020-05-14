@@ -21,9 +21,25 @@ class PhotoForm(forms.ModelForm):
             'owner': BootstrapSelect2Widget,
             'tags': BootstrapSelect2MultipleWidget,
             'timestamp': DateTimePickerInput(
-                    options={
-                        'format': "DD.MM.YYYY HH:mm",
-                        'locale': lang,
-                    },
-                )
+                options={
+                    'format': "DD.MM.YYYY HH:mm",
+                    'locale': lang,
+                },
+            )
         }
+
+
+class EventForm(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        fields = {'name', 'timestamp'}
+        widgets = {
+            'timestamp': DateTimePickerInput(
+                options={
+                    'format': "DD.MM.YYYY HH:mm",
+                    'locale': lang,
+                },
+            )
+        }
+

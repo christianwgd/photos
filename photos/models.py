@@ -58,13 +58,15 @@ class Event(models.Model):
     class Meta:
         verbose_name = _('event')
         verbose_name_plural = _('events')
-        ordering = ['name']
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.name
 
     objects = EventVisibleManager()
-
+    timestamp = models.DateTimeField(
+        _('timestamp'), auto_created=True, null=True
+    )
     name = models.CharField(_('name'), max_length=255)
     visible_for = models.ManyToManyField(
         User, related_name='visisble_for',

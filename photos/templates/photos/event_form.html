@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% load i18n static bootstrap4 %}
 
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+{{ form.media.css }}
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+{{ block.super }}
+{{ form.media.js }}
+{% endblock %}
+
 {% block title %}{% trans 'event' %}{% endblock %}
 
 {% block content %}

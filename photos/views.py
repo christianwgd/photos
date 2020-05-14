@@ -24,7 +24,7 @@ from rest_framework import viewsets
 
 from photos import parse_exif_data
 from photos.filters import PhotoFilter
-from photos.forms import PhotoForm
+from photos.forms import PhotoForm, EventForm
 from photos.mixins import ReturnToRefererMixin
 from photos.models import Photo, Event, Tag, Import
 from usersettings.models import UserSettings
@@ -461,7 +461,7 @@ class EventListView(LoginRequiredMixin, ListView):
 class EventUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Event
-    fields = ['name', ]
+    form_class = EventForm
     template_name = 'photos/event_form.html'
     success_url = reverse_lazy('eventlist')
 
