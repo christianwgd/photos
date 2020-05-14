@@ -18,7 +18,9 @@ optional:
 
 ### Theming
 
-You can add themes for user selection in the admin. Create your own 
+Bootstrap themes (css files) can be uploaded and selected by users. 
+
+You can add themes  for user selection in the admin. Create your own 
 themes (https://bootstrap.build/app) or load them from the web 
 (examples below).
 
