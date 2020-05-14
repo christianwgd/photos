@@ -461,7 +461,7 @@ $(document).ready(function() {
                                 <span class="dot"><i class="fal fa-check"></i></span>
                             </div>
                             <div class="card-body toolbar">
-                                <a href="{{ photo.imagefile.url }}" class="tool img-large"
+                                <a href="{% url 'display' photo.id %}" class="tool img-large"
                                    title="{% trans 'view' %}" data-name="{{ photo.name }}">
                                     <i class="fal fa-eye"></i>
                                 </a>
