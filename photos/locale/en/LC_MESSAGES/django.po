@@ -29,7 +29,7 @@ msgstr ""
 #: photos/apps.py:8 photos/models.py:105 photos/templates/base.html:46
 #: photos/views.py:412 photos/views.py:435
 msgid "photos"
-msgstr ""
+msgstr "Photos"
 
 #: photos/filters.py:19 photos/models.py:59 photos/models.py:129
 #: photos/templates/photos/event_confirm_delete.html:4
@@ -40,39 +40,39 @@ msgstr ""
 #: photos/templates/photos/photonew.html:180
 #: photos/templates/photos/photonew.html:234
 msgid "event"
-msgstr ""
+msgstr "Event"
 
 #: photos/models.py:35 photos/models.py:134
 msgid "import"
-msgstr ""
+msgstr "Import"
 
 #: photos/models.py:36
 msgid "imports"
-msgstr ""
+msgstr "Imports"
 
 #: photos/models.py:42 photos/models.py:70 photos/models.py:87
 #: photos/models.py:111 photos/templates/photos/photo_detail.html:116
 msgid "name"
-msgstr ""
+msgstr "Name"
 
 #: photos/models.py:43 photos/models.py:120
 #: photos/templates/photos/photo_detail.html:160
 msgid "uploaded"
-msgstr ""
+msgstr "Uploaded"
 
 #: photos/models.py:44
 msgid "slug"
-msgstr ""
+msgstr "Slug"
 
 #: photos/models.py:60 photos/templates/base.html:74
 #: photos/templates/photos/event_list.html:49
 msgid "events"
-msgstr ""
+msgstr "Events"
 
 #: photos/models.py:68 photos/models.py:117
 #: photos/templates/photos/photo_detail.html:136
 msgid "timestamp"
-msgstr ""
+msgstr "Timstamp"
 
 #: photos/models.py:73
 msgid "Visible for"
@@ -84,7 +84,7 @@ msgstr ""
 #: photos/templates/photos/tag_confirm_delete.html:4
 #: photos/templates/photos/tag_form.html:4
 msgid "tag"
-msgstr ""
+msgstr "Tag"
 
 #: photos/models.py:81 photos/templates/base.html:80
 #: photos/templates/photos/photo_detail.html:128
@@ -92,31 +92,31 @@ msgstr ""
 #: photos/templates/photos/photonew.html:245
 #: photos/templates/photos/tag_list.html:9
 msgid "tags"
-msgstr ""
+msgstr "Tags"
 
 #: photos/models.py:104
 msgid "photo"
-msgstr ""
+msgstr "Photo"
 
 #: photos/models.py:112 photos/templates/photos/photo_detail.html:120
 msgid "filename"
-msgstr ""
+msgstr "Filename"
 
 #: photos/models.py:114
 msgid "file"
-msgstr ""
+msgstr "File"
 
 #: photos/models.py:119
 msgid "uploaded by"
-msgstr ""
+msgstr "Uploaded by"
 
 #: photos/models.py:122
 msgid "latitude"
-msgstr ""
+msgstr "Latitude"
 
 #: photos/models.py:124
 msgid "longitude"
-msgstr ""
+msgstr "Longitude"
 
 #: photos/models.py:139 photos/templates/photos/photo_detail.html:172
 #: photos/templates/photos/photolist.html:420
@@ -131,19 +131,19 @@ msgstr ""
 
 #: photos/templates/base.html:52 photos/templates/photos/photonew.html:265
 msgid "uplaod"
-msgstr ""
+msgstr "Upload"
 
 #: photos/templates/base.html:56
 msgid "recent photos"
-msgstr ""
+msgstr "Recent photos"
 
 #: photos/templates/base.html:60
 msgid "by event"
-msgstr ""
+msgstr "By event"
 
 #: photos/templates/base.html:63
 msgid "by import"
-msgstr ""
+msgstr "By import"
 
 #: photos/templates/base.html:67
 msgid "My shares"
@@ -155,7 +155,7 @@ msgstr ""
 
 #: photos/templates/base.html:104
 msgid "settings"
-msgstr ""
+msgstr "Settings"
 
 #: photos/templates/base.html:108
 msgid "Password change"
@@ -176,7 +176,7 @@ msgstr ""
 
 #: photos/templates/photos/event_confirm_delete.html:13
 msgid "really delete this event?"
-msgstr ""
+msgstr "Really delete this event?"
 
 #: photos/templates/photos/event_list.html:58
 #: photos/templates/photos/photolist.html:329
@@ -251,7 +251,7 @@ msgstr ""
 
 #: photos/templates/photos/photo_detail.html:140
 msgid "location"
-msgstr ""
+msgstr "Location"
 
 #: photos/templates/photos/photo_detail.html:145
 #: photos/templates/photos/photo_detail.html:155
@@ -274,18 +274,18 @@ msgstr ""
 
 #: photos/templates/photos/photo_detail.html:209
 msgid "show on map"
-msgstr ""
+msgstr "Show on map"
 
 #: photos/templates/photos/photo_detail.html:213
 msgid "show EXIF data"
-msgstr ""
+msgstr "Show EXIF data"
 
 #: photos/templates/photos/photo_detail.html:216
 #: photos/templates/photos/photo_form.html:4
 #: photos/templates/photos/photolist.html:473
 #: photos/templates/photos/photolist.html:523
 msgid "edit metadata"
-msgstr ""
+msgstr "Edit metadata"
 
 #: photos/templates/photos/photo_shares.html:58
 msgid "No shares found."
@@ -310,20 +310,20 @@ msgstr ""
 
 #: photos/templates/photos/photolist.html:226
 msgid "select all"
-msgstr ""
+msgstr "Select all"
 
 #: photos/templates/photos/photolist.html:229
 msgid "select none"
-msgstr ""
+msgstr "Select none"
 
 #: photos/templates/photos/photolist.html:236
 #: photos/templates/photos/photolist.html:239
 msgid "show selected in map"
-msgstr ""
+msgstr "Show selected in map"
 
 #: photos/templates/photos/photolist.html:243
 msgid "categorize"
-msgstr ""
+msgstr "Categorize"
 
 #: photos/templates/photos/photolist.html:250
 #: photos/templates/photos/photolist.html:370
@@ -331,7 +331,7 @@ msgstr ""
 #: photos/templates/photos/photolist.html:477
 #: photos/templates/photos/photolist.html:527
 msgid "download"
-msgstr ""
+msgstr "Download"
 
 #: photos/templates/photos/photolist.html:297
 msgid "Delete photos"
@@ -347,15 +347,15 @@ msgstr ""
 
 #: photos/templates/photos/photolist.html:402
 msgid "categorize photos"
-msgstr ""
+msgstr "Categorize photos"
 
 #: photos/templates/photos/photolist.html:432
 msgid "assign"
-msgstr ""
+msgstr "Assign"
 
 #: photos/templates/photos/photolist.html:540
 msgid "no photos found."
-msgstr ""
+msgstr "No photos found"
 
 #: photos/templates/photos/photonew.html:24
 msgid "Drop files here to upload"
@@ -379,23 +379,23 @@ msgstr ""
 
 #: photos/templates/photos/slideshow.html:48
 msgid "previous"
-msgstr ""
+msgstr "Previous"
 
 #: photos/templates/photos/slideshow.html:51
 msgid "play"
-msgstr ""
+msgstr "Play"
 
 #: photos/templates/photos/slideshow.html:54
 msgid "stop"
-msgstr ""
+msgstr "Stop"
 
 #: photos/templates/photos/slideshow.html:57
 msgid "next"
-msgstr ""
+msgstr "Next"
 
 #: photos/templates/photos/tag_confirm_delete.html:13
 msgid "really delete this tag?"
-msgstr ""
+msgstr "Really delete this tag?"
 
 #: photos/views.py:124
 msgid "None of the selected photos has location informations"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: photos/views.py:183
 msgid "photo metadata changed."
-msgstr ""
+msgstr "Photo metadata changed"
 
 #: photos/views.py:205
 msgid "Photo does not exist."
@@ -417,12 +417,12 @@ msgstr ""
 #: photos/views.py:286
 #, python-brace-format
 msgid "successfully added {count} photos."
-msgstr ""
+msgstr "Successfully added {count} photos."
 
 #: photos/views.py:308
 #, python-brace-format
 msgid "successfully geocoded {count} photos."
-msgstr ""
+msgstr "Successfully geocoded {count} photos."
 
 #: photos/views.py:489 photos/views.py:529
 msgid "Delete cancelled"

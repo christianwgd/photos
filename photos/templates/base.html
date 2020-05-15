@@ -2,6 +2,7 @@
 {% load i18n bootstrap4 static user_tags %}
 
 {% block bootstrap4_extra_head %}
+{{ block.super }}
 <link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicon/apple-icon-57x57.png'%}">
 <link rel="apple-touch-icon" sizes="60x60" href="{% static 'favicon/apple-icon-60x60.png'%}">
 <link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicon/apple-icon-72x72.png'%}">
@@ -25,7 +26,7 @@
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
-<script src="https://kit.fontawesome.com/d29690e050.js" crossorigin="anonymous"></script>
+{{ block.super }}
 {% endblock %}
 
 {% block bootstrap4_title %}{% trans 'Photos' %}{% endblock %}
