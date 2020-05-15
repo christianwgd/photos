@@ -31,15 +31,15 @@ msgstr ""
 
 #: usersettings/models.py:24
 msgid "name"
-msgstr ""
+msgstr "Name"
 
 #: usersettings/models.py:28
 msgid "css file"
-msgstr ""
+msgstr "CSS File"
 
 #: usersettings/models.py:38 usersettings/models.py:39
 msgid "user settings"
-msgstr ""
+msgstr "User settings"
 
 #: usersettings/models.py:46
 msgid "Limit unfiltered amount of photos"
@@ -59,17 +59,17 @@ msgstr ""
 
 #: usersettings/templates/usersettings/user_settings.html:8
 msgid "settings"
-msgstr ""
+msgstr "Settings"
 
 #: usersettings/views.py:16
 msgid "edit cancelled"
-msgstr ""
+msgstr "Edit cancelled"
 
 #: usersettings/views.py:35
 #, python-brace-format
 msgid "settings saved for user {user}"
-msgstr ""
+msgstr "Settings saved for user {user}"
 
 #: usersettings/views.py:42
 msgid "error saving settings: {}"
-msgstr ""
+msgstr "Error saving settings: {}"
