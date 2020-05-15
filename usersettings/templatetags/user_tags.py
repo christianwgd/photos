@@ -3,6 +3,8 @@ from datetime import timedelta, date
 
 from django import template
 from django.utils.html import mark_safe
+
+from photos import settings
 from usersettings.models import UserSettings
 from django.utils.formats import date_format
 
@@ -16,18 +18,17 @@ def user_theme(user):
     get user specific bootstrap theme
     """
 
-    try:
-        if user.is_authenticated:
+    theme_url = getattr(settings, 'DEFAULT_THEME', '/static/css/default.min.css')
+    if user.is_authenticated:
+        try:
             user_settings = UserSettings.objects.get(user=user)
-            if user_settings.theme is not None:
-                theme_url = user_settings.theme.cssfile.url
-                theme_tag = '<link rel="stylesheet" href="{url}">'.format(
-                    url = theme_url
-                )
-                return mark_safe(theme_tag)
-    except UserSettings.DoesNotExist:
-        pass
-    return ''
+            theme_url = user_settings.theme.cssfile.url
+        except UserSettings.DoesNotExist:
+            pass
+    theme_tag = '<link rel="stylesheet" href="{url}">'.format(
+        url=theme_url
+    )
+    return mark_safe(theme_tag)
 
 
 @register.simple_tag

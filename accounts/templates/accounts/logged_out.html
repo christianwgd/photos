@@ -8,5 +8,12 @@
     <p class="text-center">
         {% trans "You are now logged out, thanks for using this app." %}
     </p>
+    <p class="text-center">
+        <a href="{% url 'login' %}" class="btn btn-primary" role="button">
+            <span class="far fa-sign-in"></span>
+            {% trans 'Login' %}
+        </a>
+    </p>
+
 </div>
 {% endblock %}
