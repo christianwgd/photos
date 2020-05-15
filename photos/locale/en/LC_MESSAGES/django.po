@@ -1,0 +1,437 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-15 09:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: photos/admin.py:9 photos/admin.py:10 photos/templates/base.html:31
+#: photos/templates/base.html:35
+msgid "Photos"
+msgstr ""
+
+#: photos/admin.py:11
+msgid "Photos administration"
+msgstr ""
+
+#: photos/apps.py:8 photos/models.py:105 photos/templates/base.html:46
+#: photos/views.py:412 photos/views.py:435
+msgid "photos"
+msgstr ""
+
+#: photos/filters.py:19 photos/models.py:59 photos/models.py:129
+#: photos/templates/photos/event_confirm_delete.html:4
+#: photos/templates/photos/event_form.html:14
+#: photos/templates/photos/photo_detail.html:124
+#: photos/templates/photos/photolist.html:412
+#: photos/templates/photos/photonew.html:179
+#: photos/templates/photos/photonew.html:180
+#: photos/templates/photos/photonew.html:234
+msgid "event"
+msgstr ""
+
+#: photos/models.py:35 photos/models.py:134
+msgid "import"
+msgstr ""
+
+#: photos/models.py:36
+msgid "imports"
+msgstr ""
+
+#: photos/models.py:42 photos/models.py:70 photos/models.py:87
+#: photos/models.py:111 photos/templates/photos/photo_detail.html:116
+msgid "name"
+msgstr ""
+
+#: photos/models.py:43 photos/models.py:120
+#: photos/templates/photos/photo_detail.html:160
+msgid "uploaded"
+msgstr ""
+
+#: photos/models.py:44
+msgid "slug"
+msgstr ""
+
+#: photos/models.py:60 photos/templates/base.html:74
+#: photos/templates/photos/event_list.html:49
+msgid "events"
+msgstr ""
+
+#: photos/models.py:68 photos/models.py:117
+#: photos/templates/photos/photo_detail.html:136
+msgid "timestamp"
+msgstr ""
+
+#: photos/models.py:73
+msgid "Visible for"
+msgstr ""
+
+#: photos/models.py:80 photos/models.py:137
+#: photos/templates/photos/photonew.html:209
+#: photos/templates/photos/photonew.html:210
+#: photos/templates/photos/tag_confirm_delete.html:4
+#: photos/templates/photos/tag_form.html:4
+msgid "tag"
+msgstr ""
+
+#: photos/models.py:81 photos/templates/base.html:80
+#: photos/templates/photos/photo_detail.html:128
+#: photos/templates/photos/photolist.html:416
+#: photos/templates/photos/photonew.html:245
+#: photos/templates/photos/tag_list.html:9
+msgid "tags"
+msgstr ""
+
+#: photos/models.py:104
+msgid "photo"
+msgstr ""
+
+#: photos/models.py:112 photos/templates/photos/photo_detail.html:120
+msgid "filename"
+msgstr ""
+
+#: photos/models.py:114
+msgid "file"
+msgstr ""
+
+#: photos/models.py:119
+msgid "uploaded by"
+msgstr ""
+
+#: photos/models.py:122
+msgid "latitude"
+msgstr ""
+
+#: photos/models.py:124
+msgid "longitude"
+msgstr ""
+
+#: photos/models.py:139 photos/templates/photos/photo_detail.html:172
+#: photos/templates/photos/photolist.html:420
+msgid "Owner"
+msgstr ""
+
+#: photos/models.py:144 photos/templates/photos/photo_detail.html:182
+#: photos/templates/photos/photo_shares.html:20
+#: photos/templates/photos/photo_shares.html:42
+msgid "Shared with"
+msgstr ""
+
+#: photos/templates/base.html:52 photos/templates/photos/photonew.html:265
+msgid "uplaod"
+msgstr ""
+
+#: photos/templates/base.html:56
+msgid "recent photos"
+msgstr ""
+
+#: photos/templates/base.html:60
+msgid "by event"
+msgstr ""
+
+#: photos/templates/base.html:63
+msgid "by import"
+msgstr ""
+
+#: photos/templates/base.html:67
+msgid "My shares"
+msgstr ""
+
+#: photos/templates/base.html:100
+msgid "Log out"
+msgstr ""
+
+#: photos/templates/base.html:104
+msgid "settings"
+msgstr ""
+
+#: photos/templates/base.html:108
+msgid "Password change"
+msgstr ""
+
+#: photos/templates/base.html:113
+msgid "Admin"
+msgstr ""
+
+#: photos/templates/base.html:122
+msgid "Log in"
+msgstr ""
+
+#: photos/templates/photos/event_confirm_delete.html:4
+#: photos/templates/photos/tag_confirm_delete.html:4
+msgid "Delete"
+msgstr ""
+
+#: photos/templates/photos/event_confirm_delete.html:13
+msgid "really delete this event?"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:58
+#: photos/templates/photos/photolist.html:329
+msgid "Share photos"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:64
+#: photos/templates/photos/photolist.html:335
+msgid "User"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:82
+#: photos/templates/photos/event_list.html:130
+#: photos/templates/photos/event_list.html:135
+#: photos/templates/photos/photolist.html:253
+#: photos/templates/photos/photolist.html:353
+msgid "share"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:119
+#: photos/templates/photos/photolist.html:465
+#: photos/templates/photos/photolist.html:515
+#: photos/templates/photos/tag_list.html:37
+msgid "view"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:122
+#: photos/templates/photos/tag_list.html:40
+msgid "edit"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:125
+#: photos/templates/photos/photodelete.html:17
+#: photos/templates/photos/photolist.html:246
+#: photos/templates/photos/photolist.html:312
+#: photos/templates/photos/tag_list.html:43
+msgid "delete"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:153
+#: photos/templates/photos/photo_detail.html:205
+#: photos/templates/photos/photo_display.html:22
+#: photos/templates/photos/photo_map.html:112
+#: photos/templates/photos/tag_list.html:59
+msgid "back"
+msgstr ""
+
+#: photos/templates/photos/event_list.html:158
+#: photos/templates/photos/tag_list.html:64
+msgid "new"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:39
+#: photos/templates/photos/photolist.html:469
+#: photos/templates/photos/photolist.html:519
+msgid "Details"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:49
+msgid "EXIF data"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:82
+#: photos/templates/photos/photo_map.html:77
+msgid "Map"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:107
+#: photos/templates/photos/slideshow.html:44
+msgid "not set"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:140
+msgid "location"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:145
+#: photos/templates/photos/photo_detail.html:155
+msgid "not available"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:150
+msgid "GPS Position"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:163
+msgid "by"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:190
+#: photos/templates/photos/photo_shares.html:24
+#: photos/templates/photos/photo_shares.html:45
+msgid "Remove share"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:209
+msgid "show on map"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:213
+msgid "show EXIF data"
+msgstr ""
+
+#: photos/templates/photos/photo_detail.html:216
+#: photos/templates/photos/photo_form.html:4
+#: photos/templates/photos/photolist.html:473
+#: photos/templates/photos/photolist.html:523
+msgid "edit metadata"
+msgstr ""
+
+#: photos/templates/photos/photo_shares.html:58
+msgid "No shares found."
+msgstr ""
+
+#: photos/templates/photos/photodelete.html:19
+msgid "Do you really want to delete this photo?"
+msgstr ""
+
+#: photos/templates/photos/photodelete.html:23
+msgid "The physical file will not be deleted!"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:219
+#: photos/templates/photos/photolist.html:269
+msgid "Filter"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:222
+msgid "Remove filter"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:226
+msgid "select all"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:229
+msgid "select none"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:236
+#: photos/templates/photos/photolist.html:239
+msgid "show selected in map"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:243
+msgid "categorize"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:250
+#: photos/templates/photos/photolist.html:370
+#: photos/templates/photos/photolist.html:384
+#: photos/templates/photos/photolist.html:477
+#: photos/templates/photos/photolist.html:527
+msgid "download"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:297
+msgid "Delete photos"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:304
+msgid "Do you really want to delete the selected photos?"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:377
+msgid "Download compressed photos."
+msgstr ""
+
+#: photos/templates/photos/photolist.html:402
+msgid "categorize photos"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:432
+msgid "assign"
+msgstr ""
+
+#: photos/templates/photos/photolist.html:540
+msgid "no photos found."
+msgstr ""
+
+#: photos/templates/photos/photonew.html:24
+msgid "Drop files here to upload"
+msgstr ""
+
+#: photos/templates/photos/photonew.html:38
+msgid "Remove File"
+msgstr ""
+
+#: photos/templates/photos/photonew.html:164
+msgid "Upload new photos"
+msgstr ""
+
+#: photos/templates/photos/photonew.html:173
+msgid "Add event"
+msgstr ""
+
+#: photos/templates/photos/photonew.html:203
+msgid "Add tag"
+msgstr ""
+
+#: photos/templates/photos/slideshow.html:48
+msgid "previous"
+msgstr ""
+
+#: photos/templates/photos/slideshow.html:51
+msgid "play"
+msgstr ""
+
+#: photos/templates/photos/slideshow.html:54
+msgid "stop"
+msgstr ""
+
+#: photos/templates/photos/slideshow.html:57
+msgid "next"
+msgstr ""
+
+#: photos/templates/photos/tag_confirm_delete.html:13
+msgid "really delete this tag?"
+msgstr ""
+
+#: photos/views.py:124
+msgid "None of the selected photos has location informations"
+msgstr ""
+
+#: photos/views.py:183
+msgid "photo metadata changed."
+msgstr ""
+
+#: photos/views.py:205
+msgid "Photo does not exist."
+msgstr ""
+
+#: photos/views.py:215
+#, python-brace-format
+msgid "Photo {photo} deleted."
+msgstr ""
+
+#: photos/views.py:286
+#, python-brace-format
+msgid "successfully added {count} photos."
+msgstr ""
+
+#: photos/views.py:308
+#, python-brace-format
+msgid "successfully geocoded {count} photos."
+msgstr ""
+
+#: photos/views.py:489 photos/views.py:529
+msgid "Delete cancelled"
+msgstr ""
+
+#: photos/views.py:491
+msgid "Event deleted"
+msgstr ""
+
+#: photos/views.py:531
+msgid "Tag deleted"
+msgstr ""
