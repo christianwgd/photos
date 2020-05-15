@@ -21,8 +21,11 @@
 
 {% user_theme request.user %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}" type="text/css" />
-<link rel="stylesheet" href="{% static 'font-awesome-5/css/all.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+<script src="https://kit.fontawesome.com/d29690e050.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block bootstrap4_title %}{% trans 'Photos' %}{% endblock %}
