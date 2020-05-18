@@ -103,6 +103,12 @@ class SlideshowView(LoginRequiredMixin, ListView):
         ids = idstr.split(',')
         return Photo.objects.filter(id__in=ids).order_by('timestamp')
 
+    def get_context_data(self, **kwargs):
+        ctx = super(SlideshowView, self).get_context_data(**kwargs)
+        usr_settings = UserSettings.objects.get(user=self.request.user)
+        ctx['slide_time'] = usr_settings.slide_time
+        return ctx
+
 
 class PhotoShareView(LoginRequiredMixin, ListView):
     model = Photo

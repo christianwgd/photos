@@ -12,16 +12,18 @@ from .models import UserSettings
 @login_required(login_url='/accounts/login/')
 def settings(request):
 
-    if 'cancel' in request.POST:
-        messages.info(request, _('edit cancelled'))
-        return HttpResponseRedirect(reverse('photolist'))
-
     try:
         user_settings = UserSettings.objects.get(user=request.user)
     except UserSettings.DoesNotExist:
         user_settings = UserSettings(user=request.user)
 
     if request.method == 'POST':
+        referer = request.session['referer']
+
+        if 'cancel' in request.POST:
+            messages.info(request, _('edit cancelled'))
+            return HttpResponseRedirect(referer)
+
         settings_form = UserSettingsForm(
             request.POST, instance=user_settings)
 
@@ -36,11 +38,15 @@ def settings(request):
                         user=request.user
                     )
                 )
-                return HttpResponseRedirect(reverse('photolist'))
+                return HttpResponseRedirect(referer)
             except Exception as e:
                 messages.error(
                     request, _('error saving settings: {}'.format(e)))
     else:  # GET
+        if 'HTTP_REFERER' in request.META:
+            request.session['referer'] = request.META['HTTP_REFERER']
+        else:
+            request.session['referer'] = reverse('photolist')
         settings_form = UserSettingsForm(instance=user_settings)
 
     return render(request, 'usersettings/user_settings.html', {

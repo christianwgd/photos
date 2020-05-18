@@ -10,8 +10,10 @@
 {{ block.super }}
 <script>
 $(document).ready(function() {
+    const slide_time = {{ slide_time }};
+
     $('#slideshow').carousel({
-      interval: 4000
+      interval: slide_time * 1000
     })
 
     $('#prev').click(function() {

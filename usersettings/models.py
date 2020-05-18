@@ -50,6 +50,10 @@ class UserSettings(models.Model):
         default=0, verbose_name=_('Recent photos from last days'),
         help_text = _('0 means all'),
     )
+    slide_time = models.PositiveSmallIntegerField(
+        default=5, verbose_name=_('Slideshow time'),
+        help_text=_('Time one slide is shown in seconds')
+    )
     theme = models.ForeignKey(
         Theme,
         verbose_name=_('Theme'),

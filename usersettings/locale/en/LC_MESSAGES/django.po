@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-15 09:57+0200\n"
+"POT-Creation-Date: 2020-05-18 18:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,59 +17,68 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: usersettings/apps.py:8
+
+#: apps.py:8
 msgid "User settings"
 msgstr ""
 
-#: usersettings/models.py:16 usersettings/models.py:55
+#: models.py:16 models.py:59
 msgid "Theme"
 msgstr ""
 
-#: usersettings/models.py:17
+#: models.py:17
 msgid "Themes"
 msgstr ""
 
-#: usersettings/models.py:24
+#: models.py:24
 msgid "name"
 msgstr "Name"
 
-#: usersettings/models.py:28
+#: models.py:28
 msgid "css file"
 msgstr "CSS File"
 
-#: usersettings/models.py:38 usersettings/models.py:39
+#: models.py:38 models.py:39
 msgid "user settings"
 msgstr "User settings"
 
-#: usersettings/models.py:46
+#: models.py:46
 msgid "Limit unfiltered amount of photos"
 msgstr ""
 
-#: usersettings/models.py:47
+#: models.py:47
 msgid "0 means no limit"
 msgstr ""
 
-#: usersettings/models.py:50
+#: models.py:50
 msgid "Recent photos from last days"
 msgstr ""
 
-#: usersettings/models.py:51
+#: models.py:51
 msgid "0 means all"
 msgstr ""
 
-#: usersettings/templates/usersettings/user_settings.html:8
+#: models.py:54
+msgid "Slideshow time"
+msgstr ""
+
+#: models.py:55
+msgid "Time one slide is shown in seconds"
+msgstr ""
+
+#: templates/usersettings/user_settings.html:8
 msgid "settings"
 msgstr "Settings"
 
-#: usersettings/views.py:16
+#: views.py:16
 msgid "edit cancelled"
 msgstr "Edit cancelled"
 
-#: usersettings/views.py:35
+#: views.py:35
 #, python-brace-format
 msgid "settings saved for user {user}"
 msgstr "Settings saved for user {user}"
 
-#: usersettings/views.py:42
+#: views.py:42
 msgid "error saving settings: {}"
 msgstr "Error saving settings: {}"
