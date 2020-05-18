@@ -4,13 +4,16 @@
 {% block bootstrap4_extra_head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/photonew.css' %}">
-<link rel="stylesheet" href="{% static 'select2/select2.min.css' %}">
-<link rel="stylesheet" href="{% static 'select2/select2-bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" type="text/css" media="screen" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" type="text/css" media="screen" rel="stylesheet">
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
-<script src="{% static 'select2/select2.full.min.js' %}"></script>
+{{ block.super }}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/i18n/de.js"></script>
 <script src="{% static 'js/dropzone.js' %}"></script>
 <script type="text/javascript">
 Dropzone.options.myDropzone = {
@@ -132,8 +135,8 @@ function update_tag_options(selected) {
 
 $(document).ready(function() {
 
-    $('#id_event_select').select2({ theme: 'bootstrap4', width: '100%' });
-    $('#id_tag_select').select2({ theme: 'bootstrap4', width: '100%' });
+    $('#id_event_select').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_tag_select').select2({ theme: 'bootstrap', width: '100%' });
 
     $('#id_event_add').click(function() {
         $('#eventAddModal').modal();
@@ -259,11 +262,12 @@ $(document).ready(function() {
 
  </div>
 </form>
+
 <div class="container-fluid">
     <div class="row" style="margin-top: 10px;">
         <div class="col">
-            <button class="btn btn-lg btn-secondary" type="submit" id="submit-all" title="{% trans 'uplaod' %}">
-                <i id="id_upload_icon" class="far fa-upload"></i>
+            <button class="btn btn-secondary" type="button" id="submit-all" title="{% trans 'uplaod' %}">
+                <i id="id_upload_icon" class="fal fa-upload"></i>
             </button>
         </div>
     </div>

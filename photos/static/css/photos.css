@@ -58,3 +58,7 @@ pre {
 .tool-separator {
     padding: 0 10px;
 }
+
+.modal {
+    top: 9rem;
+}
