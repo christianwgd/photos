@@ -6,7 +6,6 @@ from datetime import datetime
 import pytz
 from PIL import Image
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
@@ -122,8 +121,8 @@ class Photo(models.Model):
         _('latitude'), max_length=20, null=True, blank=True)
     longitude = models.CharField(
         _('longitude'), max_length=20, null=True, blank=True)
-    address = JSONField(null=True, blank=True, default=dict)
-    exif = JSONField()
+    address = models.JSONField(null=True, blank=True, default=dict)
+    exif = models.JSONField()
     event = models.ForeignKey(
         Event, models.CASCADE,
         verbose_name=_('event'),
