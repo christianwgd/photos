@@ -1,8 +1,13 @@
 {% extends 'bootstrap4/bootstrap4.html' %}
 {% load i18n bootstrap4 static %}
 
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+<script defer src="{% static 'fontawesome/css/all.min.css' %}"></script>
+{% endblock %}
+
 {% block bootstrap4_extra_script %}
-<script src="https://kit.fontawesome.com/d29690e050.js" crossorigin="anonymous"></script>
+<script defer src="{% static 'fontawesome/js/all.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap-notify.min.js' %}"></script>
 <script>
     var errors = [];
