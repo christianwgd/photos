@@ -27,6 +27,14 @@ class PhotoFilter(django_filters.FilterSet):
         queryset=User.objects.all()
     )
 
+    order = django_filters.OrderingFilter(
+        choices=(
+            ('event', _('Event')),
+            ('uploaded', _('Uploaded')),
+            ('timestamp', _('Timestamp'))
+        ),
+    )
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(PhotoFilter, self).__init__(*args, **kwargs)

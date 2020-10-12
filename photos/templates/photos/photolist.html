@@ -272,6 +272,7 @@ $(document).ready(function() {
         <div class="modal-body">
             <form action="" method="get">
                 {% csrf_token %}
+                {% bootstrap_field photos.form.order %}
                 {% bootstrap_field photos.form.event %}
                 {% bootstrap_field photos.form.tags %}
                 {% bootstrap_field photos.form.timestamp %}
