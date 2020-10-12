@@ -20,9 +20,8 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework import routers, authentication
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
 
 from filebrowser.sites import site
 
@@ -37,22 +36,9 @@ router.register(r'photos', views.PhotoViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'photo_exif', views.PhotoExifViewSet)
 
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Photo API",
-      default_version='v1',
-   ),
-   authentication_classes=(
-        authentication.SessionAuthentication,
-    ),
-)
-
 app_name = 'photos'
 
 urlpatterns = [
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
     path('select2/', include('django_select2.urls')),
@@ -95,6 +81,11 @@ urlpatterns = [
 
     path('photos/', include(router.urls)),
     path('accounts/', include('accounts.urls')),
+
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
