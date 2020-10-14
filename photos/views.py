@@ -141,6 +141,11 @@ class PhotoMapView(LoginRequiredMixin, ListView):
             latitude__isnull=False
         )
 
+    def get_context_data(self, **kwargs):
+        ctx = super(PhotoMapView, self).get_context_data(**kwargs)
+        ctx['mapbox_token'] = getattr(settings, "MAPBOX_ACCESS_TOKEN", None)
+        return ctx
+
 
 class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
     model = Photo
@@ -155,6 +160,7 @@ class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
                 query_param += '{}{}={}'.format(c, key, value)
                 c = '&'
         ctx['query_param'] = query_param
+        ctx['mapbox_token'] = getattr(settings, "MAPBOX_ACCESS_TOKEN", None)
         return ctx
 
 

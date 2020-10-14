@@ -20,7 +20,7 @@ $(document).ready(function(){
     $('#mapModal').on('shown.bs.modal', function (e) {
         mymap = new L.Map('mapid').setView([{{ photo.latitude }}, {{ photo.longitude }}], 10);
 
-        var accessToken = 'pk.eyJ1IjoiY3dpZWdhbmQiLCJhIjoiY2pqdTU5N3BoNzM1dDN3bzN4bjM1b2NsYyJ9.ocaLNEeXel3a3to17zTMuQ';
+        var accessToken = "{{ mapbox_token }}";
         var tiles = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
             tileSize: 512,
