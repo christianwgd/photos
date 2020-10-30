@@ -67,12 +67,13 @@ def create_user_profile(sender, instance, created, **kwargs):
     try:
         user_settings = UserSettings.objects.get(user=instance)
     except UserSettings.DoesNotExist:
-        default_theme_name = getattr(settings, "DEFAULT_THEME", None)
-        if default_theme_name is not None:
+        default_theme_name = getattr(settings, "DEFAULT_THEME", 'Bootstrap')
+        print(default_theme_name)
+        try:
             default_theme = Theme.objects.get(name=default_theme_name)
-        else:
-            default_theme = None
-        UserSettings.objects.create(
-            user = instance,
-            theme = default_theme
-        )
+            UserSettings.objects.create(
+                user=instance,
+                theme=default_theme
+            )
+        except Theme.DoesNotExist:
+            pass

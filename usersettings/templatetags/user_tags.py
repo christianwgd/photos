@@ -18,11 +18,12 @@ def user_theme(user):
     get user specific bootstrap theme
     """
 
-    theme_url = getattr(settings, 'DEFAULT_THEME', '/static/css/default.min.css')
+    theme_url = getattr(settings, 'DEFAULT_THEME', '/static/css/bootstrap.min.css')
     if user.is_authenticated:
         try:
             user_settings = UserSettings.objects.get(user=user)
-            theme_url = user_settings.theme.cssfile.url
+            if user_settings.theme is not None:
+                theme_url = user_settings.theme.cssfile.url
         except UserSettings.DoesNotExist:
             pass
     theme_tag = '<link rel="stylesheet" href="{url}">'.format(
