@@ -551,6 +551,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
     """
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    filterset_fields = ['event', 'tags']
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -559,6 +560,7 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    filterset_fields = ['name',]
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -567,6 +569,7 @@ class TagViewSet(viewsets.ModelViewSet):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    filterset_fields = ['name', ]
 
 
 class ImportViewSet(viewsets.ModelViewSet):
