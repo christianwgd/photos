@@ -135,6 +135,9 @@ DEFAULT_PHOTOS_RECENT = 10
 
 DEFAULT_THEME = '/static/css/default.min.css'
 
+# geopy geocoder user agent
+GEOPY_USER_AGENT = 'wgdnet photos'
+
 #################1#
 # LOCAL SETTINGS #
 ##################

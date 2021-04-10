@@ -161,7 +161,8 @@ class Photo(models.Model):
     def geocode(self):
         if self.latitude and self.longitude:
             address = dict()
-            geoCoder = MapsGeocoder(geocoder=Nominatim())
+            user_agent = getattr(settings, 'GEOPY_USER_AGENT', None)
+            geoCoder = MapsGeocoder(geocoder=Nominatim(user_agent=user_agent))
             location = geoCoder.getAddressFromGeocode(self.latitude, self.longitude)
             if location is not None:
                 loc_str = location.raw['display_name']
