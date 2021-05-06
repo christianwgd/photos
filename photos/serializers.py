@@ -33,7 +33,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             'url', 'id', 'name', 'timestamp', 'uploaded',
             'uploaded_by', 'address', 'event', 'upload',
-            'tags', 'imagefile'
+            'tags', 'imagefile', 'thumb'
         ]
 
 

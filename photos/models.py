@@ -144,7 +144,13 @@ class Photo(models.Model):
     )
     public = models.BooleanField(default=False, verbose_name='Public')
 
+    @property
+    def thumb(self):
+        return self.imagefile.version_generate('thumbnail').path
+
+
     objects = PhotoVisibleManager()
+
 
     def rotate_to_normal(self, orientation):
         image=Image.open(self.imagefile.path)
