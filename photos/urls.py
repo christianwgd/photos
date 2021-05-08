@@ -26,7 +26,7 @@ from rest_framework import routers, authentication
 from filebrowser.sites import site
 
 from . import views
-
+from .auth_views import CustomAuthToken
 
 router = routers.DefaultRouter()
 router.register(r'events', views.EventViewSet)
@@ -83,6 +83,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api-token-auth/', CustomAuthToken.as_view()),
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
