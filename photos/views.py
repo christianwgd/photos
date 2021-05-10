@@ -13,14 +13,16 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files.storage import FileSystemStorage
 from django.db import transaction
 from django.http import HttpResponse, FileResponse
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.timezone import make_aware, is_aware
 from django.utils.translation import ugettext as _
 from django.views.generic import (
     ListView, UpdateView, CreateView, DeleteView, DetailView
 )
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from photos import parse_exif_data
 from photos.filters import PhotoFilter
@@ -51,7 +53,6 @@ def photolist(request):
         if len(val) > 0:
             filter[param] = val
     request.session['filter'] = filter
-
 
     if request.user.is_authenticated:
         try:
@@ -188,11 +189,11 @@ def new(request):
 
 class PhotoUpdateView(
     LoginRequiredMixin, ReturnToRefererMixin,
-    SuccessMessageMixin, UpdateView):
-
+    SuccessMessageMixin, UpdateView
+):
     model = Photo
     form_class = PhotoForm
-    success_message =  _('photo metadata changed.')
+    success_message = _('photo metadata changed.')
 
     def post(self, request, *args, **kwargs):
         if 'cancel' in request.POST:
@@ -202,14 +203,12 @@ class PhotoUpdateView(
 
 @login_required(login_url='/accounts/login/')
 def imgedit(request, photo_id):
-
     photo = Photo.objects.get(pk=photo_id)
     return render(request, 'photos/imgedit.html', {'photo': photo})
 
 
 @login_required(login_url='/accounts/login/')
 def delete(request, photo_id):
-
     try:
         photo = Photo.objects.get(pk=photo_id)
     except Photo.DoesNotExist:
@@ -232,7 +231,6 @@ def delete(request, photo_id):
 
 @login_required(login_url='/accounts/login/')
 def fileupload(request):
-
     if request.method == 'POST':
 
         upload = Import.objects.create()
@@ -298,6 +296,7 @@ def fileupload(request):
             'successfully added {count} photos.').format(count=count))
 
         return HttpResponse('ok')
+
 
 @login_required(login_url='/accounts/login/')
 def geocode(request):
@@ -457,7 +456,6 @@ def processdownload(request):
 
 
 class EventListView(LoginRequiredMixin, ListView):
-
     model = Event
 
     def get_queryset(self):
@@ -469,9 +467,7 @@ class EventListView(LoginRequiredMixin, ListView):
         return context
 
 
-
 class EventUpdateView(LoginRequiredMixin, UpdateView):
-
     model = Event
     form_class = EventForm
     template_name = 'photos/event_form.html'
@@ -479,7 +475,6 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class EventCreateView(LoginRequiredMixin, CreateView):
-
     model = Event
     fields = ['name', ]
     template_name = 'photos/event_form.html'
@@ -492,7 +487,6 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):
-
     model = Event
     success_url = reverse_lazy('eventlist')
 
@@ -505,8 +499,8 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class TagListView(LoginRequiredMixin, ListView):
-
     model = Tag
+
     # paginate_by = 100  # if pagination is desired
 
     def get_context_data(self, **kwargs):
@@ -516,7 +510,6 @@ class TagListView(LoginRequiredMixin, ListView):
 
 
 class TagUpdateView(LoginRequiredMixin, UpdateView):
-
     model = Tag
     fields = ['name', ]
     template_name = 'photos/tag_form.html'
@@ -524,7 +517,6 @@ class TagUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class TagCreateView(LoginRequiredMixin, CreateView):
-
     model = Tag
     fields = ['name', ]
     template_name = 'photos/tag_form.html'
@@ -532,7 +524,6 @@ class TagCreateView(LoginRequiredMixin, CreateView):
 
 
 class TagDeleteView(LoginRequiredMixin, DeleteView):
-
     model = Tag
     success_url = reverse_lazy('taglist')
 
@@ -560,7 +551,7 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    filterset_fields = ['name',]
+    filterset_fields = ['name', ]
 
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -586,6 +577,13 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    @action(methods=['get'], detail=False,
+            url_path='username/(?P<username>\w+)')
+    def get_user_by_username(self, request, username):
+        user = get_object_or_404(User, username=username)
+        data = UserSerializer(user, context={'request': request}).data
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class PhotoExifViewSet(viewsets.ModelViewSet):
