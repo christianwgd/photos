@@ -16,7 +16,6 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,7 +79,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -115,7 +113,6 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-
 ##################
 # FileBrowser    #
 ##################
@@ -130,7 +127,7 @@ FILEBROWSER_VERSIONS = {
 FILEBROWSER_ADMIN_VERSIONS = ['thumbnail']
 FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
 FILEBROWSER_EXTENSIONS = {
-    'Image': ['.jpg','.jpeg','.gif','.png','.tif','.tiff'],
+    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
     'Style': ['.css']
 }
 
@@ -140,7 +137,7 @@ DEFAULT_PHOTOS_RECENT = 10
 
 DEFAULT_THEME = '/static/css/default.min.css'
 
-#################1#
+##################
 # LOCAL SETTINGS #
 ##################
 
@@ -156,6 +153,7 @@ f = os.path.join(BASE_DIR, "photos/localsettings.py")
 if os.path.exists(f):
     import sys
     import importlib
+
     module_name = "photos.localsettings"
     module = importlib.import_module(module_name)
     module.__file__ = f
