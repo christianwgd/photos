@@ -35,14 +35,17 @@ def user_theme(user):
 
 @register.simple_tag
 def user_theme_primary_color(user):
-    theme_url = '/photos/themes/bootstrap.min.css'
     if user.is_authenticated:
         try:
             user_settings = UserSettings.objects.get(user=user)
             if user_settings.theme is not None:
                 theme_url = user_settings.theme.cssfile.path
+            else:
+                return '#ffffff'
         except UserSettings.DoesNotExist:
-            pass
+            return '#ffffff'
+    else:
+        return '#ffffff'
     media_url = getattr(settings, 'MEDIA_ROOT', None)
     theme_url = media_url + '/' + theme_url
     with open(theme_url) as theme:
