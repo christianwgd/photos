@@ -40,11 +40,11 @@ def user_theme_primary_color(user):
         try:
             user_settings = UserSettings.objects.get(user=user)
             if user_settings.theme is not None:
-                theme_url = user_settings.theme.cssfile.url
+                theme_url = user_settings.theme.cssfile.path
         except UserSettings.DoesNotExist:
             pass
     media_url = getattr(settings, 'MEDIA_ROOT', None)
-    theme_url = media_url.replace('/media', '') + theme_url
+    theme_url = media_url + '/' + theme_url
     with open(theme_url) as theme:
         color = re.findall('--primary:\s*#[a-fA-Ff0-9]{6}', theme.read())[0].split(':')[1]
     return color
