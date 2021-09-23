@@ -7,10 +7,10 @@ django-bootstrap4==3.0.1
 django-bootstrap-datepicker-plus==3.0.5
 django-filebrowser-no-grappelli2==3.8.4
 django-filter==2.4.0
-django-select2==7.7.1
+django-select2==7.7.2
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.8.0
-drf-spectacular==0.18.2
+drf-spectacular==0.19.0
 ExifRead==2.3.2
 geographiclib==1.52
 geopy==2.2.0
@@ -30,4 +30,4 @@ six==1.16.0
 soupsieve==2.2.1
 sqlparse==0.4.2
 uritemplate==3.0.1
-urllib3==1.26.6
+urllib3==1.26.7
