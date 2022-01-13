@@ -2,11 +2,12 @@
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
 from photos import settings
-from .bootstrap_select2 import BootstrapSelect2Widget, BootstrapSelect2MultipleWidget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from .models import Photo, Event
 
 lang = getattr(settings, "LANGUAGE_CODE", 'de')
+
 
 class PhotoForm(forms.ModelForm):
 
@@ -17,9 +18,9 @@ class PhotoForm(forms.ModelForm):
             'timestamp', 'latitude', 'longitude'
         )
         widgets = {
-            'event': BootstrapSelect2Widget,
-            'owner': BootstrapSelect2Widget,
-            'tags': BootstrapSelect2MultipleWidget,
+            'event': Select2Widget,
+            'owner': Select2Widget,
+            'tags': Select2MultipleWidget,
             'timestamp': DateTimePickerInput(
                 options={
                     'format': "DD.MM.YYYY HH:mm",
@@ -42,4 +43,3 @@ class EventForm(forms.ModelForm):
                 },
             )
         }
-
