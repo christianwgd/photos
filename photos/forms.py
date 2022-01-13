@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bootstrap_datepicker_plus import DateTimePickerInput
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
 from photos import settings
 from .bootstrap_select2 import BootstrapSelect2Widget, BootstrapSelect2MultipleWidget
