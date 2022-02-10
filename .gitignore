@@ -13,3 +13,5 @@ localsettings.py
 *.json
 *.db
 db.*
+
+fontawesome/
