@@ -1,0 +1,64 @@
+{% extends 'photos/photo_list_base.html' %}
+{% load i18n static bootstrap4 photo_tags fb_versions %}
+
+{% block bootstrap4_extra_head %}
+{{ block.super }}
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+{{ block.super }}
+{% endblock %}
+
+{% block photolist %}
+<div class="row popup-gallery justify-content-center">
+    <div class="col-12">
+        <h4 class="text-center" style="margin-top: 20px;">
+            {% for item in query %}
+                <span class="badge badge-secondary">
+                    {{ item.0 }}
+                    <a href="{% remove_query_param request item.1 %}">
+                        <i class="fal fa-sm fa-times"></i>
+                    </a>
+                </span>
+            {% endfor %}
+        </h4>
+        <div class="pagination-info">
+            {{ page_obj.start_index }} - {{ page_obj.end_index }}
+            {% trans 'of' %}
+            {{ page_obj.paginator.count }}
+        </div>
+        <hr/>
+        <div class="card-deck">
+            {% for photo in object_list %}
+            <div class="card text-center" id="{{ photo.id }}">
+                <div class="image-container">
+                    <img class="img-fluid img-thumbnail card-img"
+                         src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
+                    <span class="dot"><i class="fal fa-check"></i></span>
+                </div>
+                <div class="card-body toolbar">
+                    <a href="{% url 'display' photo.id %}" class="tool img-large"
+                       title="{% trans 'view' %}" data-name="{{ photo.name }}">
+                        <i class="fal fa-eye"></i>
+                    </a>
+                    <a href="{% url 'photodetail' photo.id %}" class="tool"
+                       title="{% trans 'Details' %}">
+                        <i class="fal fa-info-circle"></i>
+                    </a>
+                    <a href="{% url 'photoedit' photo.id %}"
+                       class="tool" title="{% trans 'edit metadata' %}">
+                        <i class="fal fa-edit"></i>
+                    </a>
+                    <a href="{{ photo.imagefile.url }}" download class="tool"
+                       title="{% trans 'download' %}">
+                        <i class="fal fa-download"></i>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+                <p style="text-align: center; padding: 10px; width: 100%;">{% trans 'no photos found.' %}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

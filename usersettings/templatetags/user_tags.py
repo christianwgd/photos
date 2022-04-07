@@ -64,7 +64,7 @@ def recent_date_param(user):
             user_settings = UserSettings.objects.get(user=user)
             if user_settings.recent is not None and user_settings.recent > 0:
                 td = date.today() - timedelta(days=user_settings.recent)
-                recent_param = '?timestamp_after={date}'.format(
+                recent_param = '?timestamp_min={date}'.format(
                     date = date_format(td, "SHORT_DATE_FORMAT")
                 )
                 return mark_safe(recent_param)

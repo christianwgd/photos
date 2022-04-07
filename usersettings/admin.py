@@ -13,6 +13,6 @@ class ThemeAdmin(admin.ModelAdmin):
 
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
-    list_display = ['user', 'limit', 'recent']
+    list_display = ['user', 'recent', 'theme']
 
 

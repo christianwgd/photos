@@ -1,7 +1,9 @@
 import django_filters
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django_filters.widgets import RangeWidget
+from django_select2.forms import Select2Widget
 
 from .models import Photo, Event, Tag
 
@@ -16,13 +18,17 @@ class PhotoFilter(django_filters.FilterSet):
 
     event = django_filters.ModelChoiceFilter(
         queryset=Event.objects.all(),
-        label=_('event')
+        label=_('event'),
     )
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
     )
-    timestamp = django_filters.DateFromToRangeFilter()
-    uploaded = django_filters.DateFromToRangeFilter()
+    timestamp = django_filters.DateFromToRangeFilter(
+        widget=RangeWidget(attrs={'type': 'date'})
+    )
+    uploaded = django_filters.DateFromToRangeFilter(
+        widget=RangeWidget(attrs={'type': 'date'})
+    )
     uploaded_by = django_filters.ModelChoiceFilter(
         queryset=User.objects.all()
     )

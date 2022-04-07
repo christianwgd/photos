@@ -5,9 +5,8 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/photolist.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
-<link href="/static/bootstrap_datepicker_plus/css/datepicker-widget.css" type="text/css" media="all" rel="stylesheet">
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" type="text/css" media="screen" rel="stylesheet">
-<link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" type="text/css" media="screen" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4-theme.css' %}">
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
@@ -45,10 +44,10 @@ $(document).ready(function() {
     $('#id_upload').select2({ theme: 'bootstrap', width: '100%' });
     var options = {
     };
-    $('#id_timestamp_0').datetimepicker(options);
-    $('#id_timestamp_1').datetimepicker(options);
-    $('#id_uploaded_0').datetimepicker(options);
-    $('#id_uploaded_1').datetimepicker(options);
+    {#$('#id_timestamp_0').datetimepicker(options);#}
+    {#$('#id_timestamp_1').datetimepicker(options);#}
+    {#$('#id_uploaded_0').datetimepicker(options);#}
+    {#$('#id_uploaded_1').datetimepicker(options);#}
 
 
     $('.image-container').on('click', function() {
@@ -272,14 +271,10 @@ $(document).ready(function() {
         <div class="modal-body">
             <form action="" method="get">
                 {% csrf_token %}
-                {% bootstrap_field photos.form.order %}
-                {% bootstrap_field photos.form.event %}
-                {% bootstrap_field photos.form.tags %}
-                {% bootstrap_field photos.form.timestamp %}
-                {% bootstrap_field photos.form.uploaded_by %}
-                {% bootstrap_field photos.form.uploaded %}
-                {% bootstrap_field photos.form.upload %}
-                {% bootstrap_button "<i class='far fa-filter'></i>" button_type="submit" button_class="btn-primary" %}
+                {% bootstrap_form filter.form %}
+                <button class="btn btn-primary" type="submit">
+                    <i class='far fa-filter'></i>
+                </button>
             </form>
         </div>
 
@@ -442,103 +437,16 @@ $(document).ready(function() {
 <div class="row">
     <div class="col-12" id="photocontent">
         <div class="panel">
-        {% if photos.qs %}
-
-            {% if not view %}
-            <div class="row popup-gallery justify-content-center">
-                <div class="col-12">
-                    <h4 class="text-center" style="margin-top: 20px;">
-                        <span class="badge badge-secondary">{{ photos.qs.count }}</span>
-                    </h4>
-                    <hr/>
-                    <div class="card-deck">
-                        {% for photo in photos.qs %}
-                        <div class="card text-center" id="{{ photo.id }}">
-                            <div class="image-container">
-                                <img class="img-fluid img-thumbnail card-img"
-                                     src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
-                                <span class="dot"><i class="fal fa-check"></i></span>
-                            </div>
-                            <div class="card-body toolbar">
-                                <a href="{% url 'display' photo.id %}" class="tool img-large"
-                                   title="{% trans 'view' %}" data-name="{{ photo.name }}">
-                                    <i class="fal fa-eye"></i>
-                                </a>
-                                <a href="{% url 'photodetail' photo.id %}" class="tool"
-                                   title="{% trans 'Details' %}">
-                                    <i class="fal fa-info-circle"></i>
-                                </a>
-                                <a href="{% url 'photoedit' photo.id %}"
-                                   class="tool" title="{% trans 'edit metadata' %}">
-                                    <i class="fal fa-edit"></i>
-                                </a>
-                                <a href="{{ photo.imagefile.url }}" download class="tool"
-                                   title="{% trans 'download' %}">
-                                    <i class="fal fa-download"></i>
-                                </a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            {% else %}
-
-            {% if view == 'event' %}
-                {% regroup photos.qs by event as grouped_list %}
-            {% else %}
-                {% regroup photos.qs by upload as grouped_list %}
-            {% endif %}
-            {% for group in grouped_list %}
-            <div class="row popup-gallery justify-content-center">
-                <div class="col-12">
-                    <h4 class="text-center" style="margin-top: 20px;">
-                        {{ group.grouper }}
-                        <span class="badge badge-secondary">{{ group.list|length }}</span>
-                    </h4>
-                    <hr/>
-                </div>
-                <div class="col-12">
-                    <div class="card-deck">
-                        {% for photo in group.list %}
-                        <div class="card text-center" id="{{ photo.id }}">
-                            <div class="image-container">
-                                <img class="img-fluid img-thumbnail card-img"
-                                     src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}"
-                                >
-                                <span class="dot"><i class="fal fa-check"></i></span>
-                            </div>
-                            <div class="card-body toolbar">
-                                <a href="{% url 'display' photo.id %}" class="tool"
-                                   title="{% trans 'view' %}" data-name="{{ photo.name }}">
-                                    <i class="fal fa-eye"></i>
-                                </a>
-                                <a href="{% url 'photodetail' photo.id %}" class="tool"
-                                   title="{% trans 'Details' %}">
-                                    <i class="fal fa-info-circle"></i>
-                                </a>
-                                <a href="{% url 'photoedit' photo.id %}?next={{ request.path }}"
-                                   class="tool" title="{% trans 'edit metadata' %}">
-                                    <i class="fal fa-edit"></i>
-                                </a>
-                                <a href="{{ photo.imagefile.url }}" download class="tool"
-                                   title="{% trans 'download' %}">
-                                    <i class="fal fa-download"></i>
-                                </a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-
-            {% endif %}
-        {% else %}
-            <p style="padding: 10px;">{% trans 'no photos found.' %}</p>
-        {% endif %}
+        {% block photolist %}{% endblock %}
         </div>
+    </div>
+</div>
+
+<div class="row mt-2 mb-5">
+    <div class="col-12">
+    {% if is_paginated %}
+        {% bootstrap_pagination page_obj extra=request.GET.urlencode %}
+    {% endif %}
     </div>
 </div>
 {% endblock %}

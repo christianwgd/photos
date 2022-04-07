@@ -43,9 +43,8 @@ class UserSettings(models.Model):
         return self.user.username
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    limit = models.PositiveSmallIntegerField(
-        default=0, verbose_name=_('Limit unfiltered amount of photos'),
-        help_text=_('0 means no limit'),
+    photos_per_page = models.PositiveSmallIntegerField(
+        default=20, verbose_name=_('Photos per page'),
     )
     recent = models.PositiveSmallIntegerField(
         default=0, verbose_name=_('Recent photos from last days'),

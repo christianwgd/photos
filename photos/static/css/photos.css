@@ -62,3 +62,10 @@ pre {
 .modal {
     top: 9rem;
 }
+
+.pagination-info {
+    font-size: small;
+    position: absolute;
+    top: 10px;
+    right: 2rem;
+}

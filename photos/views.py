@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import os
 import traceback
 import zipfile
@@ -15,11 +16,13 @@ from django.db import transaction
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.utils import formats
 from django.utils.timezone import make_aware, is_aware
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import (
     ListView, UpdateView, CreateView, DeleteView, DetailView
 )
+from django_filters.views import FilterView
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -37,62 +40,100 @@ from .serializers import (
 from .settings import BASE_DIR
 
 
-@login_required(login_url='/accounts/login/')
-def photolist(request):
-    viewtype = request.GET.get('viewtype', None)
-
+def str_is_date(date_str):
+    format = "%Y-%m-%d"
     try:
-        user_settings = UserSettings.objects.get(user=request.user)
-        limit = user_settings.limit
-    except UserSettings.DoesNotExist:
-        limit = 0
+        return bool(datetime.strptime(date_str, format))
+    except ValueError:
+        return False
 
-    filter = {}
-    for param in request.GET:
-        val = request.GET.get(param, None)
-        if len(val) > 0:
-            filter[param] = val
-    request.session['filter'] = filter
 
-    if request.user.is_authenticated:
-        try:
-            user_settings = UserSettings.objects.get(user=request.user)
-            recent = user_settings.recent
-        except UserSettings.DoesNotExist:
-            recent = None
+def date_from_str(date_str):
+    dt = datetime.strptime(date_str, '%Y-%m-%d')
+    return formats.date_format(dt, 'SHORT_DATE_FORMAT')
 
-        users = User.objects.exclude(id=request.user.id)
 
-        if filter == {} and limit > 0:
-            photos = Photo.objects.visible(request.user).distinct()[:limit]
-        else:
-            photos = Photo.objects.visible(request.user).distinct()
-        if viewtype is None:
-            photos = PhotoFilter(
-                request.GET, queryset=photos, user=request.user
-            )
-        else:
-            if viewtype == 'event':
-                order = 'timestamp'
+def get_string_from_query_dict(params):
+    names = {
+        'event': _('event'),
+        'tags': _('tags'),
+        'timestamp_min': _('timestamp_min'),
+        'timestamp_max': _('timestamp_max'),
+        'uploaded_min': _('uploaded_min'),
+        'uploaded_max': _('uploaded_max'),
+        'uploaded_by': _('uploaded_by'),
+        'upload': _('import'),
+        'order': _('Order'),
+    }
+    query_string = []
+    params = dict(params)
+    for item in params:
+        if item not in names:
+            continue
+        value = params.get(item)
+        if value[0] == '':
+            continue
+        if len(value) == 1 and value[0] != '':
+            value = value[0]
+            if str_is_date(value):
+                query_string.append((f'{names[item]}: {date_from_str(value)}', item))
+            elif item == 'event':
+                name = Event.objects.get(pk=int(value)).name
+                query_string.append((f'{names[item]}: {name}', item))
+            elif item == 'upload':
+                name = Import.objects.get(pk=int(value)).name
+                query_string.append((f'{names[item]}: {name}', item))
+            elif item == 'uploaded_by':
+                name = User.objects.get(pk=int(value)).get_full_name()
+                query_string.append((f'{names[item]}: {name}', item))
+            elif item == 'order':
+                query_string.append((f'{names[item]}: {_(value)}', item))
+            elif item == 'tags':
+                name = Tag.objects.get(pk=int(value)).name
+                query_string.append((f'{names[item]}: {name}', item))
             else:
-                order = '-timestamp'
-            photos = PhotoFilter(
-                request.GET, queryset=photos.order_by(viewtype, order),
-                user=request.user
-            )
-    else:
-        photos = PhotoFilter(
-            request.GET, queryset=Photo.objects.filter(public=True)
-        )
-        users = User.objects.none()
-        recent = 0
+                query_string.append((f'{names[item]}: {value}', item))
+        else:
+            if item == 'tags':
+                tag_name_list = list(Tag.objects.filter(pk__in=value).values_list('name', flat=True))
+                query_string.append((f'{names[item]}: {", ".join(tag_name_list)}', item))
+            else:
+                pass
+    return query_string
 
-    return render(request, 'photos/photolist.html', {
-        'photos': photos,
-        'users': users,
-        'recent': recent,
-        'view': viewtype
-    })
+
+class PhotoFilterView(FilterView):
+    model = Photo
+    filterset_class = PhotoFilter
+
+    def get_paginate_by(self, queryset):
+        return self.request.user.usersettings.photos_per_page
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=None, **kwargs)
+        ctx['query'] = get_string_from_query_dict(self.request.GET)
+        return ctx
+
+    def get_queryset(self):
+        return Photo.objects.visible(self.request.user).distinct()
+
+
+class PhotosBy(FilterView):
+    model = Photo
+    filterset_class = PhotoFilter
+    template_name = 'photos/photos_by.html'
+
+    def get_paginate_by(self, queryset):
+        return self.request.user.usersettings.photos_per_page
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=None, **kwargs)
+        ctx['property'] = self.kwargs.get('property', 'event')
+        return ctx
+
+    def get_queryset(self):
+        property = self.kwargs.get('property', 'event')
+        return Photo.objects.visible(self.request.user).distinct().order_by(property)
 
 
 class SlideshowView(LoginRequiredMixin, ListView):

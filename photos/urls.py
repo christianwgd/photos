@@ -48,7 +48,8 @@ urlpatterns = [
     path('settings/', include('usersettings.urls')),
 
     path('', RedirectView.as_view(url='/photolist/')),
-    path('photolist/', views.photolist, name='photolist'),
+    path('photolist/', views.PhotoFilterView.as_view(), name='photolist'),
+    path('photos_by/<str:property>/', views.PhotosBy.as_view(), name='photos_by'),
     path('slideshow/', views.SlideshowView.as_view(), name='slideshow'),
     path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),
     path('display/<int:pk>/', views.PhotoDisplayView.as_view(), name='display'),

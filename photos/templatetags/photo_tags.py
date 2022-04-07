@@ -1,7 +1,11 @@
 # -*- coding:utf-8 -*-
+import urllib
+from urllib.parse import urlencode
+
 from django import template
 from django.db.models import Q
-from photos.models import Photo
+
+from photos.models import Photo, Event, Tag, Import
 
 register = template.Library()
 
@@ -32,3 +36,11 @@ def can_share(event_id, user):
     """
     return Photo.objects.filter(event__id=event_id, owner=user).count() > 0
 
+
+#remove_query_param request.request.get_full_path item
+@register.simple_tag
+def remove_query_param(request, item):
+    updated = request.GET.copy()
+    if item in updated:
+        del updated[item]
+    return request.path+'?'+updated.urlencode()

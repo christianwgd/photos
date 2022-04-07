@@ -18,9 +18,9 @@ class PhotoForm(forms.ModelForm):
             'timestamp', 'latitude', 'longitude'
         )
         widgets = {
-            'event': Select2Widget,
-            'owner': Select2Widget,
-            'tags': Select2MultipleWidget,
+            'event': Select2Widget(attrs={'data-theme': 'bootstrap'}),
+            'owner': Select2Widget(attrs={'data-theme': 'bootstrap'}),
+            'tags': Select2MultipleWidget(attrs={'data-theme': 'bootstrap'}),
             'timestamp': DateTimePickerInput(
                 options={
                     'format': "DD.MM.YYYY HH:mm",

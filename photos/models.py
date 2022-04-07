@@ -8,7 +8,7 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from filebrowser.fields import FileBrowseField
 from geopy import Nominatim
 
@@ -38,6 +38,10 @@ class Import(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def photos_count(self):
+        return self.photo_set.count()
+
     name = models.CharField(_('name'), max_length=255)
     timestamp = models.DateTimeField(_('uploaded'))
     slug = models.CharField(_('slug'), max_length=255)
@@ -61,6 +65,10 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def photos_count(self):
+        return self.photo_set.count()
 
     objects = EventVisibleManager()
     timestamp = models.DateTimeField(
@@ -148,9 +156,7 @@ class Photo(models.Model):
     def thumb(self):
         return self.imagefile.version_generate('thumbnail').path
 
-
     objects = PhotoVisibleManager()
-
 
     def rotate_to_normal(self, orientation):
         image=Image.open(self.imagefile.path)
@@ -205,11 +211,11 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
                 mediapath = settings.MEDIA_ROOT,
                 name = name
             )
-            fileList = glob.glob(
+            file_list = glob.glob(
                 findpath,
                 recursive=True
             )
-            for filePath in fileList:
+            for filePath in file_list:
                 try:
                     os.remove(filePath)
                 except OSError:

@@ -24,7 +24,6 @@
 {% user_theme request.user %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/photos.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/select2-bootstrap4-theme.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
@@ -59,10 +58,10 @@
                         {% trans 'recent photos' %}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=event">
+                    <a class="dropdown-item" href="{% url 'photos_by' 'event' %}">
                         {% trans 'by event' %}
                     </a>
-                    <a class="dropdown-item" href="{% url 'photolist' %}?viewtype=upload">
+                    <a class="dropdown-item" href="{% url 'photos_by' 'upload' %}">
                         {% trans 'by import' %}
                     </a>
                     <div class="dropdown-divider"></div>

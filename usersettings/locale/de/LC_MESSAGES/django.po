@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-18 18:53+0200\n"
+"POT-Creation-Date: 2022-04-06 22:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,33 +22,29 @@ msgstr ""
 msgid "User settings"
 msgstr "Benutzereinstellungen"
 
-#: models.py:16 models.py:59
+#: models.py:17 models.py:59
 msgid "Theme"
 msgstr "Thema"
 
-#: models.py:17
+#: models.py:18
 msgid "Themes"
 msgstr "Themen"
 
-#: models.py:24
+#: models.py:25
 msgid "name"
 msgstr "Name"
 
-#: models.py:28
+#: models.py:29
 msgid "css file"
 msgstr "CSS Datei"
 
-#: models.py:38 models.py:39
+#: models.py:39 models.py:40
 msgid "user settings"
 msgstr "Benutzereinstellungen"
 
-#: models.py:46
-msgid "Limit unfiltered amount of photos"
-msgstr "Anzahl Fotos ohne Filter begrenzen auf"
-
 #: models.py:47
-msgid "0 means no limit"
-msgstr "0 bedeutet keine Einschränkung"
+msgid "Photos per page"
+msgstr "Fotos pro Seite"
 
 #: models.py:50
 msgid "Recent photos from last days"
@@ -70,15 +66,15 @@ msgstr "Zeit, die ein Bild angezeigt wird in Sekunden"
 msgid "settings"
 msgstr "Einstellungen"
 
-#: views.py:16
+#: views.py:24
 msgid "edit cancelled"
 msgstr "Bearbeiten abgebrochen"
 
-#: views.py:35
+#: views.py:37
 #, python-brace-format
 msgid "settings saved for user {user}"
 msgstr "Einstellungen für Benutzer {user} gesichert"
 
-#: views.py:42
+#: views.py:44
 msgid "error saving settings: {}"
 msgstr "Fehler beim Speichern der Benutzereinstellungen: {}"
