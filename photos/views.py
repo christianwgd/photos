@@ -107,7 +107,9 @@ class PhotoFilterView(FilterView):
     filterset_class = PhotoFilter
 
     def get_paginate_by(self, queryset):
-        return self.request.user.usersettings.photos_per_page
+        if self.request.user.is_authenticated:
+            return self.request.user.usersettings.photos_per_page
+        return 12
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
@@ -115,7 +117,9 @@ class PhotoFilterView(FilterView):
         return ctx
 
     def get_queryset(self):
-        return Photo.objects.visible(self.request.user).distinct()
+        if self.request.user.is_authenticated:
+            return Photo.objects.visible(self.request.user).distinct()
+        return Photo.objects.none()
 
 
 class PhotosBy(FilterView):
