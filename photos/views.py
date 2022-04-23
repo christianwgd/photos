@@ -102,7 +102,7 @@ def get_string_from_query_dict(params):
     return query_string
 
 
-class PhotoFilterView(FilterView):
+class PhotoFilterView(LoginRequiredMixin, FilterView):
     model = Photo
     filterset_class = PhotoFilter
 
@@ -264,7 +264,7 @@ def delete(request, photo_id):
     if request.method == 'POST':
 
         if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse('photolist'))
+            return HttpResponseRedirect(reverse('PhotoFilterView'))
 
         photo.delete()
         messages.success(request, _(
