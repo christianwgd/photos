@@ -102,6 +102,8 @@ def get_string_from_query_dict(params):
     return query_string
 
 
+# TODO: Write filter params to session to keep the
+#       filter until modified or resettet
 class PhotoFilterView(LoginRequiredMixin, FilterView):
     model = Photo
     filterset_class = PhotoFilter
@@ -198,14 +200,6 @@ class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(PhotoDetailView, self).get_context_data(**kwargs)
-        filter_params = self.request.session.get('filter')
-        query_param = ''
-        if len(filter_params) > 1:
-            c = '?'
-            for key, value in filter_params.items():
-                query_param += '{}{}={}'.format(c, key, value)
-                c = '&'
-        ctx['query_param'] = query_param
         ctx['mapbox_token'] = getattr(settings, "MAPBOX_ACCESS_TOKEN", None)
         return ctx
 
@@ -213,18 +207,6 @@ class PhotoDetailView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
 class PhotoDisplayView(LoginRequiredMixin, ReturnToRefererMixin, DetailView):
     model = Photo
     template_name = 'photos/photo_display.html'
-
-    def get_context_data(self, **kwargs):
-        ctx = super(PhotoDisplayView, self).get_context_data(**kwargs)
-        filter_params = self.request.session.get('filter')
-        query_param = ''
-        if len(filter_params) > 1:
-            c = '?'
-            for key, value in filter_params.items():
-                query_param += '{}{}={}'.format(c, key, value)
-                c = '&'
-        ctx['query_param'] = query_param
-        return ctx
 
 
 @login_required(login_url='/accounts/login/')
@@ -349,14 +331,6 @@ def geocode(request):
     count = 0
     for photo in photos:
         if photo.latitude and photo.longitude:
-            # address = dict()
-            # geoCoder = MapsGeocoder(geocoder=Nominatim())
-            # location = geoCoder.getAddressFromGeocode(photo.latitude, photo.longitude)
-            # if location is not None:
-            #     if len(location) > 0:
-            #         loc_str = location.raw['display_name']
-            #         address = {'formatted': loc_str, 'address': location.raw}
-            #         photo.address = address
             photo.geocode()
             photo.save()
             count += 1
@@ -368,8 +342,7 @@ def geocode(request):
 @login_required(login_url='/accounts/login/')
 def processdelete(request):
     ids = request.POST.getlist('ids[]')
-    delete = Photo.objects.filter(pk__in=ids)
-    delete.delete()
+    Photo.objects.filter(pk__in=ids).delete()
     return HttpResponse('success')
 
 
