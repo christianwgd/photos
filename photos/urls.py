@@ -49,6 +49,8 @@ urlpatterns = [
 
     path('', RedirectView.as_view(url='/photolist/')),
     path('photolist/', views.PhotoFilterView.as_view(), name='photolist'),
+    path('cache/', views.photos_cache, name='cache'),
+    path('reset/', views.reset_cache, name='reset'),
     path('photos_by/<str:property>/', views.PhotosBy.as_view(), name='photos_by'),
     path('slideshow/', views.SlideshowView.as_view(), name='slideshow'),
     path('detail/<int:pk>/', views.PhotoDetailView.as_view(), name='photodetail'),

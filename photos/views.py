@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import os
-import traceback
 import zipfile
 
 import exifread
@@ -17,6 +16,7 @@ from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import formats
+from django.utils.http import urlencode
 from django.utils.timezone import make_aware, is_aware
 from django.utils.translation import gettext as _
 from django.views.generic import (
@@ -41,9 +41,8 @@ from .settings import BASE_DIR
 
 
 def str_is_date(date_str):
-    format = "%Y-%m-%d"
     try:
-        return bool(datetime.strptime(date_str, format))
+        return bool(datetime.strptime(date_str, "%Y-%m-%d"))
     except ValueError:
         return False
 
@@ -51,6 +50,34 @@ def str_is_date(date_str):
 def date_from_str(date_str):
     dt = datetime.strptime(date_str, '%Y-%m-%d')
     return formats.date_format(dt, 'SHORT_DATE_FORMAT')
+
+
+def photos_cache(request):
+    params = {}
+    for attr in PhotoFilter.Meta.fields:
+        if attr in request.session:
+            params[attr] = request.session[attr]
+        if 'order' in request.session:
+            params['order'] = request.session['order']
+
+    if 'page' in request.session:
+        params['page'] = request.session['page']
+    return redirect(f"{reverse('photolist')}?{urlencode(params)}")
+
+
+def reset_cache(request):
+    for attr in PhotoFilter.Meta.fields:
+        if attr in request.session:
+            del request.session[attr]
+            request.session.modified = True
+        if 'order' in request.session:
+            del request.session['order']
+            request.session.modified = True
+        if 'page' in request.session:
+            del request.session['page']
+            request.session.modified = True
+
+    return redirect(reverse('list'))
 
 
 def get_string_from_query_dict(params):
@@ -113,6 +140,15 @@ class PhotoFilterView(LoginRequiredMixin, FilterView):
             return self.request.user.usersettings.photos_per_page
         return 12
 
+    def get(self, request, *args, **kwargs):
+        request.session['page'] = request.GET.get('page', 1)
+        for attr in PhotoFilter.Meta.fields:
+            if attr in request.GET and request.GET[attr] != '':
+                request.session[attr] = request.GET[attr]
+            if 'order' in request.GET:
+                request.session['order'] = request.GET['order']
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
         ctx['query'] = get_string_from_query_dict(self.request.GET)
@@ -138,8 +174,8 @@ class PhotosBy(FilterView):
         return ctx
 
     def get_queryset(self):
-        property = self.kwargs.get('property', 'event')
-        return Photo.objects.visible(self.request.user).distinct().order_by(property)
+        prop = self.kwargs.get('property', 'event')
+        return Photo.objects.visible(self.request.user).distinct().order_by(prop)
 
 
 class SlideshowView(LoginRequiredMixin, ListView):
@@ -379,8 +415,6 @@ def removeshare(request, photo_id, user_id):
             event.visible_for.remove(user)
     except Photo.DoesNotExist:
         pass
-    except:
-        traceback.print_exc()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -395,8 +429,6 @@ def removeshareevent(request, event_id, user_id):
         event.visible_for.remove(user)
     except Photo.DoesNotExist:
         pass
-    except:
-        traceback.print_exc()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -437,24 +469,19 @@ def preparedownload(request):
     ids = request.POST.getlist('ids[]')
     filenames = [photo.imagefile.path_full for photo in Photo.objects.filter(pk__in=ids)]
 
-    try:
-        zip_filename = _('photos') + '.zip'
-        zip_path = os.path.join(
-            BASE_DIR, 'media', 'temp',
+    zip_filename = _('photos') + '.zip'
+    zip_path = os.path.join(BASE_DIR, 'media', 'temp')
+    zip_fullpath = os.path.join(zip_path, zip_filename)
+
+    zf = zipfile.ZipFile(zip_fullpath, "w")
+
+    for file_name in filenames:
+        zf.write(
+            file_name,
+            os.path.basename(file_name),
+            compress_type=zipfile.ZIP_DEFLATED
         )
-        zip_fullpath = os.path.join(zip_path, zip_filename)
-
-        zf = zipfile.ZipFile(zip_fullpath, "w")
-
-        for file_name in filenames:
-            zf.write(
-                file_name,
-                os.path.basename(file_name),
-                compress_type=zipfile.ZIP_DEFLATED
-            )
-        zf.close()
-    except:
-        traceback.print_exc()
+    zf.close()
 
     return HttpResponse('success')
 
@@ -596,8 +623,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    @action(methods=['get'], detail=False,
-            url_path='username/(?P<username>\w+)')
+    @action(methods=['get'], detail=False, url_path=r'username/(?P<username>\w+)')
     def get_user_by_username(self, request, username):
         user = get_object_or_404(User, username=username)
         data = UserSerializer(user, context={'request': request}).data
