@@ -135,7 +135,7 @@ TEMPUS_DOMINUS_LOCALIZE = True
 
 DEFAULT_PHOTOS_RECENT = 10
 
-DEFAULT_THEME = '/static/css/default.min.css'
+DEFAULT_THEME = '/static/css/bootstrap.min.css'
 
 ##################
 # LOCAL SETTINGS #

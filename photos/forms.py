@@ -4,7 +4,7 @@ from django import forms
 from photos import settings
 from django_select2.forms import Select2Widget, Select2MultipleWidget
 
-from .models import Photo, Event
+from .models import Photo, Gallery
 
 lang = getattr(settings, "LANGUAGE_CODE", 'de')
 
@@ -14,11 +14,11 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = (
-            'name', 'event', 'tags', 'owner',
+            'name', 'gallery', 'tags', 'owner',
             'timestamp', 'latitude', 'longitude'
         )
         widgets = {
-            'event': Select2Widget(attrs={'data-theme': 'bootstrap'}),
+            'gallery': Select2Widget(attrs={'data-theme': 'bootstrap'}),
             'owner': Select2Widget(attrs={'data-theme': 'bootstrap'}),
             'tags': Select2MultipleWidget(attrs={'data-theme': 'bootstrap'}),
             'timestamp': DateTimePickerInput(
@@ -30,10 +30,10 @@ class PhotoForm(forms.ModelForm):
         }
 
 
-class EventForm(forms.ModelForm):
+class GalleryForm(forms.ModelForm):
 
     class Meta:
-        model = Event
+        model = Gallery
         fields = {'name', 'timestamp'}
         widgets = {
             'timestamp': DateTimePickerInput(

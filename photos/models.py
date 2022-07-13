@@ -14,7 +14,7 @@ from geopy import Nominatim
 
 from photos import settings
 from photos.geocoder import MapsGeocoder
-from photos.managers import PhotoVisibleManager, EventVisibleManager
+from photos.managers import PhotoVisibleManager, GalleryVisibleManager
 
 
 def user_str_patch(self):
@@ -24,6 +24,7 @@ def user_str_patch(self):
             last=self.last_name
         )
     return self.username
+
 
 User.__str__ = user_str_patch
 
@@ -56,11 +57,11 @@ class Import(models.Model):
         super(Import, self).save(*args, **kwargs)
 
 
-class Event(models.Model):
+class Gallery(models.Model):
 
     class Meta:
-        verbose_name = _('event')
-        verbose_name_plural = _('events')
+        verbose_name = _('gallery')
+        verbose_name_plural = _('galleries')
         ordering = ['-timestamp']
 
     def __str__(self):
@@ -70,7 +71,7 @@ class Event(models.Model):
     def photos_count(self):
         return self.photo_set.count()
 
-    objects = EventVisibleManager()
+    objects = GalleryVisibleManager()
     timestamp = models.DateTimeField(
         _('timestamp'), auto_created=True, null=True
     )
@@ -131,9 +132,9 @@ class Photo(models.Model):
         _('longitude'), max_length=20, null=True, blank=True)
     address = models.JSONField(null=True, blank=True, default=dict)
     exif = models.JSONField()
-    event = models.ForeignKey(
-        Event, models.CASCADE,
-        verbose_name=_('event'),
+    gallery = models.ForeignKey(
+        Gallery, models.CASCADE,
+        verbose_name=_('gallery'),
         blank=True, null=True
     )
     upload = models.ForeignKey(

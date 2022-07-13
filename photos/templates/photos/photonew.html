@@ -43,7 +43,7 @@ Dropzone.options.myDropzone = {
             // Create the remove button
             var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-secondary remove'>{% trans 'Remove File' %}</button>");
 
-            // Listen to the click event
+            // Listen to the click gallery
             removeButton.addEventListener("click", function (e) {
                 // Make sure the button click doesn't submit the form:
                 e.preventDefault();
@@ -64,8 +64,8 @@ Dropzone.options.myDropzone = {
             $('#id_upload_icon').remove();
             $('#submit-all').append('<i id="id_spinner" class="fas fa-spinner fa-pulse"></i>');
             formData.append(
-                "event",
-                $("#id_event_select option:selected").text()
+                "gallery",
+                $("#id_gallery_select option:selected").text()
             );
             formData.append(
                 "tags",
@@ -86,27 +86,27 @@ Dropzone.options.myDropzone = {
     }
 };
 
-function update_event_options(selected) {
+function update_gallery_options(selected) {
     $.ajax({
         type: 'GET',
-        url: '/photos/events/',
-        success: function(events){
-            for (e in events) {
-                if (selected === events[e].id) {
-                    $('#id_event_select')
+        url: '/photos/galleries/',
+        success: function(galleries){
+            for (e in galleries) {
+                if (selected === galleries[e].id) {
+                    $('#id_gallery_select')
                     .append($("<option selected></option>")
-                        .attr("value",events[e].id)
-                        .text(events[e].name));    
+                        .attr("value",galleries[e].id)
+                        .text(galleries[e].name));
                 } else {
-                    $('#id_event_select')
+                    $('#id_gallery_select')
                         .append($("<option></option>")
-                            .attr("value",events[e].id)
-                            .text(events[e].name));
+                            .attr("value",galleries[e].id)
+                            .text(galleries[e].name));
                 }
             }
         },
         error: function (xhr, ajaxOptions, thrownError){
-            alert('Error fetching events!');
+            console.log('No galleries found')
         }
     });
 }
@@ -138,17 +138,17 @@ function update_tag_options(selected) {
 
 $(document).ready(function() {
 
-    $('#id_event_select').select2({ theme: 'bootstrap', width: '100%' });
+    $('#id_gallery_select').select2({ theme: 'bootstrap', width: '100%' });
     $('#id_tag_select').select2({ theme: 'bootstrap', width: '100%' });
 
-    $('#id_event_add').click(function() {
-        $('#eventAddModal').modal();
+    $('#id_gallery_add').click(function() {
+        $('#galleryAddModal').modal();
     });
-    $('#id_add_event').click(function() {
-        var new_event = $('#id_new_event').val();
-        $('#id_event_select')
+    $('#id_add_gallery').click(function() {
+        var new_gallery = $('#id_new_gallery').val();
+        $('#id_gallery_select')
             .append($("<option selected></option>")
-            .attr("value",new_event).text(new_event)); 
+            .attr("value",new_gallery).text(new_gallery));
     });
 
     $('#id_tag_add').click(function() {
@@ -161,7 +161,7 @@ $(document).ready(function() {
             .attr("value",new_tag).text(new_tag)); 
     });
 
-    update_event_options();
+    update_gallery_options();
     update_tag_options();
 });
 </script>
@@ -170,25 +170,25 @@ $(document).ready(function() {
 {% block title %}{% trans 'Upload new photos' %}{% endblock %}
 
 {% block content %}
-<div class="modal fade" id="eventAddModal">
+<div class="modal fade" id="galleryAddModal">
     <div class="modal-dialog">
         <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
-            <h4 class="modal-title">{% trans 'Add event' %}</h4>
+            <h4 class="modal-title">{% trans 'Add gallery' %}</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
-            <label for="id_new_event">{% trans 'event' %}</label>
-            <input type="text" name="event" autofocus maxlength="254" class="form-control" placeholder="{% trans 'event' %}" id="id_new_event" />
+            <label for="id_new_gallery">{% trans 'gallery' %}</label>
+            <input type="text" name="gallery" autofocus maxlength="254" class="form-control" placeholder="{% trans 'gallery' %}" id="id_new_gallery" />
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button id="id_add_event" type="button" class="btn btn-primary" data-dismiss="modal">
+            <button id="id_add_gallery" type="button" class="btn btn-primary" data-dismiss="modal">
                 <i class="fal fa-check"></i>
             </button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -237,12 +237,12 @@ $(document).ready(function() {
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label for="id_event_select">{% trans 'event' %}</label>
-                <button type="button" class="btn btn-sm btn-success btn-add" id="id_event_add">
+                <label for="id_gallery_select">{% trans 'gallery' %}</label>
+                <button type="button" class="btn btn-sm btn-success btn-add" id="id_gallery_add">
                     <i class="fal fa-plus"></i>
                 </button>
                 <div class="input-group">
-                    <select id="id_event_select" class="form-control" autofocus>
+                    <select id="id_gallery_select" class="form-control" autofocus>
                         <option value="">----------</option>
                     </select>
                 </div>

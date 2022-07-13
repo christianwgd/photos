@@ -3,7 +3,7 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/eventlist.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallerylist.css' %}">
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" type="text/css" media="screen" rel="stylesheet">
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" type="text/css" media="screen" rel="stylesheet">
 {% endblock %}
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/i18n/de.js"></script>
 <script type="text/javascript">
 function selectShare(id) {
-    share_event_id = id;
+    share_gallery_id = id;
     $('#shareModal').modal();
 }
 
@@ -29,7 +29,7 @@ $(document).ready(function() {
             type: 'POST',
             url: '/processshare/',
             data: {
-                'event': share_event_id,
+                'gallery': share_gallery_id,
                 'users[]': users,
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
@@ -46,7 +46,7 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
-{% block title %}{% trans 'events' %}{% endblock %}
+{% block title %}{% trans 'galleries' %}{% endblock %}
 
 {% block content %}
 <div class="modal fade" id="shareModal">
@@ -96,13 +96,13 @@ $(document).ready(function() {
 
             <div class="row popup-gallery justify-content-center">
                 <div class="card-deck">
-                    {% for event in event_list %}
-                    {% get_visibles event.photo_set.all user as visibles %}
+                    {% for gallery in gallery_list %}
+                    {% get_visibles gallery.photo_set.all user as visibles %}
                     {% if visibles.count > 0 %}
-                    <div class="card text-center" id="{{ event.id }}">
+                    <div class="card text-center" id="{{ gallery.id }}">
                         <div class="card-header">
                             <h5 class="card-title">
-                                {{ event.name }}
+                                {{ gallery.name }}
                                 <span class="badge badge-secondary">{{ visibles.count }}</span>
                             </h5>
                         </div>
@@ -113,22 +113,22 @@ $(document).ready(function() {
                             {% endfor %}
                         </div>
                         <div class="card-footer">
-                            <p class="small">{{ event.timestamp|date:'DATETIME_FORMAT' }}</p>
-                            <a href="{% url 'photos_by' 'event' %}?event={{event.id}}" class="tool"
-                               {% if event.photo_set.all.count == 0 %}disabled="disabled{% endif %}"
+                            <p class="small">{{ gallery.timestamp|date:'DATETIME_FORMAT' }}</p>
+                            <a href="{% url 'photos_by' 'gallery' %}?gallery={{gallery.id}}" class="tool"
+                               {% if gallery.photo_set.all.count == 0 %}disabled="disabled{% endif %}"
                                 title="{% trans 'view' %}">
                                 <i class="far fa-eye"></i>
                             </a>
-                            <a href="{% url 'eventupdate' event.id %}" class="tool" title="{% trans 'edit' %}">
+                            <a href="{% url 'galleryupdate' gallery.id %}" class="tool" title="{% trans 'edit' %}">
                                 <i class="fal fa-edit"></i>
                             </a>
-                            <a href="{% url 'eventdelete' event.id %}" class="tool" title="{% trans 'delete' %}">
+                            <a href="{% url 'gallerydelete' gallery.id %}" class="tool" title="{% trans 'delete' %}">
                                 <i class="fal fa-trash"></i>
                             </a>
-                            {% can_share event.id request.user as shareable %}
+                            {% can_share gallery.id request.user as shareable %}
                             {% if shareable %}
                             <button type="button" class="btn btn-link" class="tool" title="{% trans 'share' %}"
-                                    onclick="selectShare({{ event.id }});">
+                                    onclick="selectShare({{ gallery.id }});">
                                 <i class="fal fa-share"></i>
                             </button>
                             {% else %}
@@ -154,7 +154,7 @@ $(document).ready(function() {
                     <i class="far fa-check"></i>
                 </button>
             </a>
-            <a href="{% url 'eventcreate' %}">
+            <a href="{% url 'gallerycreate' %}">
                 <button class="btn btn-success" name="add" title="{% trans 'new' %}">
                     <i class="far fa-plus"></i>
                 </button>

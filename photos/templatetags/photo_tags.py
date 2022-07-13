@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from django import template
 from django.db.models import Q
 
-from photos.models import Photo, Event, Tag, Import
+from photos.models import Photo, Gallery, Tag, Import
 
 register = template.Library()
 
@@ -26,15 +26,15 @@ def rotation(value):
 
 
 @register.simple_tag
-def can_share(event_id, user):
+def can_share(gallery_id, user):
     """
-    Test, if user can share event,
+    Test, if user can share gallery,
     user is owner of at least one
-    photo in event
-    :param event:
+    photo in gallery
+    :param gallery:
     :return: boolean
     """
-    return Photo.objects.filter(event__id=event_id, owner=user).count() > 0
+    return Photo.objects.filter(gallery__id=gallery_id, owner=user).count() > 0
 
 
 #remove_query_param request.request.get_full_path item

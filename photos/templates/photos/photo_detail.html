@@ -123,8 +123,8 @@ $(document).ready(function(){
                         <td>{{ photo.filename }}</td>
                     </tr>
                     <tr>
-                        <th>{% trans 'event' %}</th>
-                        <td>{{ photo.event|default_if_none:notset }}</td>
+                        <th>{% trans 'gallery' %}</th>
+                        <td>{{ photo.gallery|default_if_none:notset }}</td>
                     </tr>
                     <tr>
                         <th>{% trans 'tags' %}</th>

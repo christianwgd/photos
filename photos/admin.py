@@ -4,21 +4,22 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import AdminSite
 from django.contrib import admin
 
-from .models import Photo, Event, Tag, Import
+from .models import Photo, Gallery, Tag, Import
 
 AdminSite.site_title = _('Photos')
 AdminSite.site_header = _('Photos')
 AdminSite.index_title = _('Photos administration')
 
+
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     search_fields = ['name', 'address',]
-    list_filter = ['event', 'tags', 'owner', 'upload']
+    list_filter = ['gallery', 'tags', 'owner', 'upload']
     autocomplete_fields = ['shared', 'tags']
 
 
-@admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
     search_fields = ['name',]
     autocomplete_fields = ['visible_for']
 

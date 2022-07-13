@@ -58,8 +58,8 @@
                         {% trans 'recent photos' %}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'photos_by' 'event' %}">
-                        {% trans 'by event' %}
+                    <a class="dropdown-item" href="{% url 'photos_by' 'gallery' %}">
+                        {% trans 'by gallery' %}
                     </a>
                     <a class="dropdown-item" href="{% url 'photos_by' 'upload' %}">
                         {% trans 'by import' %}
@@ -71,9 +71,9 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'eventlist' %}">
+                <a class="nav-link" href="{% url 'gallerylist' %}">
                     <i class="far fa-calendar"></i>
-                    {% trans 'events' %}
+                    {% trans 'galleries' %}
                 </a>
             </li>
             <li class="nav-item">

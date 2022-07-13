@@ -3,7 +3,7 @@
 
 {% block bootstrap4_extra_head %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/eventlist.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallerylist.css' %}">
 {% endblock %}
 
 {% block title %}{% trans 'tags' %}{% endblock %}
@@ -18,7 +18,7 @@
                     {% for tag in taglist %}
                     {% get_visibles tag.photo_set.all user as visibles %}
                     {% if visibles.count > 0 %}
-                    <div class="card text-center" id="{{ event.id }}">
+                    <div class="card text-center" id="{{ gallery.id }}">
                         <div class="card-header">
                             <h5 class="card-title">
                                 {{ tag.name }}
@@ -32,7 +32,7 @@
                             {% endfor %}
                         </div>
                         <div class="card-footer">
-                            <a href="{% url 'photolist' %}?viewtype=event&tags={{tag.id}}" class="tool"
+                            <a href="{% url 'photolist' %}?viewtype=gallery&tags={{tag.id}}" class="tool"
                             {% if visibles.count == 0 %}disabled="disabled{% endif %}"
                             title="{% trans 'view' %}">
                                 <i class="far fa-eye"></i>

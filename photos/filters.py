@@ -1,24 +1,22 @@
 import django_filters
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
-from django.db.models import Q
 from django_filters.widgets import RangeWidget
-from django_select2.forms import Select2Widget
 
-from .models import Photo, Event, Tag
+from .models import Photo, Gallery, Tag
 
 
 class PhotoFilter(django_filters.FilterSet):
     class Meta:
         model = Photo
         fields = [
-            'event', 'tags', 'timestamp',
+            'gallery', 'tags', 'timestamp',
             'uploaded', 'uploaded_by', 'upload'
         ]
 
-    event = django_filters.ModelChoiceFilter(
-        queryset=Event.objects.all(),
-        label=_('event'),
+    gallery = django_filters.ModelChoiceFilter(
+        queryset=Gallery.objects.all(),
+        label=_('gallery'),
     )
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
@@ -35,7 +33,7 @@ class PhotoFilter(django_filters.FilterSet):
 
     order = django_filters.OrderingFilter(
         choices=(
-            ('event', _('Event')),
+            ('gallery', _('gallery')),
             ('uploaded', _('Uploaded')),
             ('timestamp', _('Timestamp'))
         ),
@@ -44,11 +42,11 @@ class PhotoFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(PhotoFilter, self).__init__(*args, **kwargs)
-        visibles = Photo.objects.filter(
-            Q(owner=user) |
-            Q(shared=user)
-        )
-        self.filters['event'].queryset = Event.objects.visible(
+        # visibles = Photo.objects.filter(
+        #     Q(owner=user) |
+        #     Q(shared=user)
+        # )
+        self.filters['gallery'].queryset = Gallery.objects.visible(
             for_user=user
         )
     

@@ -17,7 +17,7 @@ class PhotoVisibleManager(Manager):
         )
 
 
-class EventVisibleManager(Manager):
+class GalleryVisibleManager(Manager):
 
     def visible(self, for_user=None):
         if for_user is None:

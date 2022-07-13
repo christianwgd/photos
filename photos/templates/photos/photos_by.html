@@ -13,7 +13,7 @@
 {% if property == 'upload' %}
 {% regroup photo_list by upload as grouped_list %}
 {% else %}
-{% regroup photo_list by event as grouped_list %}
+{% regroup photo_list by gallery as grouped_list %}
 {% endif %}
 {% for group in grouped_list %}
 <div class="row popup-gallery justify-content-center">

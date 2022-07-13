@@ -11,7 +11,7 @@
 {% block content %}
 {% if object_list %}
 
-    {% regroup object_list by event as grouped_list %}
+    {% regroup object_list by gallery as grouped_list %}
     {% for group in grouped_list %}
     <div class="row popup-gallery justify-content-center">
         <div class="col-12" style="margin-top: 20px;">
@@ -21,7 +21,7 @@
                 {% for usr in group.grouper.visible_for.all %}
                     {% if usr != request.user %}
                         {{ usr }}
-                        <a href="{% url 'removeshareevent' group.grouper.id usr.id %}" title="{% trans 'Remove share' %}">
+                        <a href="{% url 'removesharegallery' group.grouper.id usr.id %}" title="{% trans 'Remove share' %}">
                             <i class="fal fa-user-times"></i>
                         </a>
                         {% if not forloop.last %}, {% endif %}

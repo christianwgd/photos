@@ -2,13 +2,13 @@
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Photo, Event, Import, Tag
+from .models import Photo, Gallery, Import, Tag
 
 
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+class GallerySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Event
+        model = Gallery
         fields = ['url', 'id', 'name']
 
 
@@ -32,7 +32,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         model = Photo
         fields = [
             'url', 'id', 'name', 'timestamp', 'uploaded',
-            'uploaded_by', 'address', 'event', 'upload',
+            'uploaded_by', 'address', 'gallery', 'upload',
             'tags', 'imagefile', 'thumb'
         ]
 

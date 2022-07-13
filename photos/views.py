@@ -29,12 +29,12 @@ from rest_framework.response import Response
 
 from photos import parse_exif_data
 from photos.filters import PhotoFilter
-from photos.forms import PhotoForm, EventForm
+from photos.forms import PhotoForm, GalleryForm
 from photos.mixins import ReturnToRefererMixin
-from photos.models import Photo, Event, Tag, Import
+from photos.models import Photo, Gallery, Tag, Import
 from usersettings.models import UserSettings
 from .serializers import (
-    PhotoSerializer, EventSerializer, TagSerializer,
+    PhotoSerializer, GallerySerializer, TagSerializer,
     ImportSerializer, UserSerializer, PhotoEXIFSerializer,
 )
 from .settings import BASE_DIR
@@ -82,7 +82,7 @@ def reset_cache(request):
 
 def get_string_from_query_dict(params):
     names = {
-        'event': _('event'),
+        'gallery': _('gallery'),
         'tags': _('tags'),
         'timestamp_min': _('timestamp_min'),
         'timestamp_max': _('timestamp_max'),
@@ -104,8 +104,8 @@ def get_string_from_query_dict(params):
             value = value[0]
             if str_is_date(value):
                 query_string.append((f'{names[item]}: {date_from_str(value)}', item))
-            elif item == 'event':
-                name = Event.objects.get(pk=int(value)).name
+            elif item == 'gallery':
+                name = Gallery.objects.get(pk=int(value)).name
                 query_string.append((f'{names[item]}: {name}', item))
             elif item == 'upload':
                 name = Import.objects.get(pk=int(value)).name
@@ -152,6 +152,7 @@ class PhotoFilterView(LoginRequiredMixin, FilterView):
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
         ctx['query'] = get_string_from_query_dict(self.request.GET)
+        ctx['users'] = User.objects.exclude(id=self.request.user.id)
         return ctx
 
     def get_queryset(self):
@@ -170,11 +171,11 @@ class PhotosBy(FilterView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=None, **kwargs)
-        ctx['property'] = self.kwargs.get('property', 'event')
+        ctx['property'] = self.kwargs.get('property', 'gallery')
         return ctx
 
     def get_queryset(self):
-        prop = self.kwargs.get('property', 'event')
+        prop = self.kwargs.get('property', 'gallery')
         return Photo.objects.visible(self.request.user).distinct().order_by(prop)
 
 
@@ -298,15 +299,15 @@ def fileupload(request):
 
         upload = Import.objects.create()
 
-        eventstr = request.POST.get('event')
-        if eventstr != '':
-            event, ev_created = Event.objects.get_or_create(name=eventstr)
+        gallery_str = request.POST.get('gallery')
+        if gallery_str != '':
+            gallery, ev_created = Gallery.objects.get_or_create(name=gallery_str)
         else:
-            event, ev_created = Event.objects.get_or_create(name=upload.name)
-        event.visible_for.add(request.user)
-        tagstr = request.POST.get('tags')
-        if tagstr != '':
-            tags = tagstr.split(';')
+            gallery, ev_created = Gallery.objects.get_or_create(name=upload.name)
+        gallery.visible_for.add(request.user)
+        tag_str = request.POST.get('tags')
+        if tag_str != '':
+            tags = tag_str.split(';')
         else:
             tags = []
 
@@ -343,16 +344,16 @@ def fileupload(request):
                 longitude=lon,
                 upload=upload,
             )
-            if event:
-                photo.event = event
+            if gallery:
+                photo.gallery = gallery
 
             photo.imagefile = os.path.join('photos', upload.slug, basename)
             photo.geocode()
             photo.save()
             count += 1
 
-            for tagstr in tags:
-                tag, created = Tag.objects.get_or_create(name=tagstr)
+            for tag_str in tags:
+                tag, created = Tag.objects.get_or_create(name=tag_str)
                 photo.tags.add(tag)
 
         messages.success(request, _(
@@ -384,12 +385,12 @@ def processdelete(request):
 
 @login_required(login_url='/accounts/login/')
 def processshare(request):
-    event_id = request.POST.get('event', None)
-    if event_id is None:
+    gallery_id = request.POST.get('gallery', None)
+    if gallery_id is None:
         ids = request.POST.getlist('ids[]')
         share = Photo.objects.filter(pk__in=ids)
     else:
-        share = Photo.objects.filter(event__id=event_id)
+        share = Photo.objects.filter(gallery__id=gallery_id)
     users = request.POST.getlist('users[]')
     share_to = User.objects.filter(pk__in=users)
 
@@ -398,7 +399,7 @@ def processshare(request):
             photo.shared.add(*(share_to.exclude(pk=photo.owner.id)))
         else:
             photo.shared.add(*share_to)
-        photo.event.visible_for.add(*share_to)
+        photo.gallery.visible_for.add(*share_to)
 
     return HttpResponse('success')
 
@@ -409,24 +410,24 @@ def removeshare(request, photo_id, user_id):
         photo = Photo.objects.get(pk=photo_id)
         user = User.objects.get(pk=user_id)
         photo.shared.remove(user)
-        event = photo.event
-        # remove user from event.visible_for if no photos for user shared
-        if Photo.objects.filter(event=event, shared=user).count() == 0:
-            event.visible_for.remove(user)
+        gallery = photo.gallery
+        # remove user from gallery.visible_for if no photos for user shared
+        if Photo.objects.filter(gallery=gallery, shared=user).count() == 0:
+            gallery.visible_for.remove(user)
     except Photo.DoesNotExist:
         pass
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='/accounts/login/')
-def removeshareevent(request, event_id, user_id):
+def remove_share_gallery(request, gallery_id, user_id):
     try:
-        event = Event.objects.get(pk=event_id)
+        gallery = Gallery.objects.get(pk=gallery_id)
         user = User.objects.get(pk=user_id)
-        for photo in event.photo_set.all():
+        for photo in gallery.photo_set.all():
             photo.shared.remove(user)
-        # remove user from event.visible
-        event.visible_for.remove(user)
+        # remove user from gallery.visible
+        gallery.visible_for.remove(user)
     except Photo.DoesNotExist:
         pass
     return redirect(request.META.get('HTTP_REFERER'))
@@ -435,14 +436,14 @@ def removeshareevent(request, event_id, user_id):
 @login_required(login_url='/accounts/login/')
 def processassign(request):
     ids = request.POST.getlist('ids[]')
-    evt = request.POST.get('event')
+    evt = request.POST.get('gallery')
     tgs = request.POST.getlist('tags[]')
     own = request.POST.get('owner')
 
     if evt:
-        event = Event.objects.get(pk=evt)
+        gallery = Gallery.objects.get(pk=evt)
     else:
-        event = None
+        gallery = None
 
     if own:
         owner = User.objects.get(pk=own)
@@ -454,8 +455,8 @@ def processassign(request):
 
     with transaction.atomic():
         for photo in photos:
-            if event is not None:
-                photo.event = event
+            if gallery is not None:
+                photo.gallery = gallery
             if owner is not None:
                 photo.owner = owner
             photo.tags.add(*tags)
@@ -500,11 +501,11 @@ def processdownload(request):
     return resp
 
 
-class EventListView(LoginRequiredMixin, ListView):
-    model = Event
+class GalleryListView(LoginRequiredMixin, ListView):
+    model = Gallery
 
     def get_queryset(self):
-        return Event.objects.filter(visible_for=self.request.user)
+        return Gallery.objects.filter(visible_for=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -512,35 +513,35 @@ class EventListView(LoginRequiredMixin, ListView):
         return context
 
 
-class EventUpdateView(LoginRequiredMixin, UpdateView):
-    model = Event
-    form_class = EventForm
-    template_name = 'photos/event_form.html'
-    success_url = reverse_lazy('eventlist')
+class GalleryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Gallery
+    form_class = GalleryForm
+    template_name = 'photos/gallery_form.html'
+    success_url = reverse_lazy('gallerylist')
 
 
-class EventCreateView(LoginRequiredMixin, CreateView):
-    model = Event
+class GalleryCreateView(LoginRequiredMixin, CreateView):
+    model = Gallery
     fields = ['name', ]
-    template_name = 'photos/event_form.html'
-    success_url = reverse_lazy('eventlist')
+    template_name = 'photos/gallery_form.html'
+    success_url = reverse_lazy('gallerylist')
 
     def form_valid(self, form):
-        event = form.save()
-        event.visible_for.add(self.request.user)
-        return super(EventCreateView, self).form_valid(form)
+        gallery = form.save()
+        gallery.visible_for.add(self.request.user)
+        return super(GalleryCreateView, self).form_valid(form)
 
 
-class EventDeleteView(LoginRequiredMixin, DeleteView):
-    model = Event
-    success_url = reverse_lazy('eventlist')
+class GalleryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Gallery
+    success_url = reverse_lazy('gallerylist')
 
     def post(self, request, *args, **kwargs):
         if 'cancel' in request.POST:
             messages.info(request, _('Delete cancelled'))
-            return HttpResponseRedirect(reverse('eventlist'))
-        messages.info(request, _('Event deleted'))
-        return super(EventDeleteView, self).post(request, *args, **kwargs)
+            return HttpResponseRedirect(reverse('gallerylist'))
+        messages.info(request, _('Gallery deleted'))
+        return super(GalleryDeleteView, self).post(request, *args, **kwargs)
 
 
 class TagListView(LoginRequiredMixin, ListView):
@@ -587,15 +588,15 @@ class PhotoViewSet(viewsets.ModelViewSet):
     """
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    filterset_fields = ['event', 'tags']
+    filterset_fields = ['gallery', 'tags']
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class GalleryViewSet(viewsets.ModelViewSet):
     """
-    API endpoint for Events.
+    API endpoint for galleries.
     """
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
+    queryset = Gallery.objects.all()
+    serializer_class = GallerySerializer
     filterset_fields = ['name', ]
 
 

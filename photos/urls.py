@@ -16,12 +16,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
-from rest_framework import routers, authentication
+from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -31,7 +31,7 @@ from filebrowser.sites import site
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'events', views.EventViewSet)
+router.register(r'galleries', views.GalleryViewSet)
 router.register(r'tags', views.TagViewSet)
 router.register(r'imports', views.ImportViewSet)
 router.register(r'photos', views.PhotoViewSet)
@@ -67,17 +67,17 @@ urlpatterns = [
     path('processdelete/', views.processdelete, name='processdelete'),
     path('processshare/', views.processshare, name='processshare'),
     path('removeshare/<int:photo_id>/<int:user_id>/', views.removeshare, name='removeshare'),
-    path('removeshareevent/<int:event_id>/<int:user_id>/', views.removeshareevent, name='removeshareevent'),
+    path('removesharegallery/<int:gallery_id>/<int:user_id>/', views.remove_share_gallery, name='removesharegallery'),
     path('processassign/', views.processassign, name='processassign'),
     path('preparedownload/', views.preparedownload, name='preparedownload'),
     path('processdownload/', views.processdownload, name='processdownload'),
 
-    path('eventlist/', views.EventListView.as_view(), name='eventlist'),
-    path('eventcreate/', views.EventCreateView.as_view(), name='eventcreate'),
-    path('eventupdate/<int:pk>/',
-         views.EventUpdateView.as_view(), name='eventupdate'),
-    path('eventdelete/<int:pk>/',
-         views.EventDeleteView.as_view(), name='eventdelete'),
+    path('gallerylist/', views.GalleryListView.as_view(), name='gallerylist'),
+    path('gallerycreate/', views.GalleryCreateView.as_view(), name='gallerycreate'),
+    path('galleryupdate/<int:pk>/',
+         views.GalleryUpdateView.as_view(), name='galleryupdate'),
+    path('gallerydelete/<int:pk>/',
+         views.GalleryDeleteView.as_view(), name='gallerydelete'),
 
     path('taglist/', views.TagListView.as_view(), name='taglist'),
     path('tagcreate/', views.TagCreateView.as_view(), name='tagcreate'),
