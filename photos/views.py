@@ -77,7 +77,7 @@ def reset_cache(request):
             del request.session['page']
             request.session.modified = True
 
-    return redirect(reverse('list'))
+    return redirect(reverse('photolist'))
 
 
 def get_string_from_query_dict(params):
