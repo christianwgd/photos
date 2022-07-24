@@ -39,14 +39,9 @@ class PhotoFilter(django_filters.FilterSet):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+    def __init__(self, request, *args, **kwargs):
         super(PhotoFilter, self).__init__(*args, **kwargs)
-        # visibles = Photo.objects.filter(
-        #     Q(owner=user) |
-        #     Q(shared=user)
-        # )
         self.filters['gallery'].queryset = Gallery.objects.visible(
-            for_user=user
+            for_user=request.user
         )
     

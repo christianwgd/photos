@@ -77,7 +77,7 @@ class Gallery(models.Model):
     )
     name = models.CharField(_('name'), max_length=255)
     visible_for = models.ManyToManyField(
-        User, related_name='visisble_for',
+        User, related_name='visible_for',
         verbose_name=_('Visible for'), blank=True
     )
 
