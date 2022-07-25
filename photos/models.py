@@ -159,18 +159,6 @@ class Photo(models.Model):
 
     objects = PhotoVisibleManager()
 
-    def rotate_to_normal(self, orientation):
-        image=Image.open(self.imagefile.path)
-        thumb=Image.open(self.thumb.path)
-        if orientation == 'Rotated 90 CW':
-            image=image.rotate(270, expand=True)
-            thumb=thumb.rotate(270, expand=True)
-            self.exif['Image']['Orientation'] = 'Normal'
-            self.save()
-        image.save(self.imagefile.path)
-        image.close()
-        thumb.close()
-    
     def geocode(self):
         if self.latitude and self.longitude:
             address = dict()
@@ -181,14 +169,6 @@ class Photo(models.Model):
                 loc_str = location.raw['display_name']
                 address = {'formatted': loc_str, 'address': location.raw}
                 self.address = address
-
-
-# @receiver(models.signals.post_save, sender=Photo)
-# def rotate_to_normal(sender, instance, **kwargs):
-#     if 'Image' in instance.exif:
-#         if 'Orientation' in instance.exif['Image']:
-#             orientation = instance.exif['Image']['Orientation']
-#             instance.rotate_to_normal(orientation)
 
 
 @receiver(models.signals.post_delete, sender=Photo)
