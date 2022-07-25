@@ -118,7 +118,7 @@ REST_FRAMEWORK = {
 ##################
 FILE_UPLOAD_PERMISSIONS = 0o644
 FILEBROWSER_DIRECTORY = 'photos/'
-FILEBROWSER_VERSIONS_BASEDIR = 'photos/_versions'
+FILEBROWSER_VERSIONS_BASEDIR = '_versions/'
 FILEBROWSER_VERSIONS = {
     'slide_indicator': {'verbose_name': 'Slideshow Indicator', 'width': 40, 'height': 40, 'opts': 'crop', 'transpose': True},
     'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop', 'transpose': True},
