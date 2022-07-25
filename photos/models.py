@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 import pytz
-from PIL import Image
+from PIL import Image, ImageOps
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
@@ -235,3 +235,9 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
                                 pass
                     except:
                         pass
+
+
+def transpose_processor(image, transpose=False, **kwargs):
+    if transpose:
+        return ImageOps.exif_transpose(image)
+    return image

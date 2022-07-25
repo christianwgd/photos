@@ -120,9 +120,9 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 FILEBROWSER_DIRECTORY = 'photos/'
 FILEBROWSER_VERSIONS_BASEDIR = 'photos/_versions'
 FILEBROWSER_VERSIONS = {
-    'slide_indicator': {'verbose_name': 'Slideshow Indicator', 'width': 40, 'height': 40, 'opts': 'crop'},
-    'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop'},
-    'thumbnail': {'verbose_name': 'Thumbnail', 'width': 400, 'height': 400, 'opts': 'crop'}
+    'slide_indicator': {'verbose_name': 'Slideshow Indicator', 'width': 40, 'height': 40, 'opts': 'crop', 'transpose': True},
+    'admin_thumbnail': {'verbose_name': 'Admin Thumbnail', 'width': 60, 'height': 60, 'opts': 'crop', 'transpose': True},
+    'thumbnail': {'verbose_name': 'Thumbnail', 'width': 400, 'height': 400, 'opts': 'crop', 'transpose': True}
 }
 FILEBROWSER_ADMIN_VERSIONS = ['thumbnail']
 FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
@@ -130,6 +130,11 @@ FILEBROWSER_EXTENSIONS = {
     'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
     'Style': ['.css']
 }
+
+FILEBROWSER_VERSION_PROCESSORS = [
+    'filebrowser.utils.scale_and_crop',
+    'photos.models.transpose_processor',
+]
 
 TEMPUS_DOMINUS_LOCALIZE = True
 
