@@ -2,8 +2,8 @@ beautifulsoup4==4.11.1
 certifi==2022.6.15
 coreapi==2.3.3
 coreschema==0.0.4
-Django==4.0.6
-django-bootstrap4==22.1
+Django==4.0.7
+django-bootstrap4==22.2
 django-bootstrap-datepicker-plus==4.0.0
 django-cors-headers==3.13.0
 django-filebrowser-no-grappelli==4.0.1
@@ -11,7 +11,7 @@ django-filter==22.1
 django-select2==7.10.0
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.2.0
-drf-spectacular==0.22.1
+drf-spectacular==0.23.1
 ExifRead==3.0.0
 geographiclib==2.0
 geopy==2.2.0
@@ -31,4 +31,4 @@ six==1.16.0
 soupsieve==2.3.2.post1
 sqlparse==0.4.2
 uritemplate==4.1.1
-urllib3==1.26.10
+urllib3==1.26.11
