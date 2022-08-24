@@ -19,7 +19,8 @@
     width: 22px;
     border-radius: 50%;
     border: 1px solid var(--light);
-    display: none;
+    background-color: var(--light);
+    display: inline;
     position: absolute;
     right: 15px;
     top: 15px;
@@ -27,19 +28,22 @@
 }
 
 .dot svg {
-    display: none;
-}
-
-.card.selected .dot {
-    background-color: var(--light);
     display: inline;
 }
 
-.image-container:hover .dot {
+.selected .dot {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--light);
     display: inline;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 99;
 }
 
-.card.selected .dot svg {
+.image-container:hover .hover-dot {
     display: inline;
 }
 
