@@ -34,9 +34,7 @@
                 <div class="image-container">
                     <img class="img-fluid img-thumbnail card-img"
                          src="{% version photo.imagefile 'thumbnail' %}" alt="{{ photo.name }}">
-                    {% if photo.selected %}
-                        <span class="dot"><i class="fal fa-check"></i></span>
-                    {% endif %}
+                    <span class="dot"><i class="fal fa-check"></i></span>
                 </div>
                 <div class="card-body toolbar">
                     <a href="{% url 'display' photo.id %}" class="tool img-large"
