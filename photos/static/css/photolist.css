@@ -20,7 +20,7 @@
     border-radius: 50%;
     border: 1px solid var(--light);
     background-color: var(--light);
-    display: inline;
+    display: none;
     position: absolute;
     right: 15px;
     top: 15px;
