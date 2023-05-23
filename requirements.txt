@@ -23,7 +23,7 @@ Pillow==9.5.0
 psycopg2-binary==2.9.6
 pyparsing==3.0.9
 pytz==2023.3
-requests==2.30.0
+requests==2.31.0
 ruamel.yaml==0.17.26
 ruamel.yaml.clib==0.2.7
 six==1.16.0
