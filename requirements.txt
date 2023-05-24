@@ -5,10 +5,10 @@ coreschema==0.0.4
 Django==4.2.1
 django-bootstrap4==23.1
 django-bootstrap-datepicker-plus==5.0.3
-django-cors-headers==3.14.0
+django-cors-headers==4.0.0
 django-filebrowser-no-grappelli==4.0.1
 django-filter==23.2
-django-select2==8.1.1
+django-select2==8.1.2
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 drf-spectacular==0.26.2
@@ -23,7 +23,7 @@ Pillow==9.5.0
 psycopg2-binary==2.9.6
 pyparsing==3.0.9
 pytz==2023.3
-requests==2.30.0
+requests==2.31.0
 ruamel.yaml==0.17.26
 ruamel.yaml.clib==0.2.7
 six==1.16.0
