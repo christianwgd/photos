@@ -36,7 +36,7 @@ router.register(r'tags', views.TagViewSet)
 router.register(r'imports', views.ImportViewSet)
 router.register(r'photos', views.PhotoViewSet)
 router.register(r'users', views.UserViewSet)
-router.register(r'photo_exif', views.PhotoExifViewSet)
+# router.register(r'photo_exif', views.PhotoExifViewSet)
 
 app_name = 'photos'
 

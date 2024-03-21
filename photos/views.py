@@ -35,7 +35,7 @@ from photos.models import Photo, Gallery, Tag, Import
 from usersettings.models import UserSettings
 from .serializers import (
     PhotoSerializer, GallerySerializer, TagSerializer,
-    ImportSerializer, UserSerializer, PhotoEXIFSerializer,
+    ImportSerializer, UserSerializer,
 )
 from .settings import BASE_DIR
 
@@ -631,9 +631,9 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class PhotoExifViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for EXIF-Data.
-    """
-    queryset = Photo.objects.all()
-    serializer_class = PhotoEXIFSerializer
+# class PhotoExifViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint for EXIF-Data.
+#     """
+#     queryset = Photo.objects.all()
+#     serializer_class = PhotoEXIFSerializer

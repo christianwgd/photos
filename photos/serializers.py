@@ -37,11 +37,11 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class PhotoEXIFSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Photo
-        fields = ['url', 'id', 'exif']
+# class PhotoEXIFSerializer(serializers.HyperlinkedModelSerializer):
+#
+#     class Meta:
+#         model = Photo
+#         fields = ['url', 'id', 'exif']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
