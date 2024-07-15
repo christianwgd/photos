@@ -318,8 +318,7 @@ def fileupload(request):
             # save file to media directory
             imgfile = files[f]
             fs = FileSystemStorage()
-            mediadir = getattr(settings, "MEDIA_ROOT", None)
-            filename = os.path.join(mediadir, 'photos', upload.slug, imgfile.name)
+            filename = os.path.join('photos', upload.slug, imgfile.name)
             imgfilename = fs.save(filename, imgfile)
 
             exif_data = exifread.process_file(imgfile, details=False)
