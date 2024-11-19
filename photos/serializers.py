@@ -6,10 +6,11 @@ from .models import Photo, Gallery, Import, Tag
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
+    image_file = serializers.CharField(source='image.imagefile', read_only=True)
 
     class Meta:
         model = Gallery
-        fields = ['url', 'id', 'name', 'image__imagefile']
+        fields = ['url', 'id', 'name', 'image_file']
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
