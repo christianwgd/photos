@@ -34,7 +34,7 @@ class GalleryForm(forms.ModelForm):
 
     class Meta:
         model = Gallery
-        fields = {'name', 'timestamp'}
+        fields = {'name', 'image'}
         widgets = {
             'timestamp': DateTimePickerInput(
                 options={
@@ -43,3 +43,7 @@ class GalleryForm(forms.ModelForm):
                 },
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        super(GalleryForm, self).__init__(*args, **kwargs)
+        self.fields['image'].queryset = Photo.objects.filter(gallery=self.instance)

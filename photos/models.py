@@ -80,7 +80,10 @@ class Gallery(models.Model):
         User, related_name='visible_for',
         verbose_name=_('Visible for'), blank=True
     )
-    image = models.ForeignKey('Photo', on_delete=models.SET_NULL, null=True, related_name='display_image')
+    image = models.ForeignKey(
+        'Photo', on_delete=models.SET_NULL,
+        null=True, related_name='display_image',
+    )
 
 
 class Tag(models.Model):
