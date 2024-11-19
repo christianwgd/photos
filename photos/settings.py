@@ -136,6 +136,10 @@ FILEBROWSER_VERSION_PROCESSORS = [
     'photos.models.transpose_processor',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:1420',
+]
+
 TEMPUS_DOMINUS_LOCALIZE = True
 
 DEFAULT_PHOTOS_RECENT = 10
