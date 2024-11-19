@@ -9,7 +9,7 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Gallery
-        fields = ['url', 'id', 'name', 'image']
+        fields = ['url', 'id', 'name', 'image__imagefile']
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
