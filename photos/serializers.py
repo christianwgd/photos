@@ -6,7 +6,7 @@ from .models import Photo, Gallery, Import, Tag
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
-    image_file = serializers.CharField(source='image.imagefile', read_only=True)
+    image_file = serializers.CharField(source='image.thumb', read_only=True)
 
     class Meta:
         model = Gallery
