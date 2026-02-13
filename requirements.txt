@@ -28,6 +28,6 @@ ruamel.yaml==0.18.11
 ruamel.yaml.clib==0.2.12
 six==1.17.0
 # soupsieve==2.4
-sqlparse==0.5.3
+sqlparse==0.5.4
 uritemplate==4.1.1
 urllib3==2.6.3
