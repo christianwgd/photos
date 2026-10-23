@@ -1,5 +1,5 @@
 beautifulsoup4==4.14.3
-certifi==2026.4.22
+certifi==2026.10.19
 coreapi==2.3.3
 coreschema==0.0.4
 Django==5.2.17
